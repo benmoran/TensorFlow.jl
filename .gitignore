@@ -1,0 +1,9 @@
+*~
+*.pyc
+*~
+\#*\#
+.\#*
+cuda.sh
+*.jl.cov
+*.jl.*.cov
+*.jl.mem

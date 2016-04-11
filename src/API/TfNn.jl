@@ -38,7 +38,7 @@ Generate the set of all classes.
   """
 all_candidate_sampler(true_classes::Union{AbstractTensor,Void}, num_true::Union{Int64,Void}, num_sampled::Union{Int64,Void}, unique_::Any, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.all_candidate_sampler(;Dict(:true_classes=>true_classes, :num_true=>num_true, :num_sampled=>num_sampled, :unique=>unique_, :seed=>seed, :name=>name)...))
 export all_candidate_sampler
-          
+
 
 """
 Performs the average pooling on the input.
@@ -62,7 +62,7 @@ Performs the average pooling on the input.
   """
 avg_pool(value::Union{AbstractTensor,Void}, ksize::Any, strides_::Union{PyVectorType,Void}, padding::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.avg_pool(;Dict(:value=>value, :ksize=>ksize, :strides=>strides_, :padding=>padding, :name=>name)...))
 export avg_pool
-          
+
 
 """
 Batch normalization.
@@ -96,7 +96,7 @@ Batch normalization.
   """
 batch_norm_with_global_normalization(t::Union{AbstractTensor,Void}, m_::Union{AbstractTensor,Void}, v::Union{AbstractTensor,Void}, beta_::Union{AbstractTensor,Void}, gamma_::Union{AbstractTensor,Void}, variance_epsilon::Any, scale_after_normalization::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.batch_norm_with_global_normalization(;Dict(:t=>t, :m=>m_, :v=>v, :beta=>beta_, :gamma=>gamma_, :variance_epsilon=>variance_epsilon, :scale_after_normalization=>scale_after_normalization, :name=>name)...))
 export batch_norm_with_global_normalization
-          
+
 
 """
 Adds `bias` to `value`.
@@ -119,7 +119,7 @@ Adds `bias` to `value`.
   """
 bias_add(value::Union{AbstractTensor,Void}, bias::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.bias_add(;Dict(:value=>value, :bias=>bias, :name=>name)...))
 export bias_add
-          
+
 
 """
 Creates a bidirectional recurrent neural network.
@@ -159,7 +159,7 @@ Creates a bidirectional recurrent neural network.
   """
 bidirectional_rnn(cell_fw::Any, cell_bw::Any, inputs::Union{AbstractTensor,Void}, initial_state_fw::Any=nothing, initial_state_bw::Any=nothing, dtype::Union{Dtype,Void}=nothing, sequence_length::Union{AbstractTensor,Void}=nothing, scope::Any=nothing) = Tensor(tf_nn.bidirectional_rnn(;Dict(:cell_fw=>cell_fw, :cell_bw=>cell_bw, :inputs=>inputs, :initial_state_fw=>initial_state_fw, :initial_state_bw=>initial_state_bw, :dtype=>dtype, :sequence_length=>sequence_length, :scope=>scope)...))
 export bidirectional_rnn
-          
+
 
 """
 Compute the position ids in `sampled_candidates` matching `true_classes`.
@@ -204,7 +204,7 @@ Compute the position ids in `sampled_candidates` matching `true_classes`.
   """
 compute_accidental_hits(true_classes::Union{AbstractTensor,Void}, sampled_candidates::Union{AbstractTensor,Void}, num_true::Union{Int64,Void}, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.compute_accidental_hits(;Dict(:true_classes=>true_classes, :sampled_candidates=>sampled_candidates, :num_true=>num_true, :seed=>seed, :name=>name)...))
 export compute_accidental_hits
-          
+
 
 """
 Computes a 2-D convolution given 4-D `input` and `filter` tensors.
@@ -245,9 +245,9 @@ Computes a 2-D convolution given 4-D `input` and `filter` tensors.
   Returns:
     A `Tensor`. Has the same type as `input`.
   """
-conv2d(input::Union{AbstractTensor,Void}, filter_::Union{AbstractTensor,Void}, strides_::Union{PyVectorType,Void}, padding::Union{AbstractString,Void}, use_cudnn_on_gpu::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.conv2d(;Dict(:input=>input, :filter=>filter_, :strides=>strides_, :padding=>padding, :use_cudnn_on_gpu=>use_cudnn_on_gpu, :name=>name)...))
+conv2d(input::Union{AbstractTensor,Void}, filter_::Union{AbstractTensor,Void}, strides_::Union{PyVectorType,Void}, padding::Union{AbstractString,Void}, use_cudnn_on_gpu::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.conv2d(;Dict(:input=>input, :filter=>filter_, :strides=>strides_, :padding=>padding, :use_cudnn_on_gpu=>use_cudnn_on_gpu, :name=>name)...))
 export conv2d
-          
+
 
 """
 Computes the gradients of convolution with respect to the filter.
@@ -275,9 +275,9 @@ Computes the gradients of convolution with respect to the filter.
     `[filter_height, filter_width, in_channels, out_channels]`.  Gradient w.r.t.
     the `filter` input of the convolution.
   """
-conv2d_backprop_filter(input::Union{AbstractTensor,Void}, filter_sizes::Union{AbstractTensor,Void}, out_backprop::Union{AbstractTensor,Void}, strides_::Union{PyVectorType,Void}, padding::Union{AbstractString,Void}, use_cudnn_on_gpu::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.conv2d_backprop_filter(;Dict(:input=>input, :filter_sizes=>filter_sizes, :out_backprop=>out_backprop, :strides=>strides_, :padding=>padding, :use_cudnn_on_gpu=>use_cudnn_on_gpu, :name=>name)...))
+conv2d_backprop_filter(input::Union{AbstractTensor,Void}, filter_sizes::Union{AbstractTensor,Void}, out_backprop::Union{AbstractTensor,Void}, strides_::Union{PyVectorType,Void}, padding::Union{AbstractString,Void}, use_cudnn_on_gpu::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.conv2d_backprop_filter(;Dict(:input=>input, :filter_sizes=>filter_sizes, :out_backprop=>out_backprop, :strides=>strides_, :padding=>padding, :use_cudnn_on_gpu=>use_cudnn_on_gpu, :name=>name)...))
 export conv2d_backprop_filter
-          
+
 
 """
 Computes the gradients of convolution with respect to the input.
@@ -305,9 +305,9 @@ Computes the gradients of convolution with respect to the input.
     4-D with shape `[batch, in_height, in_width, in_channels]`.  Gradient
     w.r.t. the input of the convolution.
   """
-conv2d_backprop_input(input_sizes::Union{AbstractTensor,Void}, filter_::Union{AbstractTensor,Void}, out_backprop::Union{AbstractTensor,Void}, strides_::Union{PyVectorType,Void}, padding::Union{AbstractString,Void}, use_cudnn_on_gpu::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.conv2d_backprop_input(;Dict(:input_sizes=>input_sizes, :filter=>filter_, :out_backprop=>out_backprop, :strides=>strides_, :padding=>padding, :use_cudnn_on_gpu=>use_cudnn_on_gpu, :name=>name)...))
+conv2d_backprop_input(input_sizes::Union{AbstractTensor,Void}, filter_::Union{AbstractTensor,Void}, out_backprop::Union{AbstractTensor,Void}, strides_::Union{PyVectorType,Void}, padding::Union{AbstractString,Void}, use_cudnn_on_gpu::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.conv2d_backprop_input(;Dict(:input_sizes=>input_sizes, :filter=>filter_, :out_backprop=>out_backprop, :strides=>strides_, :padding=>padding, :use_cudnn_on_gpu=>use_cudnn_on_gpu, :name=>name)...))
 export conv2d_backprop_input
-          
+
 
 """
 The transpose of `conv2d`.
@@ -339,7 +339,7 @@ The transpose of `conv2d`.
   """
 conv2d_transpose(value::Union{AbstractTensor,Void}, filter_::Union{AbstractTensor,Void}, output_shape::Union{AbstractTensor,Void}, strides_::Union{PyVectorType,Void}, padding::Any="SAME", name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.conv2d_transpose(;Dict(:value=>value, :filter=>filter_, :output_shape=>output_shape, :strides=>strides_, :padding=>padding, :name=>name)...))
 export conv2d_transpose
-          
+
 
 """
 Depthwise 2-D convolution.
@@ -376,7 +376,7 @@ Depthwise 2-D convolution.
   """
 depthwise_conv2d(input::Any, filter_::Any, strides_::Union{PyVectorType,Void}, padding::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.depthwise_conv2d(;Dict(:input=>input, :filter=>filter_, :strides=>strides_, :padding=>padding, :name=>name)...))
 export depthwise_conv2d
-          
+
 
 """
 Computes dropout.
@@ -412,7 +412,7 @@ Computes dropout.
   """
 dropout(x::Union{AbstractTensor,Void}, keep_prob::Union{AbstractTensor,Void}, noise_shape::Union{AbstractTensor,Void}=nothing, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.dropout(;Dict(:x=>x, :keep_prob=>keep_prob, :noise_shape=>noise_shape, :seed=>seed, :name=>name)...))
 export dropout
-          
+
 
 """
 Computes exponential linear: `exp(features) - 1` if < 0, `features` otherwise.
@@ -429,7 +429,7 @@ Computes exponential linear: `exp(features) - 1` if < 0, `features` otherwise.
   """
 elu(features::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.elu(;Dict(:features=>features, :name=>name)...))
 export elu
-          
+
 
 """
 Looks up `ids` in a list of embedding tensors.
@@ -476,7 +476,7 @@ Looks up `ids` in a list of embedding tensors.
   """
 embedding_lookup(params::Union{AbstractTensor,Void}, ids::Union{AbstractTensor,Void}, partition_strategy::Any="mod", name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.embedding_lookup(;Dict(:params=>params, :ids=>ids, :partition_strategy=>partition_strategy, :name=>name)...))
 export embedding_lookup
-          
+
 
 """
 Computes embeddings for the given ids and weights.
@@ -538,7 +538,7 @@ Computes embeddings for the given ids and weights.
   """
 embedding_lookup_sparse(params::Union{AbstractTensor,Void}, sp_ids::Union{AbstractTensor,Void}, sp_weights::Union{AbstractTensor,Void}, partition_strategy::Any="mod", name::Union{AbstractString,Void}=nothing, combiner::Any="mean") = Tensor(tf_nn.embedding_lookup_sparse(;Dict(:params=>params, :sp_ids=>sp_ids, :sp_weights=>sp_weights, :partition_strategy=>partition_strategy, :name=>name, :combiner=>combiner)...))
 export embedding_lookup_sparse
-          
+
 
 """
 Samples a set of classes using the provided (fixed) base distribution.
@@ -613,7 +613,7 @@ Samples a set of classes using the provided (fixed) base distribution.
   """
 fixed_unigram_candidate_sampler(true_classes::Union{AbstractTensor,Void}, num_true::Union{Int64,Void}, num_sampled::Union{Int64,Void}, unique_::Any, range_max::Any, vocab_file::Any="", distortion::Any=1.0, num_reserved_ids::Int64=0, num_shards::Int64=1, shard::Any=0, unigrams::Any=Any[], seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.fixed_unigram_candidate_sampler(;Dict(:true_classes=>true_classes, :num_true=>num_true, :num_sampled=>num_sampled, :unique=>unique_, :range_max=>range_max, :vocab_file=>vocab_file, :distortion=>distortion, :num_reserved_ids=>num_reserved_ids, :num_shards=>num_shards, :shard=>shard, :unigrams=>unigrams, :seed=>seed, :name=>name)...))
 export fixed_unigram_candidate_sampler
-          
+
 
 """
 Says whether the targets are in the top `K` predictions.
@@ -646,7 +646,7 @@ Says whether the targets are in the top `K` predictions.
   """
 in_top_k(predictions::Union{AbstractTensor,Void}, targets::Union{AbstractTensor,Void}, k::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.in_top_k(;Dict(:predictions=>predictions, :targets=>targets, :k=>k, :name=>name)...))
 export in_top_k
-          
+
 
 """
 L2 Loss.
@@ -665,7 +665,7 @@ L2 Loss.
   """
 l2_loss(t::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.l2_loss(;Dict(:t=>t, :name=>name)...))
 export l2_loss
-          
+
 
 """
 Normalizes along dimension `dim` using an L2 norm.
@@ -689,7 +689,7 @@ Normalizes along dimension `dim` using an L2 norm.
   """
 l2_normalize(x::Union{AbstractTensor,Void}, dim::Any, epsilon::Any=1.0e-12, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.l2_normalize(;Dict(:x=>x, :dim=>dim, :epsilon=>epsilon, :name=>name)...))
 export l2_normalize
-          
+
 
 """
 Samples a set of classes from a distribution learned during training.
@@ -742,7 +742,7 @@ Samples a set of classes from a distribution learned during training.
   """
 learned_unigram_candidate_sampler(true_classes::Union{AbstractTensor,Void}, num_true::Union{Int64,Void}, num_sampled::Union{Int64,Void}, unique_::Any, range_max::Any, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.learned_unigram_candidate_sampler(;Dict(:true_classes=>true_classes, :num_true=>num_true, :num_sampled=>num_sampled, :unique=>unique_, :range_max=>range_max, :seed=>seed, :name=>name)...))
 export learned_unigram_candidate_sampler
-          
+
 
 """
 Local Response Normalization.
@@ -776,7 +776,7 @@ Local Response Normalization.
   """
 lrn(input::Union{AbstractTensor,Void}, depth_radius::Any=nothing, bias::Any=nothing, alpha::Any=nothing, beta_::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.lrn(;Dict(:input=>input, :depth_radius=>depth_radius, :bias=>bias, :alpha=>alpha, :beta=>beta_, :name=>name)...))
 export lrn
-          
+
 
 """
 Samples a set of classes using a log-uniform (Zipfian) base distribution.
@@ -831,7 +831,7 @@ Samples a set of classes using a log-uniform (Zipfian) base distribution.
   """
 log_uniform_candidate_sampler(true_classes::Union{AbstractTensor,Void}, num_true::Union{Int64,Void}, num_sampled::Union{Int64,Void}, unique_::Any, range_max::Any, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.log_uniform_candidate_sampler(;Dict(:true_classes=>true_classes, :num_true=>num_true, :num_sampled=>num_sampled, :unique=>unique_, :range_max=>range_max, :seed=>seed, :name=>name)...))
 export log_uniform_candidate_sampler
-          
+
 
 """
 Local Response Normalization.
@@ -865,7 +865,7 @@ Local Response Normalization.
   """
 lrn(input::Union{AbstractTensor,Void}, depth_radius::Any=nothing, bias::Any=nothing, alpha::Any=nothing, beta_::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.lrn(;Dict(:input=>input, :depth_radius=>depth_radius, :bias=>bias, :alpha=>alpha, :beta=>beta_, :name=>name)...))
 export lrn
-          
+
 
 """
 Performs the max pooling on the input.
@@ -885,7 +885,7 @@ Performs the max pooling on the input.
   """
 max_pool(value::Union{AbstractTensor,Void}, ksize::Any, strides_::Union{PyVectorType,Void}, padding::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.max_pool(;Dict(:value=>value, :ksize=>ksize, :strides=>strides_, :padding=>padding, :name=>name)...))
 export max_pool
-          
+
 
 """
 Performs max pooling on the input and outputs both max values and indices.
@@ -914,7 +914,7 @@ Performs max pooling on the input and outputs both max values and indices.
   """
 max_pool_with_argmax(input::Union{AbstractTensor,Void}, ksize::Any, strides_::Union{PyVectorType,Void}, padding::Union{AbstractString,Void}, Targmax::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.max_pool_with_argmax(;Dict(:input=>input, :ksize=>ksize, :strides=>strides_, :padding=>padding, :Targmax=>Targmax, :name=>name)...))
 export max_pool_with_argmax
-          
+
 
 """
 Calculate the mean and variance of `x`.
@@ -938,7 +938,7 @@ Calculate the mean and variance of `x`.
   """
 moments(x::Union{AbstractTensor,Void}, axes::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.moments(;Dict(:x=>x, :axes=>axes, :name=>name)...))
 export moments
-          
+
 
 """
 Computes and returns the noise-contrastive estimation training loss.
@@ -991,7 +991,7 @@ Computes and returns the noise-contrastive estimation training loss.
   """
 nce_loss(weights::Union{AbstractTensor,Void}, biases::Union{AbstractTensor,Void}, inputs::Union{AbstractTensor,Void}, labels::Union{AbstractTensor,Void}, num_sampled::Union{Int64,Void}, num_classes::Union{Int64,Void}, num_true::Int64=1, sampled_values::Any=nothing, remove_accidental_hits::Any=false, partition_strategy::Any="mod", name::AbstractString="nce_loss") = Tensor(tf_nn.nce_loss(;Dict(:weights=>weights, :biases=>biases, :inputs=>inputs, :labels=>labels, :num_sampled=>num_sampled, :num_classes=>num_classes, :num_true=>num_true, :sampled_values=>sampled_values, :remove_accidental_hits=>remove_accidental_hits, :partition_strategy=>partition_strategy, :name=>name)...))
 export nce_loss
-          
+
 
 """
 Computes rectified linear: `max(features, 0)`.
@@ -1005,7 +1005,7 @@ Computes rectified linear: `max(features, 0)`.
   """
 relu(features::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.relu(;Dict(:features=>features, :name=>name)...))
 export relu
-          
+
 
 """
 Computes Rectified Linear 6: `min(max(features, 0), 6)`.
@@ -1020,7 +1020,7 @@ Computes Rectified Linear 6: `min(max(features, 0), 6)`.
   """
 relu6(features::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.relu6(;Dict(:features=>features, :name=>name)...))
 export relu6
-          
+
 
 """
 Computes Relu(x * weight + biases).
@@ -1038,7 +1038,7 @@ Computes Relu(x * weight + biases).
   """
 relu_layer(x::Union{AbstractTensor,Void}, weights::Union{AbstractTensor,Void}, biases::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.relu_layer(;Dict(:x=>x, :weights=>weights, :biases=>biases, :name=>name)...))
 export relu_layer
-          
+
 
 """
 Creates a recurrent neural network specified by RNNCell "cell".
@@ -1087,7 +1087,7 @@ Creates a recurrent neural network specified by RNNCell "cell".
   """
 rnn(cell_::Any, inputs::Union{AbstractTensor,Void}, initial_state::Any=nothing, dtype::Union{Dtype,Void}=nothing, sequence_length::Union{AbstractTensor,Void}=nothing, scope::Any=nothing) = tf_nn.rnn(;Dict(:cell=>cell_, :inputs=>inputs, :initial_state=>initial_state, :dtype=>dtype, :sequence_length=>sequence_length, :scope=>scope)...)
 export rnn
-          
+
 
 """
 Computes and returns the sampled softmax training loss.
@@ -1136,7 +1136,7 @@ Computes and returns the sampled softmax training loss.
   """
 sampled_softmax_loss(weights::Union{AbstractTensor,Void}, biases::Union{AbstractTensor,Void}, inputs::Union{AbstractTensor,Void}, labels::Union{AbstractTensor,Void}, num_sampled::Union{Int64,Void}, num_classes::Union{Int64,Void}, num_true::Int64=1, sampled_values::Any=nothing, remove_accidental_hits::Any=true, partition_strategy::Any="mod", name::AbstractString="sampled_softmax_loss") = Tensor(tf_nn.sampled_softmax_loss(;Dict(:weights=>weights, :biases=>biases, :inputs=>inputs, :labels=>labels, :num_sampled=>num_sampled, :num_classes=>num_classes, :num_true=>num_true, :sampled_values=>sampled_values, :remove_accidental_hits=>remove_accidental_hits, :partition_strategy=>partition_strategy, :name=>name)...))
 export sampled_softmax_loss
-          
+
 
 """
 2-D convolution with separable filters.
@@ -1176,25 +1176,25 @@ export sampled_softmax_loss
   """
 separable_conv2d(input::Union{AbstractTensor,Void}, depthwise_filter::Union{AbstractTensor,Void}, pointwise_filter::Union{AbstractTensor,Void}, strides_::Union{PyVectorType,Void}, padding::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.separable_conv2d(;Dict(:input=>input, :depthwise_filter=>depthwise_filter, :pointwise_filter=>pointwise_filter, :strides=>strides_, :padding=>padding, :name=>name)...))
 export separable_conv2d
-          
 
-"""
-Computes sigmoid of `x` element-wise.
 
-  Specifically, `y = 1 / (1 + exp(-x))`.
+# """
+# Computes sigmoid of `x` element-wise.
 
-  Args:
-    x: A Tensor with type `float`, `double`, `int32`, `complex64`, `int64`,
-      or `qint32`.
-    name: A name for the operation (optional).
+#   Specifically, `y = 1 / (1 + exp(-x))`.
 
-  Returns:
-    A Tensor with the same type as `x` if `x.dtype != qint32`
-      otherwise the return type is `quint8`.
-  """
-sigmoid(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.sigmoid(;Dict(:x=>x, :name=>name)...))
-export sigmoid
-          
+#   Args:
+#     x: A Tensor with type `float`, `double`, `int32`, `complex64`, `int64`,
+#       or `qint32`.
+#     name: A name for the operation (optional).
+
+#   Returns:
+#     A Tensor with the same type as `x` if `x.dtype != qint32`
+#       otherwise the return type is `quint8`.
+#   """
+# sigmoid(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.sigmoid(;Dict(:x=>x, :name=>name)...))
+# export sigmoid
+
 
 """
 Computes sigmoid cross entropy given `logits`.
@@ -1225,7 +1225,7 @@ Computes sigmoid cross entropy given `logits`.
   """
 sigmoid_cross_entropy_with_logits(logits::Union{AbstractTensor,Void}, targets::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.sigmoid_cross_entropy_with_logits(;Dict(:logits=>logits, :targets=>targets, :name=>name)...))
 export sigmoid_cross_entropy_with_logits
-          
+
 
 """
 Computes softmax activations.
@@ -1244,7 +1244,7 @@ Computes softmax activations.
   """
 softmax(logits::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.softmax(;Dict(:logits=>logits, :name=>name)...))
 export softmax
-          
+
 
 """
 Computes softmax cross entropy between `logits` and `labels`.
@@ -1272,7 +1272,7 @@ Computes softmax cross entropy between `logits` and `labels`.
   """
 softmax_cross_entropy_with_logits(logits::Any, labels::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.softmax_cross_entropy_with_logits(;Dict(:logits=>logits, :labels=>labels, :name=>name)...))
 export softmax_cross_entropy_with_logits
-          
+
 
 """
 Computes softplus: `log(exp(features) + 1)`.
@@ -1286,7 +1286,7 @@ Computes softplus: `log(exp(features) + 1)`.
   """
 softplus(features::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.softplus(;Dict(:features=>features, :name=>name)...))
 export softplus
-          
+
 
 """
 Computes softsign: `features / (abs(features) + 1)`.
@@ -1300,7 +1300,7 @@ Computes softsign: `features / (abs(features) + 1)`.
   """
 softsign(features::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.softsign(;Dict(:features=>features, :name=>name)...))
 export softsign
-          
+
 
 """
 RNN that accepts a state saver for time-truncated RNN calculation.
@@ -1326,7 +1326,7 @@ RNN that accepts a state saver for time-truncated RNN calculation.
   """
 state_saving_rnn(cell_::Any, inputs::Union{AbstractTensor,Void}, state_saver::Any, state_name::Any, sequence_length::Union{AbstractTensor,Void}=nothing, scope::Any=nothing) = tf_nn.state_saving_rnn(;Dict(:cell=>cell_, :inputs=>inputs, :state_saver=>state_saver, :state_name=>state_name, :sequence_length=>sequence_length, :scope=>scope)...)
 export state_saving_rnn
-          
+
 
 """
 Computes hyperbolic tangent of `x` element-wise.
@@ -1342,7 +1342,7 @@ Computes hyperbolic tangent of `x` element-wise.
   """
 tanh_(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.tanh(;Dict(:x=>x, :name=>name)...))
 export tanh_
-          
+
 
 """
 Returns the values and indices of the `k` largest elements for each row.
@@ -1370,9 +1370,9 @@ Returns the values and indices of the `k` largest elements for each row.
     indices: A `Tensor` of type `int32`. A `batch_size` x `k` tensor with the index of each value within
       each row.
   """
-top_k(input::Union{AbstractTensor,Void}, k::Any, sorted::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.top_k(;Dict(:input=>input, :k=>k, :sorted=>sorted, :name=>name)...))
+top_k(input::Union{AbstractTensor,Void}, k::Any, sorted::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.top_k(;Dict(:input=>input, :k=>k, :sorted=>sorted, :name=>name)...))
 export top_k
-          
+
 
 """
 Samples a set of classes using a uniform base distribution.
@@ -1420,7 +1420,7 @@ Samples a set of classes using a uniform base distribution.
   """
 uniform_candidate_sampler(true_classes::Union{AbstractTensor,Void}, num_true::Union{Int64,Void}, num_sampled::Union{Int64,Void}, unique_::Any, range_max::Any, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.uniform_candidate_sampler(;Dict(:true_classes=>true_classes, :num_true=>num_true, :num_sampled=>num_sampled, :unique=>unique_, :range_max=>range_max, :seed=>seed, :name=>name)...))
 export uniform_candidate_sampler
-          
+
 
 """
 Computes matmul(x, weights) + biases.
@@ -1438,7 +1438,7 @@ Computes matmul(x, weights) + biases.
   """
 xw_plus_b(x::Union{AbstractTensor,Void}, weights::Union{AbstractTensor,Void}, biases::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_nn.xw_plus_b(;Dict(:x=>x, :weights=>weights, :biases=>biases, :name=>name)...))
 export xw_plus_b
-          
+
 
 """
 Returns the fraction of zeros in `value`.

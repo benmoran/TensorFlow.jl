@@ -45,7 +45,7 @@ abstract DimsType
 "A literal used for TensorFlow shape arguments.
   Negative indices are passed as Python `None` values."
 type NoneDimsType <: DimsType
-  arr::Vector{Int}
+  arr::Vector{Int32}
 end
 NoneDimsType(a::Tuple{Vararg{Int}}) = NoneDimsType(collect(a))
 PyCall.PyObject(o::NoneDimsType) = PyCall.PyObject([a < 0 ? nothing : a for a in o.arr])
@@ -53,7 +53,7 @@ PyCall.PyObject(o::NoneDimsType) = PyCall.PyObject([a < 0 ? nothing : a for a in
 "A literal used for TensorFlow shape arguments.
   Negative indices are passed through to Python."
 type NegDimsType <: DimsType
-  arr::Vector{Int}
+  arr::Vector{Int32}
 end
 NegDimsType(a::Tuple{Vararg{Int}}) = NegDimsType(collect(a))
 PyCall.PyObject(o::NegDimsType) = PyCall.PyObject(o.arr)

@@ -27,7 +27,7 @@ Create a cell with added input and/or output dropout.
     """
 DropoutWrapper(cell_::Any, input_keep_prob::Any=1.0, output_keep_prob::Any=1.0, seed::Union{Int64,Void}=nothing) = tf_rnn_cell.DropoutWrapper(;Dict(:cell=>cell_, :input_keep_prob=>input_keep_prob, :output_keep_prob=>output_keep_prob, :seed=>seed)...)
 export DropoutWrapper
-          
+
 
 """
 Create a cell with an added input embedding.
@@ -46,7 +46,7 @@ Create a cell with an added input embedding.
     """
 EmbeddingWrapper(cell_::Any, embedding_classes::Any=0, embedding::Any=nothing, initializer::Any=nothing) = tf_rnn_cell.EmbeddingWrapper(;Dict(:cell=>cell_, :embedding_classes=>embedding_classes, :embedding=>embedding, :initializer=>initializer)...)
 export EmbeddingWrapper
-          
+
 
 """
 Create a cell with input projection.
@@ -61,7 +61,7 @@ Create a cell with input projection.
     """
 InputProjectionWrapper(cell_::Any, input_size::Union{Int64,Void}) = tf_rnn_cell.InputProjectionWrapper(;Dict(:cell=>cell_, :input_size=>input_size)...)
 export InputProjectionWrapper
-          
+
 
 """
 Initialize the parameters for an LSTM cell.
@@ -83,7 +83,7 @@ Initialize the parameters for an LSTM cell.
     """
 LSTMCell(num_units::Union{Int64,Void}, input_size::Union{Int64,Void}, use_peepholes::Bool=false, cell_clip::Any=nothing, initializer::Any=nothing, num_proj::Union{Int64,Void}=nothing, num_unit_shards::Int64=1, num_proj_shards::Int64=1) = tf_rnn_cell.LSTMCell(;Dict(:num_units=>num_units, :input_size=>input_size, :use_peepholes=>use_peepholes, :cell_clip=>cell_clip, :initializer=>initializer, :num_proj=>num_proj, :num_unit_shards=>num_unit_shards, :num_proj_shards=>num_proj_shards)...)
 export LSTMCell
-          
+
 
 """
 Create a RNN cell composed sequentially of a number of RNNCells.
@@ -96,7 +96,7 @@ Create a RNN cell composed sequentially of a number of RNNCells.
     """
 MultiRNNCell(cells::Any) = tf_rnn_cell.MultiRNNCell(;Dict(:cells=>cells)...)
 export MultiRNNCell
-          
+
 
 """
 Create a cell with output projection.
@@ -111,7 +111,7 @@ Create a cell with output projection.
     """
 OutputProjectionWrapper(cell_::Any, output_size::Union{Int64,Void}) = tf_rnn_cell.OutputProjectionWrapper(;Dict(:cell=>cell_, :output_size=>output_size)...)
 export OutputProjectionWrapper
-          
+
 
 """
 Linear map: sum_i(args[i] * W[i]), where W[i] is a variable.
@@ -132,25 +132,25 @@ Linear map: sum_i(args[i] * W[i]), where W[i] is a variable.
   """
 linear(args::Union{AbstractTensor,Void}, output_size::Union{Int64,Void}, bias::Any, bias_start::Any=0.0, scope::Any=nothing) = Tensor(tf_rnn_cell.linear(;Dict(:args=>args, :output_size=>output_size, :bias=>bias, :bias_start=>bias_start, :scope=>scope)...))
 export linear
-          
 
-"""
-Computes sigmoid of `x` element-wise.
 
-  Specifically, `y = 1 / (1 + exp(-x))`.
+# """
+# Computes sigmoid of `x` element-wise.
 
-  Args:
-    x: A Tensor with type `float`, `double`, `int32`, `complex64`, `int64`,
-      or `qint32`.
-    name: A name for the operation (optional).
+#   Specifically, `y = 1 / (1 + exp(-x))`.
 
-  Returns:
-    A Tensor with the same type as `x` if `x.dtype != qint32`
-      otherwise the return type is `quint8`.
-  """
-sigmoid(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_rnn_cell.sigmoid(;Dict(:x=>x, :name=>name)...))
-export sigmoid
-          
+#   Args:
+#     x: A Tensor with type `float`, `double`, `int32`, `complex64`, `int64`,
+#       or `qint32`.
+#     name: A name for the operation (optional).
+
+#   Returns:
+#     A Tensor with the same type as `x` if `x.dtype != qint32`
+#       otherwise the return type is `quint8`.
+#   """
+# sigmoid(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf_rnn_cell.sigmoid(;Dict(:x=>x, :name=>name)...))
+# export sigmoid
+
 
 """
 Computes hyperbolic tangent of `x` element-wise.

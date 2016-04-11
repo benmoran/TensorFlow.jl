@@ -5,11 +5,10 @@ using ..API.Tf
 using ..API.TfNn
 import ..API.Tf: constant
 
-import Base: (*), (+), (-), (.*), (.+), (==), size, log, exp, mean, squeeze, linspace, randn, length, reshape, isequal, sum, mean
+import Base: (*), (+), (-), (.*), (.+), (==), size, log, exp, mean, squeeze, linspace, randn, length, reshape, isequal, sum, mean, zeros, getindex
 
 export constant, dtype
-# From TfNn
-export relu
+export relu, batch_matmul
 
 zeroindexed(d::DimsType) = map(x->x-1, d)
 dtype(t::AbstractTensor) = Dtype(t.x[:dtype])
@@ -34,7 +33,7 @@ constant{N<:Number}(n::N) = constant(Tensor(n))
 # have isequal() compare by Python object identity.
 isequal(t::AbstractTensor, s::AbstractTensor) = isequal(t.x.o, s.x.o)
 
-# TODO batch_matmul
+batch_matmul(x::AbstractTensor, y::AbstractTensor) = Tf._batch_mat_mul(x, y)
 
 log(t::AbstractTensor) = Tf.log_(t)
 exp(t::AbstractTensor) = Tf.exp_(t)
@@ -51,7 +50,10 @@ mean(t::AbstractTensor) = Tf.reduce_mean(t)
 squeeze(t::AbstractTensor, dims) = Tf.squeeze(t, zeroindexed(dims))
 cast(t::AbstractTensor, dt::Dtype) = Tf.cast(t, dt)
 
-size(t::AbstractTensor) = Tensor(Tf.shape(t)) # not tf.size_
+
+size(t::AbstractTensor) = Tf.shape(t) # not tf.size_
+size(t::AbstractTensor, dim::Int) = Tf.shape(t)[dim]
+
 length(t::AbstractTensor) = Tensor(Tf.size_(t))
 
 
@@ -62,4 +64,8 @@ randn(T::Type{Tensor}, shape::Vector{Int}, dtype=DT_FLOAT32, name=nothing)  = ra
 reshape(t::AbstractTensor, shape::NegDimsType) = Tf.reshape_(t, shape)
 reshape(t::AbstractTensor, shape::Vector{Int}) = reshape(t, NegDimsType(shape))
 
+zeros{T<:AbstractTensor}(::Type{T}, dims::NegDimsType, dtype=DT_FLOAT32) = Tf.zeros_(dims, dtype)
+zeros{T<:AbstractTensor}(::Type{T}, dims::Vector{Int}, dtype=DT_FLOAT32) = zeros(T, NegDimsType(dims), dtype)
+
+getindex(t::AbstractTensor, ix::Int) = Tensor(t.x[ix-1])
 end

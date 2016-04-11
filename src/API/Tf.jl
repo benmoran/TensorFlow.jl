@@ -380,7 +380,7 @@ Returns the element-wise sum of a list of tensors.
     ValueError: If `inputs` don't all have same shape and dtype or the shape
     cannot be inferred.
   """
-accumulate_n(inputs::Union{AbstractTensor,Void}, shape::Union{DimsType,AbstractTensor,Void}=nothing, tensor_dtype::Union{Dtype,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.accumulate_n(;Dict(:inputs=>inputs, :shape=>shape, :tensor_dtype=>tensor_dtype, :name=>name)...))
+accumulate_n(inputs::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, tensor_dtype::Union{Dtype,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.accumulate_n(;Dict(:inputs=>inputs, :shape=>shape, :tensor_dtype=>tensor_dtype, :name=>name)...))
 export accumulate_n
           
 
@@ -592,7 +592,7 @@ Update 'ref' by assigning 'value' to it.
     Same as "ref".  Returned as a convenience for operations that want
     to use the new value after the variable has been reset.
   """
-assign(ref::Union{AbstractTensor,Void}, value::Union{AbstractTensor,Void}, validate_shape::Union{Void,Bool}=nothing, use_locking::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assign(;Dict(:ref=>ref, :value=>value, :validate_shape=>validate_shape, :use_locking=>use_locking, :name=>name)...)
+assign(ref::Union{AbstractTensor,Void}, value::Union{AbstractTensor,Void}, validate_shape::Union{Bool,Void}=nothing, use_locking::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assign(;Dict(:ref=>ref, :value=>value, :validate_shape=>validate_shape, :use_locking=>use_locking, :name=>name)...)
 export assign
           
 
@@ -616,7 +616,7 @@ Update 'ref' by adding 'value' to it.
     Same as "ref".  Returned as a convenience for operations that want
     to use the new value after the variable has been updated.
   """
-assign_add(ref::Union{AbstractTensor,Void}, value::Union{AbstractTensor,Void}, use_locking::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assign_add(;Dict(:ref=>ref, :value=>value, :use_locking=>use_locking, :name=>name)...)
+assign_add(ref::Union{AbstractTensor,Void}, value::Union{AbstractTensor,Void}, use_locking::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assign_add(;Dict(:ref=>ref, :value=>value, :use_locking=>use_locking, :name=>name)...)
 export assign_add
           
 
@@ -640,7 +640,7 @@ Update 'ref' by subtracting 'value' from it.
     Same as "ref".  Returned as a convenience for operations that want
     to use the new value after the variable has been updated.
   """
-assign_sub(ref::Union{AbstractTensor,Void}, value::Union{AbstractTensor,Void}, use_locking::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assign_sub(;Dict(:ref=>ref, :value=>value, :use_locking=>use_locking, :name=>name)...)
+assign_sub(ref::Union{AbstractTensor,Void}, value::Union{AbstractTensor,Void}, use_locking::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assign_sub(;Dict(:ref=>ref, :value=>value, :use_locking=>use_locking, :name=>name)...)
 export assign_sub
           
 
@@ -701,7 +701,7 @@ Multiplies slices of two tensors in batches.
     A `Tensor`. Has the same type as `x`.
     3-D or higher with shape `[..., r_o, c_o]`
   """
-_batch_mat_mul(x::Union{AbstractTensor,Void}, y::Union{AbstractTensor,Void}, adj_x::Union{Void,Bool}=nothing, adj_y::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf._batch_mat_mul(;Dict(:x=>x, :y=>y, :adj_x=>adj_x, :adj_y=>adj_y, :name=>name)...))
+_batch_mat_mul(x::Union{AbstractTensor,Void}, y::Union{AbstractTensor,Void}, adj_x::Union{Bool,Void}=nothing, adj_y::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf._batch_mat_mul(;Dict(:x=>x, :y=>y, :adj_x=>adj_x, :adj_y=>adj_y, :name=>name)...))
 export _batch_mat_mul
           
 
@@ -926,7 +926,7 @@ Clips values of multiple tensors by the ratio of the sum of their norms.
   Raises:
     TypeError: If `t_list` is not a sequence.
   """
-clip_by_global_norm(t_list::Union{AbstractTensor,Void}, clip_norm::Union{AbstractTensor,Void}, use_norm::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.clip_by_global_norm(;Dict(:t_list=>t_list, :clip_norm=>clip_norm, :use_norm=>use_norm, :name=>name)...))
+clip_by_global_norm(t_list::Union{AbstractTensor,Void}, clip_norm::Union{AbstractTensor,Void}, use_norm::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.clip_by_global_norm(;Dict(:t_list=>t_list, :clip_norm=>clip_norm, :use_norm=>use_norm, :name=>name)...))
 export clip_by_global_norm
           
 
@@ -1153,7 +1153,7 @@ Creates a constant tensor.
   Returns:
     A Constant Tensor.
   """
-constant(value::Union{AbstractTensor,Void}, dtype::Union{Dtype,Void}=nothing, shape::Union{DimsType,AbstractTensor,Void}=nothing, name::AbstractString="Const") = Tensor(tf.constant(;Dict(:value=>value, :dtype=>dtype, :shape=>shape, :name=>name)...))
+constant(value::Union{AbstractTensor,Void}, dtype::Union{Dtype,Void}=nothing, shape::Union{AbstractTensor,DimsType,Void}=nothing, name::AbstractString="Const") = Tensor(tf.constant(;Dict(:value=>value, :dtype=>dtype, :shape=>shape, :name=>name)...))
 export constant
           
 
@@ -1348,7 +1348,7 @@ Reinterpret the bytes of a string as a vector of numbers.
     added dimension will have size equal to the length of the elements
     of `bytes` divided by the number of bytes to represent `out_type`.
   """
-decode_raw(bytes::Union{AbstractTensor,Void}, out_type::Any, little_endian::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.decode_raw(;Dict(:bytes=>bytes, :out_type=>out_type, :little_endian=>little_endian, :name=>name)...))
+decode_raw(bytes::Union{AbstractTensor,Void}, out_type::Any, little_endian::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.decode_raw(;Dict(:bytes=>bytes, :out_type=>out_type, :little_endian=>little_endian, :name=>name)...))
 export decode_raw
           
 
@@ -1994,7 +1994,7 @@ Gets an existing variable with these parameters or create a new one.
       or when violating reuse during variable creation. Reuse is set inside
       `variable_scope`.
   """
-get_variable(name::Union{AbstractString,Void}, shape::Union{DimsType,AbstractTensor,Void}=nothing, dtype::Dtype=DT_FLOAT32, initializer::Any=nothing, trainable::Bool=true, collections::Any=nothing) = tf.get_variable(;Dict(:name=>name, :shape=>shape, :dtype=>dtype, :initializer=>initializer, :trainable=>trainable, :collections=>collections)...)
+get_variable(name::Union{AbstractString,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, dtype::Dtype=DT_FLOAT32, initializer::Any=nothing, trainable::Bool=true, collections::Any=nothing) = tf.get_variable(;Dict(:name=>name, :shape=>shape, :dtype=>dtype, :initializer=>initializer, :trainable=>trainable, :collections=>collections)...)
 export get_variable
           
 
@@ -3100,7 +3100,7 @@ Creates a tensor with all elements set to 1.
   Returns:
     A `Tensor` with all elements set to 1.
   """
-ones_(shape::Union{DimsType,AbstractTensor,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.ones(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
+ones_(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.ones(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
 export ones_
           
 
@@ -3584,7 +3584,7 @@ Inserts a placeholder for a tensor that will be always fed.
     A `Tensor` that may be used as a handle for feeding a value, but not
     evaluated directly.
   """
-placeholder(dtype::Union{Dtype,Void}, shape::Union{DimsType,AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Placeholder(tf.placeholder(;Dict(:dtype=>dtype, :shape=>shape, :name=>name)...))
+placeholder(dtype::Union{Dtype,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Placeholder(tf.placeholder(;Dict(:dtype=>dtype, :shape=>shape, :name=>name)...))
 export placeholder
           
 
@@ -3659,7 +3659,7 @@ Outputs random values from a normal distribution.
   Returns:
     A tensor of the specified shape filled with random normal values.
   """
-random_normal(shape::Union{DimsType,AbstractTensor,Void}, mean_::AbstractTensor=0.0, stddev::AbstractTensor=1.0, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_normal(;Dict(:shape=>shape, :mean=>mean_, :stddev=>stddev, :dtype=>dtype, :seed=>seed, :name=>name)...))
+random_normal(shape::Union{AbstractTensor,DimsType,Void}, mean_::AbstractTensor=0.0, stddev::AbstractTensor=1.0, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_normal(;Dict(:shape=>shape, :mean=>mean_, :stddev=>stddev, :dtype=>dtype, :seed=>seed, :name=>name)...))
 export random_normal
           
 
@@ -3750,7 +3750,7 @@ Outputs random values from a uniform distribution.
   Raises:
     ValueError: If `dtype` is integral and `maxval` is not specified.
   """
-random_uniform(shape::Union{DimsType,AbstractTensor,Void}, minval::AbstractTensor=0, maxval::Union{AbstractTensor,Void}=nothing, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_uniform(;Dict(:shape=>shape, :minval=>minval, :maxval=>maxval, :dtype=>dtype, :seed=>seed, :name=>name)...))
+random_uniform(shape::Union{AbstractTensor,DimsType,Void}, minval::AbstractTensor=0, maxval::Union{AbstractTensor,Void}=nothing, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_uniform(;Dict(:shape=>shape, :minval=>minval, :maxval=>maxval, :dtype=>dtype, :seed=>seed, :name=>name)...))
 export random_uniform
           
 
@@ -4205,7 +4205,7 @@ Reshapes a tensor.
   Returns:
     A `Tensor`. Has the same type as `tensor`.
   """
-reshape_(tensor::Union{AbstractTensor,Void}, shape::Union{DimsType,AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.reshape(;Dict(:tensor=>tensor, :shape=>shape, :name=>name)...))
+reshape_(tensor::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.reshape(;Dict(:tensor=>tensor, :shape=>shape, :name=>name)...))
 export reshape_
           
 
@@ -4446,7 +4446,7 @@ Adds sparse updates to a variable reference.
     Same as `ref`.  Returned as a convenience for operations that want
     to use the updated values after the update is done.
   """
-scatter_add(ref::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, updates::Union{AbstractTensor,Void}, use_locking::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = tf.scatter_add(;Dict(:ref=>ref, :indices=>indices, :updates=>updates, :use_locking=>use_locking, :name=>name)...)
+scatter_add(ref::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, updates::Union{AbstractTensor,Void}, use_locking::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.scatter_add(;Dict(:ref=>ref, :indices=>indices, :updates=>updates, :use_locking=>use_locking, :name=>name)...)
 export scatter_add
           
 
@@ -4490,7 +4490,7 @@ Subtracts sparse updates to a variable reference.
     Same as `ref`.  Returned as a convenience for operations that want
     to use the updated values after the update is done.
   """
-scatter_sub(ref::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, updates::Union{AbstractTensor,Void}, use_locking::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = tf.scatter_sub(;Dict(:ref=>ref, :indices=>indices, :updates=>updates, :use_locking=>use_locking, :name=>name)...)
+scatter_sub(ref::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, updates::Union{AbstractTensor,Void}, use_locking::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.scatter_sub(;Dict(:ref=>ref, :indices=>indices, :updates=>updates, :use_locking=>use_locking, :name=>name)...)
 export scatter_sub
           
 
@@ -4535,7 +4535,7 @@ Applies sparse updates to a variable reference.
     Same as `ref`.  Returned as a convenience for operations that want
     to use the updated values after the update is done.
   """
-scatter_update(ref::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, updates::Union{AbstractTensor,Void}, use_locking::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = tf.scatter_update(;Dict(:ref=>ref, :indices=>indices, :updates=>updates, :use_locking=>use_locking, :name=>name)...)
+scatter_update(ref::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, updates::Union{AbstractTensor,Void}, use_locking::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.scatter_update(;Dict(:ref=>ref, :indices=>indices, :updates=>updates, :use_locking=>use_locking, :name=>name)...)
 export scatter_update
           
 
@@ -5206,7 +5206,7 @@ Multiply matrix "a" by matrix "b".
   Returns:
     A `Tensor` of type `float32`.
   """
-_sparse_mat_mul(a::Union{AbstractTensor,Void}, b::Union{AbstractTensor,Void}, transpose_a::Union{Void,Bool}=nothing, transpose_b::Union{Void,Bool}=nothing, a_is_sparse::Union{Void,Bool}=nothing, b_is_sparse::Union{Void,Bool}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf._sparse_mat_mul(;Dict(:a=>a, :b=>b, :transpose_a=>transpose_a, :transpose_b=>transpose_b, :a_is_sparse=>a_is_sparse, :b_is_sparse=>b_is_sparse, :name=>name)...))
+_sparse_mat_mul(a::Union{AbstractTensor,Void}, b::Union{AbstractTensor,Void}, transpose_a::Union{Bool,Void}=nothing, transpose_b::Union{Bool,Void}=nothing, a_is_sparse::Union{Bool,Void}=nothing, b_is_sparse::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf._sparse_mat_mul(;Dict(:a=>a, :b=>b, :transpose_a=>transpose_a, :transpose_b=>transpose_b, :a_is_sparse=>a_is_sparse, :b_is_sparse=>b_is_sparse, :name=>name)...))
 export _sparse_mat_mul
           
 
@@ -5982,7 +5982,7 @@ Outputs random values from a truncated normal distribution.
   Returns:
     A tensor of the specified shape filled with random truncated normal values.
   """
-truncated_normal(shape::Union{DimsType,AbstractTensor,Void}, mean_::AbstractTensor=0.0, stddev::AbstractTensor=1.0, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.truncated_normal(;Dict(:shape=>shape, :mean=>mean_, :stddev=>stddev, :dtype=>dtype, :seed=>seed, :name=>name)...))
+truncated_normal(shape::Union{AbstractTensor,DimsType,Void}, mean_::AbstractTensor=0.0, stddev::AbstractTensor=1.0, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.truncated_normal(;Dict(:shape=>shape, :mean=>mean_, :stddev=>stddev, :dtype=>dtype, :seed=>seed, :name=>name)...))
 export truncated_normal
           
 
@@ -6390,13 +6390,13 @@ Creates a tensor with all elements set to zero.
   Returns:
     A `Tensor` with all elements set to zero.
   """
-zeros_(shape::Union{DimsType,AbstractTensor,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.zeros(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
+zeros_(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.zeros(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
 export zeros_
           
 
 """
 An adaptor for zeros() to match the Initializer spec."""
-zeros_initializer(shape::Union{DimsType,AbstractTensor,Void}, dtype::Dtype=DT_FLOAT32) = tf.zeros_initializer(;Dict(:shape=>shape, :dtype=>dtype)...)
+zeros_initializer(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32) = tf.zeros_initializer(;Dict(:shape=>shape, :dtype=>dtype)...)
 export zeros_initializer
           
 

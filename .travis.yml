@@ -1,14 +1,41 @@
-# Documentation: http://docs.travis-ci.com/user/languages/julia/
+# vim:set ft=yaml ts=2 sw=2 sts=2 autoindent:
+
 language: julia
+# Travis defaults to Precise, that has a glibc that is too old for TensorFlow.
+#   We are thus forced to use Trusty, that is still in beta.
+sudo: required
+dist: trusty
 os:
   - linux
   - osx
 julia:
   - release
   - nightly
+matrix:
+  fast_finish: true
+  # TODO: Linux currently segfaults for unknown reasons, try running through
+  #   Python rather than through PyCall and see what happens.
+  allow_failures:
+    - os: linux
 notifications:
   email: false
-# uncomment the following lines to override the default test script
-#script:
-#  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-#  - julia -e 'Pkg.clone(pwd()); Pkg.build("TensorFlow"); Pkg.test("TensorFlow"; coverage=true)'
+before_install: |
+  if [[ "${TRAVIS_OS_NAME}" == "linux" ]]
+  then
+    sudo pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.8.0rc0-cp27-none-linux_x86_64.whl
+  elif [[ "${TRAVIS_OS_NAME}" == "osx" ]]
+  then
+    # OS X comes with NumPy by default and both `easy_install` and `pip` are
+    #   unable to remove or upgrade it.  We forcefully remove it as opposed to
+    #   trying to play with `PYTHONPATH`.
+    sudo rm -r -f `python -c 'import numpy; print " ".join(numpy.__path__)'`
+    sudo easy_install --upgrade six
+    sudo pip install --upgrade https://storage.googleapis.com/tensorflow/mac/tensorflow-0.8.0rc0-py2-none-any.whl
+  else
+    echo "Unknown OS: ${TRAVIS_OS_NAME}" >&2
+    exit -1
+  fi
+after_success: |
+  julia -e 'Pkg.add("Coverage")'
+  julia -e 'cd(Pkg.dir("TensorFlow")); using Coverage;
+    Coveralls.submit(Coveralls.process_folder())'

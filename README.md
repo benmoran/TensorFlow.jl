@@ -1,3 +1,6 @@
+[![Build status][travis_badge]][travis]
+[![Coverage status][coveralls_badge]][coveralls]
+
 # TensorFlow
 
 Wraps the TensorFlow Python library in Julia, via the `PyCall` package.
@@ -15,3 +18,8 @@ Note that functions which are passed `Tensor` objects will not directly return t
 ## Additional notes for package developers
 
 The [`TensorFlowBuilder`](https://github.com/benmoran/TensorFlowBuilder.jl) package contains code to generate the Julia source in the `TensorFlow.API` module by introspecting the Python package.  It is not necessary to use this pacakge, but could be helpful to correct bugs in the wrapper, or to extend it further.
+
+[coveralls]: https://coveralls.io/r/benmoran/TensorFlow.jl
+[coveralls_badge]: https://img.shields.io/coveralls/benmoran/TensorFlow.jl/master.svg?style=flat
+[travis]: https://travis-ci.org/benmoran/TensorFlow.jl
+[travis_badge]: https://img.shields.io/travis/benmoran/TensorFlow.jl/master.svg?style=flat

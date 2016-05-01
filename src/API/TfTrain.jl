@@ -1,4 +1,4 @@
-"Generated automatically by TensorFlowBuilder, from TensorFlow Python version 0.6.0"
+"Generated automatically by TensorFlowBuilder, from TensorFlow Python version 0.8.0"
 #"TensorFlow, the TensorFlow logo and any related marks are trademarks of Google Inc.""
 module TfTrain
 using PyCall
@@ -7,6 +7,22 @@ using PyCall
 import TensorFlow.CoreTypes: *
 using TensorFlow.CoreTypes
 
+
+"""
+Construct a new Adadelta optimizer.
+
+    Args:
+      learning_rate: A `Tensor` or a floating point value. The learning rate.
+      rho: A `Tensor` or a floating point value. The decay rate.
+      epsilon: A `Tensor` or a floating point value.  A constant epsilon used
+               to better conditioning the grad update.
+      use_locking: If `True` use locks for update operations.
+      name: Optional name prefix for the operations created when applying
+        gradients.  Defaults to "Adadelta".
+    """
+AdadeltaOptimizer(learning_rate::Any=0.001, rho::Any=0.95, epsilon::Any=1.0e-8, use_locking::Bool=false, name::AbstractString="Adadelta") = Optimizer(tf_train.AdadeltaOptimizer(;Dict(:learning_rate=>learning_rate, :rho=>rho, :epsilon=>epsilon, :use_locking=>use_locking, :name=>name)...))
+export AdadeltaOptimizer
+          
 
 """
 Construct a new Adagrad optimizer.
@@ -69,9 +85,36 @@ export AdamOptimizer
           
 
 """
+"""
+BytesList() = tf_train.BytesList(;Dict()...)
+export BytesList
+          
+
+"""
+Creates a `ClusterSpec`.
+
+    Args:
+      cluster: A dictionary mapping one or more job names to lists of network
+        addresses, or a `tf.train.ClusterDef` protocol buffer.
+
+    Raises:
+      TypeError: If `cluster` is not a dictionary mapping strings to lists
+        of strings, and not a `tf.train.ClusterDef` protobuf.
+    """
+ClusterSpec(cluster::Any) = tf_train.ClusterSpec(;Dict(:cluster=>cluster)...)
+export ClusterSpec
+          
+
+"""
 Create a new Coordinator."""
 Coordinator() = tf_train.Coordinator(;Dict()...)
 export Coordinator
+          
+
+"""
+"""
+Example() = tf_train.Example(;Dict()...)
+export Example
           
 
 """
@@ -99,31 +142,37 @@ export ExponentialMovingAverage
           
 
 """
+"""
+Feature() = tf_train.Feature(;Dict()...)
+export Feature
+          
+
+"""
+"""
+FeatureList() = tf_train.FeatureList(;Dict()...)
+export FeatureList
+          
+
+"""
+"""
+FeatureLists() = tf_train.FeatureLists(;Dict()...)
+export FeatureLists
+          
+
+"""
+"""
+Features() = tf_train.Features(;Dict()...)
+export Features
+          
+
+"""
+"""
+FloatList() = tf_train.FloatList(;Dict()...)
+export FloatList
+          
+
+"""
 Construct a new FTRL optimizer.
-
-    The Ftrl-proximal algorithm, abbreviated for Follow-the-regularized-leader,
-    is described in the paper [Ad Click Prediction: a View from the Trenches](
-    https://www.eecs.tufts.edu/~dsculley/papers/ad-click-prediction.pdf).
-
-    It can give a good performance vs. sparsity tradeoff.
-
-    Ftrl-proximal uses its own global base learning rate and can behave like
-    Adagrad with `learning_rate_power=-0.5`, or like gradient descent with
-    `learning_rate_power=0.0`.
-
-    The effective learning rate is adjusted per parameter, relative to this
-    base learning rate as:
-
-    ```
-    effective_learning_rate_i = (learning_rate /
-        pow(k + summed_squared_gradients_for_i, learning_rate_power));
-    ```
-
-    where k is the small constant `initial_accumulator_value`.
-
-    Note that the real regularization coefficient of `|w|^2` for objective
-    function is `1 / lambda_2` if specifying `l2 = lambda_2` as argument when
-    using this function.
 
     Args:
       learning_rate: A float value or a constant float `Tensor`.
@@ -139,7 +188,7 @@ Construct a new FTRL optimizer.
         gradients.  Defaults to "Ftrl".
 
     Raises:
-      ValueError: if one of the arguments is invalid.
+      ValueError: If one of the arguments is invalid.
     """
 FtrlOptimizer(learning_rate::Any, learning_rate_power::Any=-0.5, initial_accumulator_value::Any=0.1, l1_regularization_strength::Any=0.0, l2_regularization_strength::Any=0.0, use_locking::Bool=false, name::AbstractString="Ftrl") = Optimizer(tf_train.FtrlOptimizer(;Dict(:learning_rate=>learning_rate, :learning_rate_power=>learning_rate_power, :initial_accumulator_value=>initial_accumulator_value, :l1_regularization_strength=>l1_regularization_strength, :l2_regularization_strength=>l2_regularization_strength, :use_locking=>use_locking, :name=>name)...))
 export FtrlOptimizer
@@ -160,10 +209,22 @@ export GradientDescentOptimizer
           
 
 """
+"""
+InferenceExample() = tf_train.InferenceExample(;Dict()...)
+export InferenceExample
+          
+
+"""
+"""
+Int64List() = tf_train.Int64List(;Dict()...)
+export Int64List
+          
+
+"""
 Create a LooperThread.
 
     Args:
-      coord: a Coordinator.
+      coord: A Coordinator.
       timer_interval_secs: Time boundaries at which to call Run(), or None
         if it should be called back to back.
       target: Optional callable object that will be executed in the thread.
@@ -205,8 +266,18 @@ Create a QueueRunner.
     Args:
       queue: A `Queue`.
       enqueue_ops: List of enqueue ops to run in threads later.
+      close_op: Op to close the queue. Pending enqueue ops are preserved.
+      cancel_op: Op to close the queue and cancel pending enqueue ops.
+      queue_runner_def: Optional `QueueRunnerDef` protocol buffer. If specified,
+        recreates the QueueRunner from its contents. `queue_runner_def` and the
+        other arguments are mutually exclusive.
+
+    Raises:
+      ValueError: If both `queue_runner_def` and `queue` are both specified.
+      ValueError: If `queue` or `enqueue_ops` are not provided when not
+        restoring from `queue_runner_def`.
     """
-QueueRunner(queue::Any, enqueue_ops::Any) = tf_train.QueueRunner(;Dict(:queue=>queue, :enqueue_ops=>enqueue_ops)...)
+QueueRunner(queue::Any=nothing, enqueue_ops::Any=nothing, close_op::Any=nothing, cancel_op::Any=nothing, queue_runner_def::Any=nothing) = tf_train.QueueRunner(;Dict(:queue=>queue, :enqueue_ops=>enqueue_ops, :close_op=>close_op, :cancel_op=>cancel_op, :queue_runner_def=>queue_runner_def)...)
 export QueueRunner
           
 
@@ -215,11 +286,11 @@ Construct a new RMSProp optimizer.
 
     Args:
       learning_rate: A Tensor or a floating point value.  The learning rate.
-      decay: discounting factor for the history/coming gradient
-      momentum: a scalar tensor.
-      epsilon: small value to avoid zero denominator.
+      decay: Discounting factor for the history/coming gradient
+      momentum: A scalar tensor.
+      epsilon: Small value to avoid zero denominator.
       use_locking: If True use locks for update operation.
-      name: Optional name prefic for the operations created when applying
+      name: Optional name prefix for the operations created when applying
         gradients. Defaults to "RMSProp".
     """
 RMSPropOptimizer(learning_rate::Any, decay::Any=0.9, momentum::Any=0.0, epsilon::Any=1.0e-10, use_locking::Bool=false, name::AbstractString="RMSProp") = Optimizer(tf_train.RMSPropOptimizer(;Dict(:learning_rate=>learning_rate, :decay=>decay, :momentum=>momentum, :epsilon=>epsilon, :use_locking=>use_locking, :name=>name)...))
@@ -269,11 +340,11 @@ Creates a `Saver`.
       reshape: If `True`, allows restoring parameters from a checkpoint
         where the variables have a different shape.
       sharded: If `True`, shard the checkpoints, one per device.
-      max_to_keep: maximum number of recent checkpoints to keep.
-        Defaults to 10,000 hours.
+      max_to_keep: Maximum number of recent checkpoints to keep.
+        Defaults to 5.
       keep_checkpoint_every_n_hours: How often to keep checkpoints.
         Defaults to 10,000 hours.
-      name: string.  Optional name to use as a prefix when adding operations.
+      name: String.  Optional name to use as a prefix when adding operations.
       restore_sequentially: A `Bool`, which if true, causes restore of different
         variables to happen sequentially within each device.  This can lower
         memory usage when restoring very large models.
@@ -294,14 +365,78 @@ export Saver
           
 
 """
+"""
+SaverDef() = tf_train.SaverDef(;Dict()...)
+export SaverDef
+          
+
+"""
+"""
+SequenceExample() = tf_train.SequenceExample(;Dict()...)
+export SequenceExample
+          
+
+"""
+Creates a new server with the given definition.
+
+    The `job_name`, `task_index`, and `protocol` arguments are optional, and
+    override any information provided in `server_or_cluster_def`.
+
+    Args:
+      server_or_cluster_def: A `tf.train.ServerDef` or
+        `tf.train.ClusterDef` protocol buffer, or a
+        `tf.train.ClusterSpec` object, describing the server to be
+        created and/or the cluster of which it is a member.
+      job_name: (Optional.) Specifies the name of the job of which the server
+        is a member. Defaults to the value in `server_or_cluster_def`, if
+        specified.
+      task_index: (Optional.) Specifies the task index of the server in its
+        job. Defaults to the value in `server_or_cluster_def`, if specified.
+        Otherwise defaults to 0 if the server's job has only one task.
+      protocol: (Optional.) Specifies the protocol to be used by the server.
+        Acceptable values include `"grpc"`. Defaults to the value in
+        `server_or_cluster_def`, if specified. Otherwise defaults to `"grpc"`.
+      start: (Optional.) Boolean, indicating whether to start the server
+        after creating it. Defaults to `True`.
+    """
+Server(server_or_cluster_def::Any, job_name::Any=nothing, task_index::Any=nothing, protocol::Any=nothing, start_::Any=true) = tf_train.Server(;Dict(:server_or_cluster_def=>server_or_cluster_def, :job_name=>job_name, :task_index=>task_index, :protocol=>protocol, :start=>start_)...)
+export Server
+          
+
+"""
+Creates a SessionManager.
+
+    The `local_init_op` is an `Operation` that is run always after a new session
+    was created. If `None`, this step is skipped.
+
+    The `ready_op` is an `Operation`. The model is considered ready
+    if that operation succeeds.  If `None`, the model is not checked
+    for readiness.
+
+    `recovery_wait_secs` is the number of seconds between checks that
+    the model is ready.  It is used by processes to wait for a model to
+    be initialized or restored.  Defaults to 30 seconds.
+
+    Args:
+      local_init_op: An `Operation` run immediately after session creation.
+         Usually used to initialize tables and local variables.
+      ready_op: An `Operation` to check if the model is initialized.
+      graph: The `Graph` that the model will use.
+      recovery_wait_secs: Seconds between checks for the model to be ready.
+    """
+SessionManager(local_init_op::Any=nothing, ready_op::Any=nothing, graph::Any=nothing, recovery_wait_secs::Any=30) = tf_train.SessionManager(;Dict(:local_init_op=>local_init_op, :ready_op=>ready_op, :graph=>graph, :recovery_wait_secs=>recovery_wait_secs)...)
+export SessionManager
+          
+
+"""
 Creates a `SummaryWriter` and an event file.
 
     On construction the summary writer creates a new event file in `logdir`.
     This event file will contain `Event` protocol buffers constructed when you
-    call one of the following functions: `add_summary()`, `add_event()`, or
-    `add_graph()`.
+    call one of the following functions: `add_summary()`, `add_session_log()`,
+    `add_event()`, or `add_graph()`.
 
-    If you pass a `graph_def` protocol buffer to the constructor it is added to
+    If you pass a `Graph` to the constructor it is added to
     the event file. (This is equivalent to calling `add_graph()` later).
 
     TensorBoard will pick the graph from the file and display it graphically so
@@ -312,8 +447,8 @@ Creates a `SummaryWriter` and an event file.
     ...create a graph...
     # Launch the graph in a session.
     sess = tf.Session()
-    # Create a summary writer, add the 'graph_def' to the event file.
-    writer = tf.train.SummaryWriter(<some-directory>, sess.graph_def)
+    # Create a summary writer, add the 'graph' to the event file.
+    writer = tf.train.SummaryWriter(<some-directory>, sess.graph)
     ```
 
     The other arguments to the constructor control the asynchronous writes to
@@ -326,13 +461,85 @@ Creates a `SummaryWriter` and an event file.
 
     Args:
       logdir: A string. Directory where event file will be written.
-      graph_def: A `GraphDef` protocol buffer.
+      graph: A `Graph` object, such as `sess.graph`.
       max_queue: Integer. Size of the queue for pending events and summaries.
       flush_secs: Number. How often, in seconds, to flush the
         pending events and summaries to disk.
+      graph_def: DEPRECATED: Use the `graph` argument instead.
     """
-SummaryWriter(logdir::Any, graph_def::Any=nothing, max_queue::Any=10, flush_secs::Any=120) = tf_train.SummaryWriter(;Dict(:logdir=>logdir, :graph_def=>graph_def, :max_queue=>max_queue, :flush_secs=>flush_secs)...)
+SummaryWriter(logdir::Any, graph::Any=nothing, max_queue::Any=10, flush_secs::Any=120, graph_def::Any=nothing) = tf_train.SummaryWriter(;Dict(:logdir=>logdir, :graph=>graph, :max_queue=>max_queue, :flush_secs=>flush_secs, :graph_def=>graph_def)...)
 export SummaryWriter
+          
+
+"""
+Create a `Supervisor`.
+
+    Args:
+      graph: A `Graph`.  The graph that the model will use.  Defaults to the
+        default `Graph`.  The supervisor may add operations to the graph before
+        creating a session, but the graph should not be modified by the caller
+        after passing it to the supervisor.
+      ready_op: `Operation` to check if the model is initialized.  This
+        operation is run by supervisors in `prepare_or_wait_for_session()` to
+        check if the model is ready to use. The model is considered ready if
+        that operation succeeds.  Defaults to the operation returned from
+        `tf.assert_variables_initialized()`  If `None`, the model is not checked
+        for readiness.
+      is_chief: If True, create a chief supervisor in charge of initializing
+        and restoring the model.  If False, create a supervisor that relies
+        on a chief supervisor for inits and restore.
+      init_op: `Operation`.  Used by chief supervisors to initialize the model
+        when it can not be recovered.  Defaults to an `Operation` that
+        initializes all variables.  If `None`, no initialization is done
+        automatically unless you pass a value for `init_fn`, see below.
+      init_feed_dict: A dictionary that maps `Tensor` objects to feed values.
+        This feed dictionary will be used when `init_op` is evaluated.
+      local_init_op: `Operation`. Used by all supervisors to run initializations
+        that should run for every new supervisor instance. By default these
+        are table initializers and initializers for local variables.
+        If `None`, no further per supervisor-instance initialization is
+        done automatically.
+      logdir: A string.  Optional path to a directory where to checkpoint the
+        model and log events for the visualizer.  Used by chief supervisors.
+        The directory will be created if it does not exist.
+      summary_op: An `Operation` that returns a Summary for the event logs.
+        Used by chief supervisors if a `logdir` was specified.  Defaults to the
+        operation returned from merge_all_summaries().  If `None`, summaries are
+        not computed automatically.
+      saver: A Saver object.  Used by chief supervisors if a `logdir` was
+        specified.  Defaults to the saved returned by Saver().
+        If `None`, the model is not saved automatically.
+      global_step: An integer Tensor of size 1 that counts steps.  The value
+        from 'global_step' is used in summaries and checkpoint filenames.
+        Default to the op named 'global_step' in the graph if it exists, is of
+        rank 1, size 1, and of type tf.int32 ot tf.int64.  If `None` the global
+        step is not recorded in summaries and checkpoint files.  Used by chief
+        supervisors if a `logdir` was specified.
+      save_summaries_secs: Number of seconds between the computation of
+        summaries for the event log.  Defaults to 120 seconds.  Pass 0 to
+        disable summaries.
+      save_model_secs: Number of seconds between the creation of model
+        checkpoints.  Defaults to 600 seconds.  Pass 0 to disable checkpoints.
+      recovery_wait_secs: Number of seconds between checks that the model
+        is ready.  Used by supervisors when waiting for a chief supervisor
+        to initialize or restore the model.  Defaults to 30 seconds.
+      stop_grace_secs: Grace period, in seconds, given to running threads to
+        stop when `stop()` is called.  Defaults to 120 seconds.
+      checkpoint_basename: The basename for checkpoint saving.
+      session_manager: `SessionManager`, which manages Session creation and
+        recovery. If it is `None`, a default `SessionManager` will be created
+        with the set of arguments passed in for backwards compatibility.
+      summary_writer: `SummaryWriter` to use or `USE_DEFAULT`.  Can be `None`
+        to indicate that no summaries should be written.
+      init_fn: Optional callable used to initialize the model. Called
+        after the optional `init_op` is called.  The callable must accept one
+        argument, the session being initialized.
+
+    Returns:
+      A `Supervisor`.
+    """
+Supervisor(graph::Any=nothing, ready_op::Any=0, is_chief::Any=true, init_op::Any=0, init_feed_dict::Any=nothing, local_init_op::Any=0, logdir::Any=nothing, summary_op::Any=0, saver::Any=0, global_step::Any=0, save_summaries_secs::Any=120, save_model_secs::Any=600, recovery_wait_secs::Any=30, stop_grace_secs::Any=120, checkpoint_basename::Any="model.ckpt", session_manager::Any=nothing, summary_writer::Any=0, init_fn::Any=nothing) = tf_train.Supervisor(;Dict(:graph=>graph, :ready_op=>ready_op, :is_chief=>is_chief, :init_op=>init_op, :init_feed_dict=>init_feed_dict, :local_init_op=>local_init_op, :logdir=>logdir, :summary_op=>summary_op, :saver=>saver, :global_step=>global_step, :save_summaries_secs=>save_summaries_secs, :save_model_secs=>save_model_secs, :recovery_wait_secs=>recovery_wait_secs, :stop_grace_secs=>stop_grace_secs, :checkpoint_basename=>checkpoint_basename, :session_manager=>session_manager, :summary_writer=>summary_writer, :init_fn=>init_fn)...)
+export Supervisor
           
 
 """
@@ -377,10 +584,18 @@ Creates batches of tensors in `tensor_list`.
   this exception, however, if this operation is used in your main thread
   you are responsible for catching this yourself.
 
-  *N.B.:* You must ensure that either (i) the `shapes` argument is
-  passed, or (ii) all of the tensors in `tensor_list` must have
-  fully-defined shapes. `ValueError` will be raised if neither of
-  these conditions holds.
+  *N.B.:* If `dynamic_pad` is `False`, you must ensure that either
+  (i) the `shapes` argument is passed, or (ii) all of the tensors in
+  `tensor_list` must have fully-defined shapes. `ValueError` will be
+  raised if neither of these conditions holds.
+
+  If `dynamic_pad` is `True`, it is sufficient that the *rank* of the
+  tensors is known, but individual dimensions may have shape `None`.
+  In this case, for each enqueue the dimensions with value `None`
+  may have a variable length; upon dequeue, the output tensors will be padded
+  on the right to the maximum shape of the tensors in the current minibatch.
+  For numbers, this padding takes value 0.  For strings, this padding is
+  the empty string.  See `PaddingFIFOQueue` for more info.
 
   Args:
     tensor_list: The list of tensors to enqueue.
@@ -390,6 +605,11 @@ Creates batches of tensors in `tensor_list`.
     enqueue_many: Whether each tensor in `tensor_list` is a single example.
     shapes: (Optional) The shapes for each example.  Defaults to the
       inferred shapes for `tensor_list`.
+    dynamic_pad: Boolean.  Allow variable dimensions in input shapes.
+      The given dimensions are padded upon dequeue so that tensors within a
+      batch have the same shapes.
+    shared_name: (optional). If set, this queue will be shared under the given
+      name across multiple sessions.
     name: (Optional) A name for the operations.
 
   Returns:
@@ -399,7 +619,7 @@ Creates batches of tensors in `tensor_list`.
     ValueError: If the `shapes` are not specified, and cannot be
       inferred from the elements of `tensor_list`.
   """
-batch(tensor_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, num_threads::Int64=1, capacity::Int64=32, enqueue_many::AbstractTensor=false, shapes::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.batch(;Dict(:tensor_list=>tensor_list, :batch_size=>batch_size, :num_threads=>num_threads, :capacity=>capacity, :enqueue_many=>enqueue_many, :shapes=>shapes, :name=>name)...))
+batch(tensor_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, num_threads::Int64=1, capacity::Int64=32, enqueue_many::AbstractTensor=false, shapes::Any=nothing, dynamic_pad::Bool=false, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.batch(;Dict(:tensor_list=>tensor_list, :batch_size=>batch_size, :num_threads=>num_threads, :capacity=>capacity, :enqueue_many=>enqueue_many, :shapes=>shapes, :dynamic_pad=>dynamic_pad, :shared_name=>shared_name, :name=>name)...))
 export batch
           
 
@@ -436,10 +656,18 @@ Runs a list of tensors to fill a queue to create batches of examples.
   this exception, however, if this operation is used in your main thread
   you are responsible for catching this yourself.
 
-  *N.B.:* You must ensure that either (i) the `shapes` argument is
-  passed, or (ii) all of the tensors in `tensor_list_list` must have
-  fully-defined shapes. `ValueError` will be raised if neither of
-  these conditions holds.
+  *N.B.:* If `dynamic_pad` is `False`, you must ensure that either
+  (i) the `shapes` argument is passed, or (ii) all of the tensors in
+  `tensor_list` must have fully-defined shapes. `ValueError` will be
+  raised if neither of these conditions holds.
+
+  If `dynamic_pad` is `True`, it is sufficient that the *rank* of the
+  tensors is known, but individual dimensions may have value `None`.
+  In this case, for each enqueue the dimensions with value `None`
+  may have a variable length; upon dequeue, the output tensors will be padded
+  on the right to the maximum shape of the tensors in the current minibatch.
+  For numbers, this padding takes value 0.  For strings, this padding is
+  the empty string.  See `PaddingFIFOQueue` for more info.
 
   Args:
     tensor_list_list: A list of tuples of tensors to enqueue.
@@ -449,6 +677,11 @@ Runs a list of tensors to fill a queue to create batches of examples.
       example.
     shapes: (Optional) The shapes for each example.  Defaults to the
       inferred shapes for `tensor_list_list[i]`.
+    dynamic_pad: Boolean.  Allow variable dimensions in input shapes.
+      The given dimensions are padded upon dequeue so that tensors within a
+      batch have the same shapes.
+    shared_name: (Optional) If set, this queue will be shared under the given
+      name across multiple sessions.
     name: (Optional) A name for the operations.
 
   Returns:
@@ -459,7 +692,7 @@ Runs a list of tensors to fill a queue to create batches of examples.
     ValueError: If the `shapes` are not specified, and cannot be
       inferred from the elements of `tensor_list_list`.
   """
-batch_join(tensor_list_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Int64=32, enqueue_many::AbstractTensor=false, shapes::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.batch_join(;Dict(:tensor_list_list=>tensor_list_list, :batch_size=>batch_size, :capacity=>capacity, :enqueue_many=>enqueue_many, :shapes=>shapes, :name=>name)...))
+batch_join(tensor_list_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Int64=32, enqueue_many::AbstractTensor=false, shapes::Any=nothing, dynamic_pad::Bool=false, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.batch_join(;Dict(:tensor_list_list=>tensor_list_list, :batch_size=>batch_size, :capacity=>capacity, :enqueue_many=>enqueue_many, :shapes=>shapes, :dynamic_pad=>dynamic_pad, :shared_name=>shared_name, :name=>name)...))
 export batch_join
           
 
@@ -490,9 +723,11 @@ Applies exponential decay to the learning rate.
   starter_learning_rate = 0.1
   learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
                                              100000, 0.96, staircase=True)
-  optimizer = tf.GradientDescentOptimizer(learning_rate)
   # Passing global_step to minimize() will increment it at each step.
-  optimizer.minimize(...my loss..., global_step=global_step)
+  learning_step = (
+      tf.GradientDescentOptimizer(learning_rate)
+      .minimize(...my loss..., global_step=global_step)
+  )
   ```
 
   Args:
@@ -505,7 +740,7 @@ Applies exponential decay to the learning rate.
     decay_rate: A scalar `float32` or `float64` `Tensor` or a
       Python number.  The decay rate.
     staircase: Boolean.  It `True` decay the learning rate at discrete intervals.
-    name: string.  Optional name of the operation.  Defaults to 'ExponentialDecay'
+    name: String.  Optional name of the operation.  Defaults to 'ExponentialDecay'
 
   Returns:
     A scalar `Tensor` of the same type as `learning_rate`.  The decayed
@@ -513,6 +748,50 @@ Applies exponential decay to the learning rate.
   """
 exponential_decay(learning_rate::Union{AbstractTensor,Void}, global_step::Union{AbstractTensor,Void}, decay_steps::Union{AbstractTensor,Void}, decay_rate::Union{AbstractTensor,Void}, staircase::Bool=false, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.exponential_decay(;Dict(:learning_rate=>learning_rate, :global_step=>global_step, :decay_steps=>decay_steps, :decay_rate=>decay_rate, :staircase=>staircase, :name=>name)...))
 export exponential_decay
+          
+
+"""
+Returns `MetaGraphDef` proto. Optionally writes it to filename.
+
+  This function exports the graph, saver, and collection objects into
+  `MetaGraphDef` protocol buffer with the intension of it being imported
+  at a later time or location to restart training, run inference, or be
+  a subgraph.
+
+  Args:
+    filename: Optional filename including the path for writing the
+      generated `MetaGraphDef` protocol buffer.
+    meta_info_def: `MetaInfoDef` protocol buffer.
+    graph_def: `GraphDef` protocol buffer.
+    saver_def: `SaverDef` protocol buffer.
+    collection_list: List of string keys to collect.
+    as_text: If `True`, writes the `MetaGraphDef` as an ASCII proto.
+
+  Returns:
+    A `MetaGraphDef` proto.
+  """
+export_meta_graph(filename::Any=nothing, meta_info_def::Any=nothing, graph_def::Any=nothing, saver_def::Any=nothing, collection_list::Any=nothing, as_text::Bool=false) = tf_train.export_meta_graph(;Dict(:filename=>filename, :meta_info_def=>meta_info_def, :graph_def=>graph_def, :saver_def=>saver_def, :collection_list=>collection_list, :as_text=>as_text)...)
+export export_meta_graph
+          
+
+"""
+Generates a checkpoint state proto.
+
+  Args:
+    save_dir: Directory where the model was saved.
+    model_checkpoint_path: The checkpoint file.
+    all_model_checkpoint_paths: List of strings.  Paths to all not-yet-deleted
+      checkpoints, sorted from oldest to newest.  If this is a non-empty list,
+      the last element must be equal to model_checkpoint_path.  These paths
+      are also saved in the CheckpointState proto.
+
+  Returns:
+    CheckpointState proto with model_checkpoint_path and
+    all_model_checkpoint_paths updated to either absolute paths or
+    relative paths to the current save_dir.
+  """
+generate_checkpoint_state_proto(save_dir::Any, model_checkpoint_path::Any, all_model_checkpoint_paths::Any=nothing) = tf_train.generate_checkpoint_state_proto(;Dict(:save_dir=>save_dir, :model_checkpoint_path=>model_checkpoint_path, :all_model_checkpoint_paths=>all_model_checkpoint_paths)...)
+export generate_checkpoint_state_proto
           
 
 """
@@ -550,15 +829,116 @@ Small helper to get the global step.
   ```
 
   Args:
-    sess: A brain `Session` object.
+    sess: A TensorFlow `Session` object.
     global_step_tensor:  `Tensor` or the `name` of the operation that contains
       the global step.
 
   Returns:
     The global step value.
   """
-global_step(sess::Any, global_step_tensor::Union{AbstractTensor,Void}) = tf_train.global_step(;Dict(:sess=>sess, :global_step_tensor=>global_step_tensor)...)
+global_step(sess::Union{AbstractTensor,Void}, global_step_tensor::Union{AbstractTensor,Void}) = tf_train.global_step(;Dict(:sess=>sess, :global_step_tensor=>global_step_tensor)...)
 export global_step
+          
+
+"""
+Recreates a Graph saved in a `MetaGraphDef` proto.
+
+  This function takes a `MetaGraphDef` protocol buffer as input. If
+  the argument is a file containing a `MetaGraphDef` protocol buffer ,
+  it constructs a protocol buffer from the file content. The function
+  then adds all the nodes from the `graph_def` field to the
+  current graph, recreates all the collections, and returns a saver
+  constructed from the `saver_def` field.
+
+  In combination with `export_meta_graph()`, this function can be used to
+
+  * Serialize a graph along with other Python objects such as `QueueRunner`,
+    `Variable` into a `MetaGraphDef`.
+
+  * Restart training from a saved graph and checkpoints.
+
+  * Run inference from a saved graph and checkpoints.
+
+  ```Python
+  ...
+  # Create a saver.
+  saver = tf.train.Saver(...variables...)
+  # Remember the training_op we want to run by adding it to a collection.
+  tf.add_to_collection('train_op', train_op)
+  sess = tf.Session()
+  for step in xrange(1000000):
+      sess.run(train_op)
+      if step % 1000 == 0:
+          # Saves checkpoint, which by default also exports a meta_graph
+          # named 'my-model-global_step.meta'.
+          saver.save(sess, 'my-model', global_step=step)
+  ```
+
+  Later we can continue training from this saved `meta_graph` without building
+  the model from scratch.
+
+  ```Python
+  with tf.Session() as sess:
+    new_saver = tf.train.import_meta_graph('my-save-dir/my-model-10000.meta')
+    new_saver.restore(sess, 'my-save-dir/my-model-10000')
+    # tf.get_collection() returns a list. In this example we only want the
+    # first one.
+    train_op = tf.get_collection('train_op')[0]
+    for step in xrange(1000000):
+      sess.run(train_op)
+  ```
+
+  NOTE: Restarting training from saved `meta_graph` only works if the
+  device assignments have not changed.
+
+  Args:
+    meta_graph_or_file: `MetaGraphDef` protocol buffer or filename (including
+      the path) containing a `MetaGraphDef`.
+
+  Returns:
+    A saver constructed from `saver_def` in `MetaGraphDef` or None.
+
+    A None value is returned if no variables exist in the `MetaGraphDef`
+    (i.e., there are no variables to restore).
+  """
+import_meta_graph(meta_graph_or_file::Any) = tf_train.import_meta_graph(;Dict(:meta_graph_or_file=>meta_graph_or_file)...)
+export import_meta_graph
+          
+
+"""
+Output the rows of `input_tensor` to a queue for an input pipeline.
+
+  Args:
+    input_tensor: A tensor with the rows to produce. Must be at
+      one-dimensional. Must either have a fully-defined shape, or
+      `element_shape` must be defined.
+    element_shape: (Optional.) A `TensorShape` representing the shape of a
+      row of `input_tensor`, if it cannot be inferred.
+    num_epochs: (Optional.) An integer. If specified `input_producer` produces
+      each row of `input_tensor` `num_epochs` times before generating an
+      `OutOfRange` error. If not specified, `input_producer` can cycle through
+      the rows of `input_tensor` an unlimited number of times.
+    shuffle: (Optional.) A boolean. If true, the rows are randomly shuffled
+      within each eopch.
+    seed: (Optional.) An integer. The seed to use if `shuffle` is true.
+    capacity: (Optional.) The capacity of the queue to be used for buffering
+      the input.
+    shared_name: (Optional.) If set, this queue will be shared under the given
+      name across multiple sessions.
+    summary_name: (Optional.) If set, a scalar summary for the current queue
+      size will be generated, using this name as part of the tag.
+    name: (Optional.) A name for queue.
+
+  Returns:
+    A queue with the output rows.  A `QueueRunner` for the queue is
+    added to the current `QUEUE_RUNNER` collection of the current
+    graph.
+
+  Raises:
+    ValueError: If the shape of the input cannot be inferred from the arguments.
+  """
+input_producer(input_tensor::Union{AbstractTensor,Void}, element_shape::Union{AbstractTensor,Void}=nothing, num_epochs::Union{Int64,Void}=nothing, shuffle_::Any=true, seed::Union{Int64,Void}=nothing, capacity::Any=32, shared_name::Any=nothing, summary_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = tf_train.input_producer(;Dict(:input_tensor=>input_tensor, :element_shape=>element_shape, :num_epochs=>num_epochs, :shuffle=>shuffle_, :seed=>seed, :capacity=>capacity, :shared_name=>shared_name, :summary_name=>summary_name, :name=>name)...)
+export input_producer
           
 
 """
@@ -582,12 +962,15 @@ Returns tensor `num_epochs` times and then raises an `OutOfRange` error.
 
   Args:
     tensor: Any `Tensor`.
-    num_epochs: An integer (optional).  If specified, limits the number
+    num_epochs: A positive integer (optional).  If specified, limits the number
       of steps the output tensor may be evaluated.
     name: A name for the operations (optional).
 
   Returns:
     tensor or `OutOfRange`.
+
+  Raises:
+    ValueError: if `num_epochs` is invalid.
   """
 limit_epochs(tensor::Union{AbstractTensor,Void}, num_epochs::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.limit_epochs(;Dict(:tensor=>tensor, :num_epochs=>num_epochs, :name=>name)...))
 export limit_epochs
@@ -620,14 +1003,65 @@ Produces the integers from 0 to limit-1 in a queue.
       epoch.
     seed: An integer (optional). Seed used if shuffle == True.
     capacity: An integer. Sets the queue capacity.
+    shared_name: (optional). If set, this queue will be shared under the given
+      name across multiple sessions.
     name: A name for the operations (optional).
 
   Returns:
     A Queue with the output integers.  A `QueueRunner` for the Queue
     is added to the current `Graph`'s `QUEUE_RUNNER` collection.
   """
-range_input_producer(limit::Union{AbstractTensor,Void}, num_epochs::Union{Int64,Void}=nothing, shuffle_::Bool=true, seed::Union{Int64,Void}=nothing, capacity::Int64=32, name::Union{AbstractString,Void}=nothing) = tf_train.range_input_producer(;Dict(:limit=>limit, :num_epochs=>num_epochs, :shuffle=>shuffle_, :seed=>seed, :capacity=>capacity, :name=>name)...)
+range_input_producer(limit::Union{AbstractTensor,Void}, num_epochs::Union{Int64,Void}=nothing, shuffle_::Bool=true, seed::Union{Int64,Void}=nothing, capacity::Int64=32, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = tf_train.range_input_producer(;Dict(:limit=>limit, :num_epochs=>num_epochs, :shuffle=>shuffle_, :seed=>seed, :capacity=>capacity, :shared_name=>shared_name, :name=>name)...)
 export range_input_producer
+          
+
+"""
+Return a `device function` to use when building a Graph for replicas.
+
+  Device Functions are used in `with tf.device(device_function):` statement to
+  automatically assign devices to `Operation` objects as they are constructed,
+  Device constraints are added from the inner-most context first, working
+  outwards. The merging behavior adds constraints to fields that are yet unset
+  by a more inner context. Currently the fields are (job, task, cpu/gpu).
+
+  If `cluster` is `None`, and `ps_tasks` is 0, the returned function is a no-op.
+
+  For example,
+
+  ```python
+  # To build a cluster with two ps jobs on hosts ps0 and ps1, and 3 worker
+  # jobs on hosts worker0, worker1 and worker2.
+  cluster_spec = {
+      "ps": ["ps0:2222", "ps1:2222"],
+      "worker": ["worker0:2222", "worker1:2222", "worker2:2222"]}
+  with tf.device(tf.replica_device_setter(cluster=cluster_spec)):
+    # Build your graph
+    v1 = tf.Variable(...)  # assigned to /job:ps/task:0
+    v2 = tf.Variable(...)  # assigned to /job:ps/task:1
+    v3 = tf.Variable(...)  # assigned to /job:ps/task:0
+  # Run compute
+  ```
+
+  Args:
+    ps_tasks: Number of tasks in the `ps` job.
+    ps_device: String.  Device of the `ps` job.  If empty no `ps` job is used.
+      Defaults to `ps`.
+    worker_device: String.  Device of the `worker` job.  If empty no `worker`
+      job is used.
+    merge_devices: `Boolean`. If `True`, merges or only sets a device if the
+      device constraint is completely unset. merges device specification rather
+      than overriding them.
+    cluster: `ClusterDef` proto or `ClusterSpec`.
+    ps_ops: List of `Operation` objects that need to be placed on `ps` devices.
+
+  Returns:
+    A function to pass to `tf.device()`.
+
+  Raises:
+    TypeError if `cluster` is not a dictionary or `ClusterDef` protocol buffer.
+  """
+replica_device_setter(ps_tasks::Any=0, ps_device::Any="/job:ps", worker_device::Any="/job:worker", merge_devices::Any=true, cluster::Any=nothing, ps_ops::Any=nothing) = tf_train.replica_device_setter(;Dict(:ps_tasks=>ps_tasks, :ps_device=>ps_device, :worker_device=>worker_device, :merge_devices=>merge_devices, :cluster=>cluster, :ps_ops=>ps_ops)...)
+export replica_device_setter
           
 
 """
@@ -687,6 +1121,8 @@ Creates batches by randomly shuffling tensors.
     enqueue_many: Whether each tensor in `tensor_list` is a single example.
     shapes: (Optional) The shapes for each example.  Defaults to the
       inferred shapes for `tensor_list`.
+    shared_name: (Optional) If set, this queue will be shared under the given
+      name across multiple sessions.
     name: (Optional) A name for the operations.
 
   Returns:
@@ -696,7 +1132,7 @@ Creates batches by randomly shuffling tensors.
     ValueError: If the `shapes` are not specified, and cannot be
       inferred from the elements of `tensor_list`.
   """
-shuffle_batch(tensor_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Union{Int64,Void}, min_after_dequeue::Any, num_threads::Int64=1, seed::Union{Int64,Void}=nothing, enqueue_many::AbstractTensor=false, shapes::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.shuffle_batch(;Dict(:tensor_list=>tensor_list, :batch_size=>batch_size, :capacity=>capacity, :min_after_dequeue=>min_after_dequeue, :num_threads=>num_threads, :seed=>seed, :enqueue_many=>enqueue_many, :shapes=>shapes, :name=>name)...))
+shuffle_batch(tensor_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Union{Int64,Void}, min_after_dequeue::Any, num_threads::Int64=1, seed::Union{Int64,Void}=nothing, enqueue_many::AbstractTensor=false, shapes::Any=nothing, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.shuffle_batch(;Dict(:tensor_list=>tensor_list, :batch_size=>batch_size, :capacity=>capacity, :min_after_dequeue=>min_after_dequeue, :num_threads=>num_threads, :seed=>seed, :enqueue_many=>enqueue_many, :shapes=>shapes, :shared_name=>shared_name, :name=>name)...))
 export shuffle_batch
           
 
@@ -746,6 +1182,8 @@ Create batches by randomly shuffling tensors.
       example.
     shapes: (Optional) The shapes for each example.  Defaults to the
       inferred shapes for `tensor_list_list[i]`.
+    shared_name: (optional). If set, this queue will be shared under the given
+      name across multiple sessions.
     name: (Optional) A name for the operations.
 
   Returns:
@@ -755,7 +1193,7 @@ Create batches by randomly shuffling tensors.
     ValueError: If the `shapes` are not specified, and cannot be
       inferred from the elements of `tensor_list_list`.
   """
-shuffle_batch_join(tensor_list_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Union{Int64,Void}, min_after_dequeue::Any, seed::Union{Int64,Void}=nothing, enqueue_many::AbstractTensor=false, shapes::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.shuffle_batch_join(;Dict(:tensor_list_list=>tensor_list_list, :batch_size=>batch_size, :capacity=>capacity, :min_after_dequeue=>min_after_dequeue, :seed=>seed, :enqueue_many=>enqueue_many, :shapes=>shapes, :name=>name)...))
+shuffle_batch_join(tensor_list_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Union{Int64,Void}, min_after_dequeue::Any, seed::Union{Int64,Void}=nothing, enqueue_many::AbstractTensor=false, shapes::Any=nothing, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.shuffle_batch_join(;Dict(:tensor_list_list=>tensor_list_list, :batch_size=>batch_size, :capacity=>capacity, :min_after_dequeue=>min_after_dequeue, :seed=>seed, :enqueue_many=>enqueue_many, :shapes=>shapes, :shared_name=>shared_name, :name=>name)...))
 export shuffle_batch_join
           
 
@@ -772,16 +1210,23 @@ Produces a slice of each `Tensor` in `tensor_list`.
       produces each slice `num_epochs` times before generating
       an `OutOfRange` error. If not specified, `slice_input_producer` can cycle
       through the slices an unlimited number of times.
+    shuffle: Boolean. If true, the integers are randomly shuffled within each
+      epoch.
     seed: An integer (optional). Seed used if shuffle == True.
     capacity: An integer. Sets the queue capacity.
+    shared_name: (optional). If set, this queue will be shared under the given
+      name across multiple sessions.
     name: A name for the operations (optional).
 
   Returns:
     A list of tensors, one for each element of `tensor_list`.  If the tensor
     in `tensor_list` has shape `[N, a, b, .., z]`, then the corresponding output
     tensor will have shape `[a, b, ..., z]`.
+
+  Raises:
+    ValueError: if `slice_input_producer` produces nothing from `tensor_list`.
   """
-slice_input_producer(tensor_list::Union{AbstractTensor,Void}, num_epochs::Union{Int64,Void}=nothing, shuffle_::Any=true, seed::Union{Int64,Void}=nothing, capacity::Int64=32, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.slice_input_producer(;Dict(:tensor_list=>tensor_list, :num_epochs=>num_epochs, :shuffle=>shuffle_, :seed=>seed, :capacity=>capacity, :name=>name)...))
+slice_input_producer(tensor_list::Union{AbstractTensor,Void}, num_epochs::Union{Int64,Void}=nothing, shuffle_::Bool=true, seed::Union{Int64,Void}=nothing, capacity::Int64=32, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.slice_input_producer(;Dict(:tensor_list=>tensor_list, :num_epochs=>num_epochs, :shuffle=>shuffle_, :seed=>seed, :capacity=>capacity, :shared_name=>shared_name, :name=>name)...))
 export slice_input_producer
           
 
@@ -816,13 +1261,15 @@ Output strings (e.g. filenames) to a queue for an input pipeline.
     string_tensor: A 1-D string tensor with the strings to produce.
     num_epochs: An integer (optional). If specified, `string_input_producer`
       produces each string from `string_tensor` `num_epochs` times before
-      generating an OutOfRange error. If not specified, `string_input_producer`
-      can cycle through the strings in `string_tensor` an unlimited number of
-      times.
+      generating an `OutOfRange` error. If not specified,
+      `string_input_producer` can cycle through the strings in `string_tensor`
+      an unlimited number of times.
     shuffle: Boolean. If true, the strings are randomly shuffled within each
       epoch.
     seed: An integer (optional). Seed used if shuffle == True.
     capacity: An integer. Sets the queue capacity.
+    shared_name: (optional). If set, this queue will be shared under the given
+      name across multiple sessions.
     name: A name for the operations (optional).
 
   Returns:
@@ -833,7 +1280,7 @@ Output strings (e.g. filenames) to a queue for an input pipeline.
     ValueError: If the string_tensor is a null Python list.  At runtime,
     will fail with an assertion if string_tensor becomes a null tensor.
   """
-string_input_producer(string_tensor::Union{AbstractTensor,Void}, num_epochs::Union{Int64,Void}=nothing, shuffle_::Bool=true, seed::Union{Int64,Void}=nothing, capacity::Int64=32, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.string_input_producer(;Dict(:string_tensor=>string_tensor, :num_epochs=>num_epochs, :shuffle=>shuffle_, :seed=>seed, :capacity=>capacity, :name=>name)...))
+string_input_producer(string_tensor::Union{AbstractTensor,Void}, num_epochs::Union{Int64,Void}=nothing, shuffle_::Bool=true, seed::Union{Int64,Void}=nothing, capacity::Int64=32, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.string_input_producer(;Dict(:string_tensor=>string_tensor, :num_epochs=>num_epochs, :shuffle=>shuffle_, :seed=>seed, :capacity=>capacity, :shared_name=>shared_name, :name=>name)...))
 export string_input_producer
           
 
@@ -846,7 +1293,7 @@ An iterator for reading `Event` protocol buffers from an event file.
   Example: Print the contents of an events file.
 
   ```python
-  for e in tf.summary_iterator(path to events file):
+  for e in tf.train.summary_iterator(path to events file):
       print(e)
   ```
 
@@ -857,16 +1304,16 @@ An iterator for reading `Event` protocol buffers from an event file.
   # summary value tag 'loss'.  These could have been added by calling
   # `add_summary()`, passing the output of a scalar summary op created with
   # with: `tf.scalar_summary(['loss'], loss_tensor)`.
-  for e in tf.summary_iterator(path to events file):
+  for e in tf.train.summary_iterator(path to events file):
       for v in e.summary.value:
           if v.tag == 'loss':
               print(v.simple_value)
   ```
 
   See the protocol buffer definitions of
-  [Event](https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/core/util/event.proto)
+  [Event](https://www.tensorflow.org/code/tensorflow/core/util/event.proto)
   and
-  [Summary](https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/core/framework/summary.proto)
+  [Summary](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
   for more information about their attributes.
 
   Args:
@@ -888,7 +1335,7 @@ Updates the content of the 'checkpoint' file.
   Args:
     save_dir: Directory where the model was saved.
     model_checkpoint_path: The checkpoint file.
-    all_model_checkpoint_paths: list of strings.  Paths to all not-yet-deleted
+    all_model_checkpoint_paths: List of strings.  Paths to all not-yet-deleted
       checkpoints, sorted from oldest to newest.  If this is a non-empty list,
       the last element must be equal to model_checkpoint_path.  These paths
       are also saved in the CheckpointState proto.

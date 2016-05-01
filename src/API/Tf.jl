@@ -1,4 +1,4 @@
-"Generated automatically by TensorFlowBuilder, from TensorFlow Python version 0.6.0"
+"Generated automatically by TensorFlowBuilder, from TensorFlow Python version 0.8.0"
 #"TensorFlow, the TensorFlow logo and any related marks are trademarks of Google Inc.""
 module Tf
 using PyCall
@@ -7,6 +7,18 @@ using PyCall
 import TensorFlow.CoreTypes: *
 using TensorFlow.CoreTypes
 
+
+"""
+"""
+AttrValue() = tf.AttrValue(;Dict()...)
+export AttrValue
+          
+
+"""
+"""
+ConfigProto() = tf.ConfigProto(;Dict()...)
+export ConfigProto
+          
 
 """
 Creates a new `DataType`.
@@ -27,9 +39,30 @@ export DType
           
 
 """
+Create a new `DeviceSpec` object.
+
+    Args:
+      job: string.  Optional job name.
+      replica: int.  Optional replica index.
+      task: int.  Optional task index.
+      device_type: Optional device type string (e.g. "CPU" or "GPU")
+      device_index: int.  Optional device index.  If left
+        unspecified, device represents 'any' device_index.
+    """
+DeviceSpec(job::Any=nothing, replica::Any=nothing, task::Any=nothing, device_type::Any=nothing, device_index::Any=nothing) = tf.DeviceSpec(;Dict(:job=>job, :replica=>replica, :task=>task, :device_type=>device_type, :device_index=>device_index)...)
+export DeviceSpec
+          
+
+"""
 Creates a new Dimension with the given value."""
 Dimension(value::Any) = tf.Dimension(;Dict(:value=>value)...)
 export Dimension
+          
+
+"""
+"""
+Event() = tf.Event(;Dict()...)
+export Event
           
 
 """
@@ -77,9 +110,33 @@ export FixedLengthRecordReader
           
 
 """
+"""
+GPUOptions() = tf.GPUOptions(;Dict()...)
+export GPUOptions
+          
+
+"""
 Creates a new, empty Graph."""
 Graph() = tf.Graph(;Dict()...)
 export Graph
+          
+
+"""
+"""
+GraphDef() = tf.GraphDef(;Dict()...)
+export GraphDef
+          
+
+"""
+"""
+GraphOptions() = tf.GraphOptions(;Dict()...)
+export GraphOptions
+          
+
+"""
+"""
+HistogramProto() = tf.HistogramProto(;Dict()...)
+export HistogramProto
           
 
 """
@@ -121,16 +178,80 @@ export InteractiveSession
           
 
 """
+"""
+LogMessage() = tf.LogMessage(;Dict()...)
+export LogMessage
+          
+
+"""
+"""
+NameAttrList() = tf.NameAttrList(;Dict()...)
+export NameAttrList
+          
+
+"""
+"""
+NodeDef() = tf.NodeDef(;Dict()...)
+export NodeDef
+          
+
+"""
 Creates a new `OpError` indicating that a particular op failed.
 
     Args:
-      node_def: The `graph_pb2.NodeDef` proto representing the op that failed.
+      node_def: The `graph_pb2.NodeDef` proto representing the op that failed,
+        if known; otherwise None.
       op: The `ops.Operation` that failed, if known; otherwise None.
       message: The message string describing the failure.
       error_code: The `error_codes_pb2.Code` describing the error.
     """
 OpError(node_def::Any, op::Any, message::Any, error_code::Any) = tf.OpError(;Dict(:node_def=>node_def, :op=>op, :message=>message, :error_code=>error_code)...)
 export OpError
+          
+
+"""
+"""
+OptimizerOptions() = tf.OptimizerOptions(;Dict()...)
+export OptimizerOptions
+          
+
+"""
+Creates a queue that dequeues elements in a first-in first-out order.
+
+    A `PaddingFIFOQueue` has bounded capacity; supports multiple concurrent
+    producers and consumers; and provides exactly-once delivery.
+
+    A `PaddingFIFOQueue` holds a list of up to `capacity` elements. Each
+    element is a fixed-length tuple of tensors whose dtypes are
+    described by `dtypes`, and whose shapes are described by the `shapes`
+    argument.
+
+    The `shapes` argument must be specified; each component of a queue
+    element must have the respective shape.  Shapes of fixed
+    rank but variable size are allowed by setting any shape dimension to None.
+    In this case, the inputs' shape may vary along the given dimension, and
+    `dequeue_many` will pad the given dimension with zeros up to the maximum
+    shape of all elements in the given batch.
+
+    Args:
+      capacity: An integer. The upper bound on the number of elements
+        that may be stored in this queue.
+      dtypes:  A list of `DType` objects. The length of `dtypes` must equal
+        the number of tensors in each queue element.
+      shapes: A list of `TensorShape` objects, with the same length as
+        `dtypes`.  Any dimension in the `TensorShape` containing value
+        `None` is dynamic and allows values to be enqueued with
+         variable size in that dimension.
+      shared_name: (Optional.) If non-empty, this queue will be shared under
+        the given name across multiple sessions.
+      name: Optional name for the queue operation.
+
+    Raises:
+      ValueError: If shapes is not a list of shapes, or the lengths of dtypes
+        and shapes do not match.
+    """
+PaddingFIFOQueue(capacity::Any, dtypes::Any, shapes::Any, shared_name::Any=nothing, name::AbstractString="padding_fifo_queue") = tf.PaddingFIFOQueue(;Dict(:capacity=>capacity, :dtypes=>dtypes, :shapes=>shapes, :shared_name=>shared_name, :name=>name)...)
+export PaddingFIFOQueue
           
 
 """
@@ -223,6 +344,30 @@ export RegisterShape
           
 
 """
+"""
+RunMetadata() = tf.RunMetadata(;Dict()...)
+export RunMetadata
+          
+
+"""
+"""
+RunOptions() = tf.RunOptions(;Dict()...)
+export RunOptions
+          
+
+"""
+"""
+SessionLog() = tf.SessionLog(;Dict()...)
+export SessionLog
+          
+
+"""
+"""
+Summary() = tf.Summary(;Dict()...)
+export Summary
+          
+
+"""
 Create a TFRecordReader.
 
     Args:
@@ -256,6 +401,12 @@ export TextLineReader
           
 
 """
+Creates a new VariableScope with the given properties."""
+VariableScope(reuse::Any, name::AbstractString="", initializer::Any=nothing, regularizer::Any=nothing, caching_device::Any=nothing, partitioner::Any=nothing, name_scope::Any="") = tf.VariableScope(;Dict(:reuse=>reuse, :name=>name, :initializer=>initializer, :regularizer=>regularizer, :caching_device=>caching_device, :partitioner=>partitioner, :name_scope=>name_scope)...)
+export VariableScope
+          
+
+"""
 Create a WholeFileReader.
 
     Args:
@@ -271,11 +422,23 @@ Asserts that the given condition is true.
   If `condition` evaluates to false, print the list of tensors in `data`.
   `summarize` determines how many entries of the tensors to print.
 
+  NOTE: To ensure that Assert executes, one usually attaches a dependency:
+
+  ```python
+   # Ensure maximum element of x is smaller or equal to 1
+  assert_op = tf.Assert(tf.less_equal(tf.reduce_max(x), 1.), [x])
+  x = tf.with_dependencies([assert_op], x)
+  ```
+
   Args:
     condition: The condition to evaluate.
     data: The tensors to print out when condition is false.
     summarize: Print this many entries of each tensor.
     name: A name for this operation (optional).
+
+  Returns:
+    assert_op: An `Operation` that, when executed, raises a
+    `tf.errors.InvalidArgumentError` if `condition` is not true.
   """
 Assert(condition::Any, data::Union{AbstractTensor,Void}, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.Assert(;Dict(:condition=>condition, :data=>data, :summarize=>summarize, :name=>name)...)
 export Assert
@@ -358,7 +521,7 @@ Returns the element-wise sum of a list of tensors.
   For example:
 
   ```python
-  # tensor 'a' is [[1, 2], [3, 4]
+  # tensor 'a' is [[1, 2], [3, 4]]
   # tensor `b` is [[5, 0], [0, 6]]
   tf.accumulate_n([a, b, a]) ==> [[7, 4], [6, 14]]
 
@@ -390,7 +553,7 @@ Returns x + y element-wise.
   *NOTE*: Add supports broadcasting. AddN does not.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `uint8`, `int8`, `int16`, `int32`, `int64`, `complex64`, `string`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `uint8`, `int8`, `int16`, `int32`, `int64`, `complex64`, `string`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -420,7 +583,7 @@ export add_check_numerics_ops
 Add all input tensors element wise.
 
   Args:
-    inputs: A list of at least 1 `Tensor` objects of the same type in: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    inputs: A list of at least 1 `Tensor` objects of the same type in: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
       Must all be the same size and shape.
     name: A name for the operation (optional).
 
@@ -447,7 +610,7 @@ export add_to_collection
           
 
 """
-Returns all variables collected in the graph.
+Returns all variables that must be saved/restored.
 
   The `Variable()` constructor automatically adds new variables to the graph
   collection `GraphKeys.VARIABLES`. This convenience function returns the
@@ -464,7 +627,7 @@ export all_variables
 Returns the index with the largest value across dimensions of a tensor.
 
   Args:
-    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
     dimension: A `Tensor` of type `int32`.
       int32, 0 <= dimension < rank(input).  Describes which dimension
       of the input Tensor to reduce across. For vectors, use dimension = 0.
@@ -481,7 +644,7 @@ export arg_max
 Returns the index with the smallest value across dimensions of a tensor.
 
   Args:
-    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
     dimension: A `Tensor` of type `int32`.
       int32, 0 <= dimension < rank(input).  Describes which dimension
       of the input Tensor to reduce across. For vectors, use dimension = 0.
@@ -498,7 +661,7 @@ export arg_min
 Returns the index with the largest value across dimensions of a tensor.
 
   Args:
-    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
     dimension: A `Tensor` of type `int32`.
       int32, 0 <= dimension < rank(input).  Describes which dimension
       of the input Tensor to reduce across. For vectors, use dimension = 0.
@@ -515,7 +678,7 @@ export arg_max
 Returns the index with the smallest value across dimensions of a tensor.
 
   Args:
-    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
     dimension: A `Tensor` of type `int32`.
       int32, 0 <= dimension < rank(input).  Describes which dimension
       of the input Tensor to reduce across. For vectors, use dimension = 0.
@@ -534,7 +697,7 @@ Converts the given `type_value` to a `DType`.
   Args:
     type_value: A value that can be converted to a `tf.DType`
       object. This may currently be a `tf.DType` object, a
-      [`DataType` enum](https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/core/framework/types.proto),
+      [`DataType` enum](https://www.tensorflow.org/code/tensorflow/core/framework/types.proto),
       a string type name, or a `numpy.dtype`.
 
   Returns:
@@ -545,6 +708,175 @@ Converts the given `type_value` to a `DType`.
   """
 as_dtype(type_value::Any) = Dtype(tf.as_dtype(;Dict(:type_value=>type_value)...))
 export as_dtype
+          
+
+"""
+Assert the condition `x < y` holds element-wise.
+
+  This condition holds if for every pair of (possibly broadcast) elements
+  `x[i]`, `y[i]`, we have `x[i] < y[i]`.
+  If both `x` and `y` are empty, this is trivially satisfied.
+
+  Args:
+    x:  Numeric `Tensor`.
+    y:  Numeric `Tensor`, same dtype as and broadcastable to `x`.
+    data:  The tensors to print out if the condition is False.  Defaults to
+      error message and first few entries of `x`, `y`.
+    summarize: Print this many entries of each tensor.
+    name: A name for this operation (optional).  Defaults to "assert_less".
+
+  Returns:
+    Op that raises `InvalidArgumentError` if `x < y` is False.
+  """
+assert_less(x::Union{AbstractTensor,Void}, y::Union{AbstractTensor,Void}, data::Union{AbstractTensor,Void}=nothing, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Bool(tf.assert_less(;Dict(:x=>x, :y=>y, :data=>data, :summarize=>summarize, :name=>name)...))
+export assert_less
+          
+
+"""
+Assert the condition `x <= y` holds element-wise.
+
+  This condition holds if for every pair of (possibly broadcast) elements
+  `x[i]`, `y[i]`, we have `x[i] <= y[i]`.
+  If both `x` and `y` are empty, this is trivially satisfied.
+
+  Args:
+    x:  Numeric `Tensor`.
+    y:  Numeric `Tensor`, same dtype as and broadcastable to `x`.
+    data:  The tensors to print out if the condition is False.  Defaults to
+      error message and first few entries of `x`, `y`.
+    summarize: Print this many entries of each tensor.
+    name: A name for this operation (optional).  Defaults to "assert_less_equal"
+
+  Returns:
+    Op that raises `InvalidArgumentError` if `x <= y` is False.
+  """
+assert_less_equal(x::Union{AbstractTensor,Void}, y::Union{AbstractTensor,Void}, data::Union{AbstractTensor,Void}=nothing, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Bool(tf.assert_less_equal(;Dict(:x=>x, :y=>y, :data=>data, :summarize=>summarize, :name=>name)...))
+export assert_less_equal
+          
+
+"""
+Assert the condition `x < 0` holds element-wise.
+
+  Negative means, for every element `x[i]` of `x`, we have `x[i] < 0`.
+  If `x` is empty this is trivially satisfied.
+
+  Args:
+    x:  Numeric `Tensor`.
+    data:  The tensors to print out if the condition is False.  Defaults to
+      error message and first few entries of `x`.
+    summarize: Print this many entries of each tensor.
+    name: A name for this operation (optional).  Defaults to "assert_negative".
+
+  Returns:
+    Op raising `InvalidArgumentError` unless `x` is all negative.
+  """
+assert_negative(x::Union{AbstractTensor,Void}, data::Union{AbstractTensor,Void}=nothing, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assert_negative(;Dict(:x=>x, :data=>data, :summarize=>summarize, :name=>name)...)
+export assert_negative
+          
+
+"""
+Assert the condition `x >= 0` holds element-wise.
+
+  Non-negative means, for every element `x[i]` of `x`, we have `x[i] >= 0`.
+  If `x` is empty this is trivially satisfied.
+
+  Args:
+    x:  Numeric `Tensor`.
+    data:  The tensors to print out if the condition is False.  Defaults to
+      error message and first few entries of `x`.
+    summarize: Print this many entries of each tensor.
+    name: A name for this operation (optional).
+      Defaults to "assert_non_negative".
+
+  Returns:
+    Op raising `InvalidArgumentError` unless `x` is all non-negative.
+  """
+assert_non_negative(x::Union{AbstractTensor,Void}, data::Union{AbstractTensor,Void}=nothing, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assert_non_negative(;Dict(:x=>x, :data=>data, :summarize=>summarize, :name=>name)...)
+export assert_non_negative
+          
+
+"""
+Assert the condition `x <= 0` holds element-wise.
+
+  Non-positive means, for every element `x[i]` of `x`, we have `x[i] <= 0`.
+  If `x` is empty this is trivially satisfied.
+
+  Args:
+    x:  Numeric `Tensor`.
+    data:  The tensors to print out if the condition is False.  Defaults to
+      error message and first few entries of `x`.
+    summarize: Print this many entries of each tensor.
+    name: A name for this operation (optional).
+      Defaults to "assert_non_positive".
+
+  Returns:
+    Op raising `InvalidArgumentError` unless `x` is all non-positive.
+  """
+assert_non_positive(x::Union{AbstractTensor,Void}, data::Union{AbstractTensor,Void}=nothing, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assert_non_positive(;Dict(:x=>x, :data=>data, :summarize=>summarize, :name=>name)...)
+export assert_non_positive
+          
+
+"""
+Assert the condition `x > 0` holds element-wise.
+
+  Positive means, for every element `x[i]` of `x`, we have `x[i] > 0`.
+  If `x` is empty this is trivially satisfied.
+
+  Args:
+    x:  Numeric `Tensor`.
+    data:  The tensors to print out if the condition is False.  Defaults to
+      error message and first few entries of `x`.
+    summarize: Print this many entries of each tensor.
+    name: A name for this operation (optional).  Defaults to "assert_negative".
+
+  Returns:
+    Op raising `InvalidArgumentError` unless `x` is all positive.
+  """
+assert_positive(x::Union{AbstractTensor,Void}, data::Union{AbstractTensor,Void}=nothing, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assert_positive(;Dict(:x=>x, :data=>data, :summarize=>summarize, :name=>name)...)
+export assert_positive
+          
+
+"""
+Assert `x` has rank equal to `rank`.
+
+  Args:
+    x:  Numeric `Tensor`.
+    rank:  Scalar `Tensor`.
+    data:  The tensors to print out if the condition is False.  Defaults to
+      error message and first few entries of `x`.
+    summarize: Print this many entries of each tensor.
+    name: A name for this operation (optional).  Defaults to "assert_rank".
+
+  Returns:
+    Op raising `InvalidArgumentError` unless `x` has specified rank.
+
+  Raises:
+    ValueError:  If static checks determine `x` has wrong rank.
+  """
+assert_rank(x::Union{AbstractTensor,Void}, rank_::Union{AbstractTensor,Void}, data::Union{AbstractTensor,Void}=nothing, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assert_rank(;Dict(:x=>x, :rank=>rank_, :data=>data, :summarize=>summarize, :name=>name)...)
+export assert_rank
+          
+
+"""
+Assert `x` has rank equal to `rank` or higher.
+
+  Args:
+    x:  Numeric `Tensor`.
+    rank:  Scalar `Tensor`.
+    data:  The tensors to print out if the condition is False.  Defaults to
+      error message and first few entries of `x`.
+    summarize: Print this many entries of each tensor.
+    name: A name for this operation (optional).
+      Defaults to "assert_rank_at_least".
+
+  Returns:
+    Op raising `InvalidArgumentError` unless `x` has specified rank or higher.
+
+  Raises:
+    ValueError:  If static checks determine `x` has wrong rank.
+  """
+assert_rank_at_least(x::Union{AbstractTensor,Void}, rank_::Union{AbstractTensor,Void}, data::Union{AbstractTensor,Void}=nothing, summarize::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assert_rank_at_least(;Dict(:x=>x, :rank=>rank_, :data=>data, :summarize=>summarize, :name=>name)...)
+export assert_rank_at_least
           
 
 """
@@ -603,7 +935,7 @@ Update 'ref' by adding 'value' to it.
   This makes it easier to chain operations that need to use the reset value.
 
   Args:
-    ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
       Should be from a `Variable` node.
     value: A `Tensor`. Must have the same type as `ref`.
       The value to be added to the variable.
@@ -627,7 +959,7 @@ Update 'ref' by subtracting 'value' from it.
   This makes it easier to chain operations that need to use the reset value.
 
   Args:
-    ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
       Should be from a `Variable` node.
     value: A `Tensor`. Must have the same type as `ref`.
       The value to be subtracted to the variable.
@@ -642,6 +974,41 @@ Update 'ref' by subtracting 'value' from it.
   """
 assign_sub(ref::Union{AbstractTensor,Void}, value::Union{AbstractTensor,Void}, use_locking::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = tf.assign_sub(;Dict(:ref=>ref, :value=>value, :use_locking=>use_locking, :name=>name)...)
 export assign_sub
+          
+
+"""
+Outputs a `Summary` protocol buffer with audio.
+
+  The summary has up to `max_outputs` summary values containing audio. The
+  audio is built from `tensor` which must be 3-D with shape `[batch_size,
+  frames, channels]` or 2-D with shape `[batch_size, frames]`. The values are
+  assumed to be in the range of `[-1.0, 1.0]` with a sample rate of
+  `sample_rate`.
+
+  The `tag` argument is a scalar `Tensor` of type `string`.  It is used to
+  build the `tag` of the summary values:
+
+  *  If `max_outputs` is 1, the summary value tag is '*tag*/audio'.
+  *  If `max_outputs` is greater than 1, the summary value tags are
+     generated sequentially as '*tag*/audio/0', '*tag*/audio/1', etc.
+
+  Args:
+    tag: A scalar `Tensor` of type `string`. Used to build the `tag`
+      of the summary values.
+    tensor: A 3-D `float32` `Tensor` of shape `[batch_size, frames, channels]`
+      or a 2-D `float32` `Tensor` of shape `[batch_size, frames]`.
+    sample_rate: The sample rate of the signal in hertz.
+    max_outputs: Max number of batch elements to generate audio for.
+    collections: Optional list of ops.GraphKeys.  The collections to add the
+      summary to.  Defaults to [ops.GraphKeys.SUMMARIES]
+    name: A name for the operation (optional).
+
+  Returns:
+    A scalar `Tensor` of type `string`. The serialized `Summary` protocol
+    buffer.
+  """
+audio_summary(tag::Union{AbstractTensor,Void}, tensor::Union{AbstractTensor,Void}, sample_rate::Any, max_outputs::Any=3, collections::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.audio_summary(;Dict(:tag=>tag, :tensor=>tensor, :sample_rate=>sample_rate, :max_outputs=>max_outputs, :collections=>collections, :name=>name)...))
+export audio_summary
           
 
 """
@@ -662,6 +1029,114 @@ Calculates the Cholesky decomposition of a batch of square matrices.
   """
 batch_cholesky(input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_cholesky(;Dict(:input=>input, :name=>name)...))
 export batch_cholesky
+          
+
+"""
+Compute the 1-dimensional discrete Fourier Transform over the inner-most
+
+  dimension of `in`.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`.
+    A complex64 tensor of the same shape as `in`. The inner-most dimension of
+    `in` is replaced with its 1D Fourier Transform.
+  """
+batch_fft(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_fft(;Dict(:in_=>in_, :name=>name)...))
+export batch_fft
+          
+
+"""
+Compute the 2-dimensional discrete Fourier Transform over the inner-most
+
+  2 dimensions of `in`.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`.
+    A complex64 tensor of the same shape as `in`. The inner-most 2 dimensions
+    of `in` are replaced with their 2D Fourier Transform.
+  """
+batch_fft2d(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_fft2d(;Dict(:in_=>in_, :name=>name)...))
+export batch_fft2d
+          
+
+"""
+Compute the 3-dimensional discrete Fourier Transform over the inner-most 3
+
+  dimensions of `in`.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`.
+    A complex64 tensor of the same shape as `in`. The inner-most 3 dimensions
+    of `in` are replaced with their 3D Fourier Transform.
+  """
+batch_fft3d(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_fft3d(;Dict(:in_=>in_, :name=>name)...))
+export batch_fft3d
+          
+
+"""
+Compute the inverse 1-dimensional discrete Fourier Transform over the inner-most
+
+  dimension of `in`.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`.
+    A complex64 tensor of the same shape as `in`. The inner-most dimension of
+    `in` is replaced with its inverse 1D Fourier Transform.
+  """
+batch_ifft(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_ifft(;Dict(:in_=>in_, :name=>name)...))
+export batch_ifft
+          
+
+"""
+Compute the inverse 2-dimensional discrete Fourier Transform over the inner-most
+
+  2 dimensions of `in`.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`.
+    A complex64 tensor of the same shape as `in`. The inner-most 2 dimensions
+    of `in` are replaced with their inverse 2D Fourier Transform.
+  """
+batch_ifft2d(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_ifft2d(;Dict(:in_=>in_, :name=>name)...))
+export batch_ifft2d
+          
+
+"""
+Compute the inverse 3-dimensional discrete Fourier Transform over the inner-most
+
+  3 dimensions of `in`.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`.
+    A complex64 tensor of the same shape as `in`. The inner-most 3 dimensions
+    of `in` are replaced with their inverse 3D Fourier Transform.
+  """
+batch_ifft3d(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_ifft3d(;Dict(:in_=>in_, :name=>name)...))
+export batch_ifft3d
           
 
 """
@@ -706,6 +1181,66 @@ export _batch_mat_mul
           
 
 """
+Copy a tensor setting everything outside a central band in each innermost matrix
+
+  to zero.
+
+  The `band` part is computed as follows:
+  Assume `input` has `k` dimensions `[I, J, K, ..., M, N]`, then the output is a
+  tensor with the same shape where
+
+  `band[i, j, k, ..., m, n] = in_band(m, n) * input[i, j, k, ..., m, n]`.
+
+  The indicator function 'in_band(m, n)` is one if
+  `(num_lower < 0 || (m-n) <= num_lower)) &&
+  (num_upper < 0 || (n-m) <= num_upper)`, and zero otherwise.
+
+  For example:
+
+  ```prettyprint
+  # if 'input' is [[ 0,  1,  2, 3]
+                   [-1,  0,  1, 2]
+                   [-2, -1,  0, 1]
+                   [-3, -2, -1, 0]],
+
+  tf.batch_matrix_band_part(input, 1, -1) ==> [[ 0,  1,  2, 3]
+                                               [-1,  0,  1, 2]
+                                               [ 0, -1,  0, 1]
+                                               [ 0,  0, -1, 0]],
+
+  tf.batch_matrix_band_part(input, 2, 1) ==> [[ 0,  1,  0, 0]
+                                              [-1,  0,  1, 0]
+                                              [-2, -1,  0, 1]
+                                              [ 0, -2, -1, 0]]
+  ```
+
+  Useful special cases:
+
+  ```prettyprint
+   tf.batch_matrix_band_part(input, 0, -1) ==> Upper triangular part.
+   tf.batch_matrix_band_part(input, -1, 0) ==> Lower triangular part.
+   tf.batch_matrix_band_part(input, 0, 0) ==> Diagonal.
+  ```
+
+  Args:
+    input: A `Tensor`. Rank `k` tensor.
+    num_lower: A `Tensor` of type `int64`.
+      0-D tensor. Number of subdiagonals to keep. If negative, keep entire
+      lower triangle.
+    num_upper: A `Tensor` of type `int64`.
+      0-D tensor. Number of superdiagonals to keep. If negative, keep
+      entire upper triangle.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `input`.
+    Rank `k` tensor of the same shape as input. The extracted banded tensor.
+  """
+batch_matrix_band_part(input::Union{AbstractTensor,Void}, num_lower::Union{Int64,Void}, num_upper::Union{Int64,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_matrix_band_part(;Dict(:input=>input, :num_lower=>num_lower, :num_upper=>num_upper, :name=>name)...))
+export batch_matrix_band_part
+          
+
+"""
 Calculates the determinants for a batch of square matrices.
 
   The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
@@ -725,29 +1260,240 @@ export batch_matrix_determinant
           
 
 """
-Calculates the inverse of square invertible matrices.
+Returns a batched diagonal tensor with a given batched diagonal values.
+
+  Given a `diagonal`, this operation returns a tensor with the `diagonal` and
+  everything else padded with zeros. The diagonal is computed as follows:
+
+  Assume `diagonal` has `k` dimensions `[I, J, K, ..., N]`, then the output is a
+  tensor of rank `k+1` with dimensions [I, J, K, ..., N, N]` where:
+
+  `output[i, j, k, ..., m, n] = 1{m=n} * diagonal[i, j, k, ..., n]`.
+
+  For example:
+
+  ```prettyprint
+  # 'diagonal' is [[1, 2, 3, 4], [5, 6, 7, 8]]
+
+  and diagonal.shape = (2, 4)
+
+  tf.batch_matrix_diag(diagonal) ==> [[[1, 0, 0, 0]
+                                       [0, 2, 0, 0]
+                                       [0, 0, 3, 0]
+                                       [0, 0, 0, 4]],
+                                      [[5, 0, 0, 0]
+                                       [0, 6, 0, 0]
+                                       [0, 0, 7, 0]
+                                       [0, 0, 0, 8]]]
+
+  which has shape (2, 4, 4)
+  ```
+
+  Args:
+    diagonal: A `Tensor`. Rank `k`, where `k >= 1`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `diagonal`.
+    Rank `k+1`, with `output.shape = diagonal.shape + [diagonal.shape[-1]]`.
+  """
+batch_matrix_diag(diagonal::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_matrix_diag(;Dict(:diagonal=>diagonal, :name=>name)...))
+export batch_matrix_diag
+          
+
+"""
+Returns the batched diagonal part of a batched tensor.
+
+  This operation returns a tensor with the `diagonal` part
+  of the batched `input`. The `diagonal` part is computed as follows:
+
+  Assume `input` has `k` dimensions `[I, J, K, ..., N, N]`, then the output is a
+  tensor of rank `k - 1` with dimensions `[I, J, K, ..., N]` where:
+
+  `diagonal[i, j, k, ..., n] = input[i, j, k, ..., n, n]`.
+
+  The input must be at least a matrix.
+
+  For example:
+
+  ```prettyprint
+  # 'input' is [[[1, 0, 0, 0]
+                 [0, 2, 0, 0]
+                 [0, 0, 3, 0]
+                 [0, 0, 0, 4]],
+                [[5, 0, 0, 0]
+                 [0, 6, 0, 0]
+                 [0, 0, 7, 0]
+                 [0, 0, 0, 8]]]
+
+  and input.shape = (2, 4, 4)
+
+  tf.batch_matrix_diag_part(input) ==> [[1, 2, 3, 4], [5, 6, 7, 8]]
+
+  which has shape (2, 4)
+  ```
+
+  Args:
+    input: A `Tensor`.
+      Rank `k` tensor where `k >= 2` and the last two dimensions are equal.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `input`.
+    The extracted diagonal(s) having shape
+    `diagonal.shape = input.shape[:-1]`.
+  """
+batch_matrix_diag_part(input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_matrix_diag_part(;Dict(:input=>input, :name=>name)...))
+export batch_matrix_diag_part
+          
+
+"""
+Calculates the inverse of square invertible matrices or their adjoints
+
+  (conjugate transposes).
 
   The input is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
   form square matrices. The output is a tensor of the same shape as the input
   containing the inverse for all input submatrices `[..., :, :]`.
 
-  The op uses the Cholesky decomposition if the matrices are symmetric positive
-  definite and LU decomposition with partial pivoting otherwise.
+  The op uses LU decomposition with partial pivoting to compute the inverses.
 
   If a matrix is not invertible there is no guarantee what the op does. It
   may detect the condition and raise an exception or it may simply return a
   garbage result.
 
   Args:
-    input: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    input: A `Tensor`. Must be one of the following types: `float64`, `float32`.
       Shape is `[..., M, M]`.
+    adjoint: An optional `bool`. Defaults to `False`.
     name: A name for the operation (optional).
 
   Returns:
     A `Tensor`. Has the same type as `input`. Shape is `[..., M, M]`.
   """
-batch_matrix_inverse(input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_matrix_inverse(;Dict(:input=>input, :name=>name)...))
+batch_matrix_inverse(input::Union{AbstractTensor,Void}, adjoint::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_matrix_inverse(;Dict(:input=>input, :adjoint=>adjoint, :name=>name)...))
 export batch_matrix_inverse
+          
+
+"""
+Solves systems of linear equations. Checks for invertibility.
+
+  Matrix is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions
+  form square matrices. Rhs is a tensor of shape
+  `[..., M, K]`. The output is a tensor shape `[..., M, K]`.  If `adjoint` is `False` then each output
+  matrix satisfies `matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]`.
+  If `adjoint` is `True` then each output
+  matrix satisfies `adjoint(matrix[..., :, :]) * output[..., :, :] = rhs[..., :, :]`.
+
+  Args:
+    matrix: A `Tensor`. Must be one of the following types: `float64`, `float32`.
+      Shape is `[..., M, M]`.
+    rhs: A `Tensor`. Must have the same type as `matrix`.
+      Shape is `[..., M, K]`.
+    adjoint: An optional `bool`. Defaults to `False`.
+      Boolean indicating whether to solve with `matrix` or its (block-wise)
+      adjoint.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `matrix`. Shape is `[..., M, K]`.
+  """
+batch_matrix_solve(matrix::Union{AbstractTensor,Void}, rhs::Union{AbstractTensor,Void}, adjoint::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_matrix_solve(;Dict(:matrix=>matrix, :rhs=>rhs, :adjoint=>adjoint, :name=>name)...))
+export batch_matrix_solve
+          
+
+"""
+Solves multiple linear least-squares problems.
+
+  `matrix` is a tensor of shape `[..., M, N]` whose inner-most 2 dimensions
+  form `M`-by-`N` matrices. Rhs is a tensor of shape `[..., M, K]` whose
+  inner-most 2 dimensions form `M`-by-`K` matrices.   The computed output is a
+  `Tensor` of shape `[..., N, K]` whose inner-most 2 dimensions form `M`-by-`K`
+  matrices that solve the equations
+  `matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]` in the least squares
+  sense.
+
+  Below we will use the following notation for each pair of
+  matrix and right-hand sides in the batch:
+
+  `matrix`=\\(A \in \Re^{m \times n}\\),
+  `rhs`=\\(B  \in \Re^{m \times k}\\),
+  `output`=\\(X  \in \Re^{n \times k}\\),
+  `l2_regularizer`=\\(\lambda\\).
+
+  If `fast` is `True`, then the solution is computed by solving the normal
+  equations using Cholesky decomposition. Specifically, if \\(m \ge n\\) then
+  \\(X = (A^T A + \lambda I)^{-1} A^T B\\), which solves the least-squares
+  problem \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k}} ||A Z - B||_F^2 +
+  \lambda ||Z||_F^2\\). If \\(m \lt n\\) then `output` is computed as
+  \\(X = A^T (A A^T + \lambda I)^{-1} B\\), which (for \\(\lambda = 0\\)) is
+  the minimum-norm solution to the under-determined linear system, i.e.
+  \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k}} ||Z||_F^2 \\), subject to
+  \\(A Z = B\\). Notice that the fast path is only numerically stable when
+  \\(A\\) is numerically full rank and has a condition number
+  \\(\mathrm{cond}(A) \lt \frac{1}{\sqrt{\epsilon_{mach}}}\\) or\\(\lambda\\)
+  is sufficiently large.
+
+  If `fast` is `False` an algorithm based on the numerically robust complete
+  orthogonal decomposition is used. This computes the minimum-norm
+  least-squares solution, even when \\(A\\) is rank deficient. This path is
+  typically 6-7 times slower than the fast path. If `fast` is `False` then
+  `l2_regularizer` is ignored.
+
+  Args:
+    matrix: `Tensor` of shape `[..., M, N]`.
+    rhs: `Tensor` of shape `[..., M, K]`.
+    l2_regularizer: 0-D `double` `Tensor`. Ignored if `fast=False`.
+    fast: bool. Defaults to `True`.
+    name: string, optional name of the operation.
+
+  Returns:
+    output: `Tensor` of shape `[..., N, K]` whose inner-most 2 dimensions form
+      `M`-by-`K` matrices that solve the equations
+      `matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]` in the least
+      squares sense.
+  """
+batch_matrix_solve_ls(matrix::Union{AbstractTensor,Void}, rhs::Union{AbstractTensor,Void}, l2_regularizer::AbstractTensor=0.0, fast::Any=true, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_matrix_solve_ls(;Dict(:matrix=>matrix, :rhs=>rhs, :l2_regularizer=>l2_regularizer, :fast=>fast, :name=>name)...))
+export batch_matrix_solve_ls
+          
+
+"""
+Solves systems of linear equations with upper or lower triangular matrices by
+
+  backsubstitution.
+
+  `matrix` is a tensor of shape `[..., M, M]` whose inner-most 2 dimensions form
+  square matrices. If `lower` is `True` then the strictly upper triangular part
+  of each inner-most matrix is assumed to be zero and not accessed.
+  If `lower` is False then the strictly lower triangular part of each inner-most
+  matrix is assumed to be zero and not accessed.
+  `rhs` is a tensor of shape [..., M, K]`.
+
+  The output is a tensor of shape `[..., M, K]`. If `adjoint` is `True` then the
+  innermost matrices in output` satisfy matrix equations
+  `matrix[..., :, :] * output[..., :, :] = rhs[..., :, :]`.
+  If `adjoint` is `False` then the strictly then the  innermost matrices in
+  `output` satisfy matrix equations
+  `adjoint(matrix[..., i, k]) * output[..., k, j] = rhs[..., i, j]`.
+
+  Args:
+    matrix: A `Tensor`. Must be one of the following types: `float64`, `float32`.
+      Shape is `[..., M, M]`.
+    rhs: A `Tensor`. Must have the same type as `matrix`.
+      Shape is `[..., M, K]`.
+    lower: An optional `bool`. Defaults to `True`.
+      Boolean indicating whether the innermost matrices in `matrix` are
+      lower or upper triangular.
+    adjoint: An optional `bool`. Defaults to `False`.
+      Boolean indicating whether to solve with `matrix` or its (block-wise)
+      adjoint.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `matrix`. Shape is `[..., M, K]`.
+  """
+batch_matrix_triangular_solve(matrix::Union{AbstractTensor,Void}, rhs::Union{AbstractTensor,Void}, lower::Union{Bool,Void}=nothing, adjoint::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_matrix_triangular_solve(;Dict(:matrix=>matrix, :rhs=>rhs, :lower=>lower, :adjoint=>adjoint, :name=>name)...))
+export batch_matrix_triangular_solve
           
 
 """
@@ -770,6 +1516,181 @@ Calculates the Eigen Decomposition of a batch of square self-adjoint matrices.
   """
 batch_self_adjoint_eig(input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_self_adjoint_eig(;Dict(:input=>input, :name=>name)...))
 export batch_self_adjoint_eig
+          
+
+"""
+BatchToSpace for 4-D tensors of type T.
+
+  Rearranges (permutes) data from batch into blocks of spatial data, followed by
+  cropping. This is the reverse transformation of SpaceToBatch. More specifically,
+  this op outputs a copy of the input tensor where values from the `batch`
+  dimension are moved in spatial blocks to the `height` and `width` dimensions,
+  followed by cropping along the `height` and `width` dimensions.
+
+  Args:
+    input: A `Tensor`. 4-D tensor with shape
+      `[batch*block_size*block_size, height_pad/block_size, width_pad/block_size,
+        depth]`. Note that the batch size of the input tensor must be divisible by
+      `block_size * block_size`.
+    crops: A `Tensor` of type `int32`.
+      2-D tensor of non-negative integers with shape `[2, 2]`. It specifies
+      how many elements to crop from the intermediate result across the spatial
+      dimensions as follows:
+
+          crops = [[crop_top, crop_bottom], [crop_left, crop_right]]
+    block_size: An `int`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `input`.
+    4-D with shape `[batch, height, width, depth]`, where:
+
+          height = height_pad - crop_top - crop_bottom
+          width = width_pad - crop_left - crop_right
+
+    The attr `block_size` must be greater than one. It indicates the block size.
+  """
+batch_to_space(input::Union{AbstractTensor,Void}, crops::Union{AbstractTensor,Void}, block_size::Union{Int64,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.batch_to_space(;Dict(:input=>input, :crops=>crops, :block_size=>block_size, :name=>name)...))
+export batch_to_space
+          
+
+"""
+Bitcasts a tensor from one type to another without copying data.
+
+  Given a tensor `input`, this operation returns a tensor that has the same buffer
+  data as `input` with datatype `type`.
+
+  If the input datatype `T` is larger than the output datatype `type` then the
+  shape changes from [...] to [..., sizeof(`T`)/sizeof(`type`)].
+
+  If `T` is smaller than `type`, the operator requires that the rightmost
+  dimension be equal to sizeof(`type`)/sizeof(`T`). The shape then goes from
+  [..., sizeof(`type`)/sizeof(`T`)] to [...].
+
+  Args:
+    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
+    type: A `tf.DType` from: `tf.float32, tf.float64, tf.int64, tf.int32, tf.uint8, tf.uint16, tf.int16, tf.int8, tf.complex64, tf.complex128, tf.qint8, tf.quint8, tf.qint32, tf.half`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `type`.
+  """
+bitcast(input::Union{AbstractTensor,Void}, type_::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf.bitcast(;Dict(:input=>input, :type=>type_, :name=>name)...))
+export bitcast
+          
+
+"""
+Apply boolean mask to tensor.  Numpy equivalent is `tensor[mask]`.
+
+  ```python
+  # 1-D example
+  tensor = [0, 1, 2, 3]
+  mask = [True, False, True, False]
+  boolean_mask(tensor, mask) ==> [0, 2]
+  ```
+
+  In general, `0 < dim(mask) = K <= dim(tensor)`, and `mask`'s shape must match
+  the first K dimensions of `tensor`'s shape.  We then have:
+    `boolean_mask(tensor, mask)[i, j1,...,jd] = tensor[i1,...,iK,j1,...,jd]`
+  where `(i1,...,iK)` is the ith `True` entry of `mask` (row-major order).
+
+  Args:
+    tensor:  N-D tensor.  First K dimensions can be None, which allows e.g.
+      undefined batch size.  Trailing dimensions must be specified.
+    mask:  K-D boolean tensor, K <= N.
+    name:  A name for this operation (optional).
+
+  Returns:
+    Tensor populated by entries in `tensor` corresponding to `True` values in
+      `mask`.
+
+  Raises:
+    ValueError:  If shapes do not conform.
+
+  Examples:
+
+  ```python
+  # 2-D example
+  a = [[1, 2], [3, 4], [5, 6]]
+  mask = [True, False, True]
+  boolean_mask(tensor, mask) ==> [[1, 2], [5, 6]]
+  ```
+  """
+boolean_mask(tensor::Union{AbstractTensor,Void}, mask::Union{AbstractTensor,Void}, name::AbstractString="boolean_mask") = Tensor(tf.boolean_mask(;Dict(:tensor=>tensor, :mask=>mask, :name=>name)...))
+export boolean_mask
+          
+
+"""
+Create a case operation.
+
+  The `pred_fn_pairs` parameter is a dict or list of pairs of size N.
+  Each pair contains a boolean scalar tensor and a python callable that
+  creates the tensors to be returned if the boolean evaluates to True.
+  `default` is a callable generating a list of tensors. All the callables
+  in `pred_fn_pairs` as well as `default` should return the same number
+  and types of tensors.
+
+  If `exclusive==True`, all predicates are evaluated, and a logging operation
+  with an error is returned if more than one of the predicates evaluates to
+  True. If `exclusive==False`, execution stops are the first predicate which
+  evaluates to True, and the tensors generated by the corresponding function
+  are returned immediately. If none of the predicates evaluate to True, this
+  operation returns the tensors generated by `default`.
+
+  Example 1:
+    Pseudocode:
+    ```
+      if (x < y) return 17;
+      else return 23;
+    ```
+
+    Expressions:
+    ```
+      f1 = lambda: tf.constant(17)
+      f2 = lambda: tf.constant(23)
+      r = case([(tf.less(x, y), f1)], default=f2)
+    ```
+
+  Example 2:
+    Pseudocode:
+    ```
+      if (x < y && x > z) raise OpError("Only one predicate may evaluate true");
+      if (x < y) return 17;
+      else if (x > z) return 23;
+      else return -1;
+    ```
+
+    Expressions:
+    ```
+      x = tf.constant(0)
+      y = tf.constant(1)
+      z = tf.constant(2)
+      def f1(): return tf.constant(17)
+      def f2(): return tf.constant(23)
+      def f3(): return tf.constant(-1)
+      r = case({tf.less(x, y): f1, tf.greater(x, z): f2},
+               default=f3, exclusive=True)
+    ```
+
+  Args:
+    pred_fn_pairs: Dict or list of pairs of a boolean scalar tensor and a
+                   callable which returns a list of tensors.
+    default: A callable that returns a list of tensors.
+    exclusive: True iff more than one predicate is allowed to evaluate to True.
+    name: A name for this operation (optional).
+
+  Returns:
+    The tensors returned by the first pair whose predicate evaluated to True, or
+    those returned by `default` if none does.
+
+  Raises:
+    TypeError: If `pred_fn_pairs` is not a list/dictionary.
+    TypeError: If `pred_fn_pairs` is a list but does not contain 2-tuples.
+    TypeError: If `fns[i]` is not callable for any i, or `default` is not
+               callable.
+  """
+case(pred_fn_pairs::Union{AbstractTensor,Void}, default::Union{AbstractTensor,Void}, exclusive::Bool=false, name::AbstractString="case") = Tensor(tf.case(;Dict(:pred_fn_pairs=>pred_fn_pairs, :default=>default, :exclusive=>exclusive, :name=>name)...))
+export case
           
 
 """
@@ -804,7 +1725,7 @@ export cast
 Returns element-wise smallest integer in not less than x.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -906,8 +1827,8 @@ Clips values of multiple tensors by the ratio of the sum of their norms.
   Any of the entries of `t_list` that are of type `None` are ignored.
 
   This is the correct way to perform gradient clipping (for example, see
-  R. Pascanu, T. Mikolov, and Y. Bengio, "On the difficulty of training
-  Recurrent Neural Networks".  http://arxiv.org/abs/1211.5063)
+  [Pascanu et al., 2012](http://arxiv.org/abs/1211.5063)
+  ([pdf](http://arxiv.org/pdf/1211.5063.pdf))).
 
   However, it is slower than `clip_by_norm()` because all the parameters must be
   ready before the clipping operation can be performed.
@@ -1082,6 +2003,58 @@ export concat
           
 
 """
+Return either fn1() or fn2() based on the boolean predicate `pred`.
+
+  `fn1` and `fn2` both return lists of output tensors. `fn1` and `fn2` must have
+  the same non-zero number and type of outputs.
+
+  Note that the conditional execution applies only to the operations defined in
+  fn1 and fn2. Consider the following simple program:
+
+  ```python
+  z = tf.mul(a, b)
+  result = tf.cond(x < y, lambda: tf.add(x, z), lambda: tf.square(y))
+  ```
+
+  If x < y, the tf.add operation will be executed and tf.square
+  operation will not be executed. Since z is needed for at least one
+  branch of the cond, the tf.mul operation is always executed, unconditionally.
+  Although this behavior is consistent with the dataflow model of TensorFlow,
+  it has occasionally surprised some users who expected a lazier semantics.
+
+  Args:
+    pred: A scalar determining whether to return the result of `fn1` or `fn2`.
+    fn1: The callable to be performed if pred is true.
+    fn2: The callable to be performed if pref is false.
+    name: Optional name prefix for the returned tensors.
+
+  Returns:
+    Tensors returned by the call to either `fn1` or `fn2`. If the callables
+    return a singleton list, the element is extracted from the list.
+
+  Raises:
+    TypeError: if `fn1` or `fn2` is not callable.
+    ValueError: if `fn1` and `fn2` do not return the same number of tensors, or
+                return tensors of different types.
+
+  Example:
+
+  ```python
+    x = tf.constant(2)
+    y = tf.constant(5)
+    def f1(): return tf.mul(x, 17)
+    def f2(): return tf.add(y, 23)
+    r = cond(tf.less(x, y), f1, f2)
+    # r is set to f1().
+    # Operations in f2 (e.g., tf.add) are not executed.
+  ```
+
+  """
+cond_(pred::Any, fn1::Any, fn2::Any, name::Union{AbstractString,Void}=nothing) = Tensor(tf.cond(;Dict(:pred=>pred, :fn1=>fn1, :fn2=>fn2, :name=>name)...))
+export cond_
+          
+
+"""
 Returns the complex conjugate of a complex number.
 
   Given a tensor `in` of complex numbers, this operation returns a tensor of
@@ -1123,9 +2096,8 @@ Creates a constant tensor.
    elements specified by `shape`, the last element in the list will be used
    to fill the remaining entries.
 
-   The argument `shape` is optional. If present, it specifies the dimensions
-   of the resulting tensor. If not present, then the tensor is a scalar (0-D)
-   if `value` is a scalar, or 1-D otherwise.
+   The argument `shape` is optional. If present, it specifies the dimensions of
+   the resulting tensor. If not present, the shape of `value` is used.
 
    If the argument `dtype` is not specified, then the type is inferred from
    the type of `value`.
@@ -1204,7 +2176,6 @@ Converts the given `value` to a `Tensor`.
 
   ```python
   import numpy as np
-  array = np.random.rand(32, 100, 100)
 
   def my_func(arg):
     arg = tf.convert_to_tensor(arg, dtype=tf.float32)
@@ -1244,20 +2215,20 @@ export convert_to_tensor
 """
 Converts the given object to a `Tensor` or an `IndexedSlices`.
 
-  If `value` is an `IndexedSlices` it is returned
+  If `value` is an `IndexedSlices` or `SparseTensor` it is returned
   unmodified. Otherwise, it is converted to a `Tensor` using
   `convert_to_tensor()`.
 
   Args:
-    value: An `IndexedSlices` or an object that can be consumed by
-      `convert_to_tensor()`.
+    value: An `IndexedSlices`, `SparseTensor`, or an object that can be consumed
+      by `convert_to_tensor()`.
     dtype: (Optional.) The required `DType` of the returned `Tensor` or
       `IndexedSlices`.
     name: (Optional.) A name to use if a new `Tensor` is created.
     as_ref: True if the caller wants the results as ref tensors.
 
   Returns:
-    An `Tensor` or an `IndexedSlices` based on `value`.
+    An `Tensor`, `IndexedSlices`, or `SparseTensor` based on `value`.
 
   Raises:
     ValueError: If `dtype` does not match the element type of `value`.
@@ -1270,7 +2241,7 @@ export convert_to_tensor_or_indexed_slices
 Computes cos of x element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -1304,6 +2275,74 @@ export count_up_to
           
 
 """
+Create a list of partitioned variables according to the given `slicing`.
+
+  Currently only one dimension of the full variable can be sliced, and the
+  full variable can be reconstructed by the concatenation of the returned
+  list along that dimension.
+
+  Args:
+    shape: List of integers.  The shape of the full variable.
+    slicing: List of integers.  How to partition the variable.
+      Must be of the same length as `shape`.  Each value
+      indicate how many slices to create in the corresponding
+      dimension.  Presently only one of the values can be more than 1;
+      that is, the variable can only be sliced along one dimension.
+
+      For convenience, The requested number of partitions does not have to
+      divide the corresponding dimension evenly.  If it does not, the
+      shapes of the partitions are incremented by 1 starting from partition
+      0 until all slack is absorbed.  The adjustment rules may change in the
+      future, but as you can save/restore these variables with different
+      slicing specifications this should not be a problem.
+    initializer: A `Tensor` of shape `shape` or a variable initializer
+      function.  If a function, it will be called once for each slice,
+      passing the shape and data type of the slice as parameters.  The
+      function must return a tensor with the same shape as the slice.
+    dtype: Type of the variables. Ignored if `initializer` is a `Tensor`.
+    trainable: If True also add all the variables to the graph collection
+      `GraphKeys.TRAINABLE_VARIABLES`.
+    collections: List of graph collections keys to add the variables to.
+      Defaults to `[GraphKeys.VARIABLES]`.
+    name: Optional name for the full variable.  Defaults to
+      `"PartitionedVariable"` and gets uniquified automatically.
+    reuse: Boolean or `None`; if `True` and name is set, it would reuse
+      previously created variables. if `False` it will create new variables.
+      if `None`, it would inherit the parent scope reuse.
+
+  Returns:
+    A list of Variables corresponding to the slicing.
+
+  Raises:
+    ValueError: If any of the arguments is malformed.
+  """
+create_partitioned_variables(shape::Union{AbstractTensor,DimsType,Void}, slicing::Any, initializer::Union{AbstractTensor,Void}, dtype::Dtype=DT_FLOAT32, trainable::Bool=true, collections::Any=nothing, name::Union{AbstractString,Void}=nothing, reuse::Union{Bool,Void}=nothing) = tf.create_partitioned_variables(;Dict(:shape=>shape, :slicing=>slicing, :initializer=>initializer, :dtype=>dtype, :trainable=>trainable, :collections=>collections, :name=>name, :reuse=>reuse)...)
+export create_partitioned_variables
+          
+
+"""
+Compute the pairwise cross product.
+
+  `a` and `b` must be the same shape; they can either be simple 3-element vectors,
+  or any shape where the innermost dimension is 3. In the latter case, each pair
+  of corresponding 3-element vectors is cross-multiplied independently.
+
+  Args:
+    a: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
+      A tensor containing 3-element vectors.
+    b: A `Tensor`. Must have the same type as `a`.
+      Another tensor, of same type and shape as `a`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `a`.
+    Pairwise cross product of the vectors in `a` and `b`.
+  """
+cross_(a::Union{AbstractTensor,Void}, b::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.cross(;Dict(:a=>a, :b=>b, :name=>name)...))
+export cross_
+          
+
+"""
 Convert CSV records to tensors. Each column maps to one tensor.
 
   RFC 4180 format is expected for the CSV records.
@@ -1330,6 +2369,31 @@ export decode_csv
           
 
 """
+Convert JSON-encoded Example records to binary protocol buffer strings.
+
+  This op translates a tensor containing Example records, encoded using
+  the [standard JSON
+  mapping](https://developers.google.com/protocol-buffers/docs/proto3#json),
+  into a tensor containing the same records encoded as binary protocol
+  buffers. The resulting tensor can then be fed to any of the other
+  Example-parsing ops.
+
+  Args:
+    json_examples: A `Tensor` of type `string`.
+      Each string is a JSON object serialized according to the JSON
+      mapping of the Example proto.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `string`.
+    Each string is a binary Example protocol buffer corresponding
+    to the respective element of `json_examples`.
+  """
+decode_json_example(json_examples::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.decode_json_example(;Dict(:json_examples=>json_examples, :name=>name)...))
+export decode_json_example
+          
+
+"""
 Reinterpret the bytes of a string as a vector of numbers.
 
   Args:
@@ -1350,6 +2414,120 @@ Reinterpret the bytes of a string as a vector of numbers.
   """
 decode_raw(bytes::Union{AbstractTensor,Void}, out_type::Any, little_endian::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.decode_raw(;Dict(:bytes=>bytes, :out_type=>out_type, :little_endian=>little_endian, :name=>name)...))
 export decode_raw
+          
+
+"""
+Delete the tensor by feeding a tensor handle.
+
+  This is EXPERIMENTAL and subject to change.
+
+  Delete the tensor of a given tensor handle. The tensor is produced
+  in a previous run() and stored in the state of the session.
+
+  Args:
+    name: Optional name prefix for the return tensor.
+
+  Returns:
+    A pair of graph elements. The first is a placeholder for feeding a
+    tensor handle and the second is a deletion operation.
+  """
+delete_session_tensor(name::Union{AbstractString,Void}=nothing) = Tensor(tf.delete_session_tensor(;Dict(:name=>name)...))
+export delete_session_tensor
+          
+
+"""
+DepthToSpace for tensors of type T.
+
+  Rearranges data from depth into blocks of spatial data.
+  This is the reverse transformation of SpaceToDepth. More specifically,
+  this op outputs a copy of the input tensor where values from the `depth`
+  dimension are moved in spatial blocks to the `height` and `width` dimensions.
+  The attr `block_size` indicates the input block size and how the data is moved.
+
+    * Chunks of data of size `block_size * block_size` from depth are rearranged
+      into non-overlapping blocks of size `block_size x block_size`
+    * The width the output tensor is `input_depth * block_size`, whereas the
+      height is `input_height * block_size`.
+    * The depth of the input tensor must be divisible by
+      `block_size * block_size`.
+
+  That is, assuming the input is in the shape:
+  `[batch, height, width, depth]`,
+  the shape of the output will be:
+  `[batch, height*block_size, width*block_size, depth/(block_size*block_size)]`
+
+  This operation requires that the input tensor be of rank 4, and that
+  `block_size` be >=1 and that `block_size * block_size` be a divisor of the
+  input depth.
+
+  This operation is useful for resizing the activations between convolutions
+  (but keeping all data), e.g. instead of pooling. It is also useful for training
+  purely convolutional models.
+
+  For example, given this input of shape `[1, 1, 1, 4]`, and a block size of 2:
+
+  ```prettyprint
+  x = [[[[1, 2, 3, 4]]]]
+
+  ```
+
+  This operation will output a tensor of shape `[1, 2, 2, 1]`:
+
+  ```prettyprint
+     [[[[1], [2]],
+       [[3], [4]]]]
+  ```
+
+  Here, the input has a batch of 1 and each batch element has shape `[1, 1, 4]`,
+  the corresponding output will have 2x2 elements and will have a depth of
+  1 channel (1 = `4 / (block_size * block_size)`).
+  The output element shape is `[2, 2, 1]`.
+
+  For an input tensor with larger depth, here of shape `[1, 1, 1, 12]`, e.g.
+
+  ```prettyprint
+  x = [[[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]]]
+  ```
+
+  This operation, for block size of 2, will return the following tensor of shape
+  `[1, 2, 2, 3]`
+
+  ```prettyprint
+     [[[[1, 2, 3], [4, 5, 6]],
+       [[7, 8, 9], [10, 11, 12]]]]
+
+  ```
+
+  Similarly, for the following input of shape `[1 2 2 4]`, and a block size of 2:
+
+  ```prettyprint
+  x =  [[[[1, 2, 3, 4],
+         [5, 6, 7, 8]],
+        [[9, 10, 11, 12],
+         [13, 14, 15, 16]]]]
+  ```
+
+  the operator will return the following tensor of shape `[1 4 4 1]`:
+
+  ```prettyprint
+  x = [[ [1],   [2],  [5],  [6]],
+       [ [3],   [4],  [7],  [8]],
+       [ [9],  [10], [13],  [14]],
+       [ [11], [12], [15],  [16]]]
+
+  ```
+
+  Args:
+    input: A `Tensor`.
+    block_size: An `int`.
+      The size of the spatial block, same as in Space2Depth.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `input`.
+  """
+depth_to_space(input::Union{AbstractTensor,Void}, block_size::Union{Int64,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.depth_to_space(;Dict(:input=>input, :block_size=>block_size, :name=>name)...))
+export depth_to_space
           
 
 """
@@ -1399,8 +2577,9 @@ Deserialize and concatenate `SparseTensors` from a serialized minibatch.
 
   Args:
     serialized_sparse: 2-D `Tensor` of type `string` of shape `[N, 3]`.
-      The serialized and packed `SparseTensor' objects.
+      The serialized and packed `SparseTensor` objects.
     dtype: The `dtype` of the serialized `SparseTensor` objects.
+    rank: (optional) Python int, the rank of the `SparseTensor` objects.
     name: A name prefix for the returned tensors (optional)
 
   Returns:
@@ -1409,7 +2588,7 @@ Deserialize and concatenate `SparseTensors` from a serialized minibatch.
 
     All of the serialized `SparseTensor`s must have had the same rank and type.
   """
-deserialize_many_sparse(serialized_sparse::Union{AbstractTensor,Void}, dtype::Union{Dtype,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.deserialize_many_sparse(;Dict(:serialized_sparse=>serialized_sparse, :dtype=>dtype, :name=>name)...))
+deserialize_many_sparse(serialized_sparse::Union{AbstractTensor,Void}, dtype::Union{Dtype,Void}, rank_::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.deserialize_many_sparse(;Dict(:serialized_sparse=>serialized_sparse, :dtype=>dtype, :rank=>rank_, :name=>name)...))
 export deserialize_many_sparse
           
 
@@ -1428,7 +2607,7 @@ Wrapper for `Graph.device()` using the default graph.
     A context manager that specifies the default device to use for newly
     created ops.
   """
-device(dev::Any) = tf.device(;Dict(:dev=>dev)...)
+device(device_name_or_function::Any) = tf.device(;Dict(:device_name_or_function=>device_name_or_function)...)
 export device
           
 
@@ -1466,10 +2645,60 @@ export diag_
           
 
 """
+Returns the diagonal part of the tensor.
+
+  This operation returns a tensor with the `diagonal` part
+  of the `input`. The `diagonal` part is computed as follows:
+
+  Assume `input` has dimensions `[D1,..., Dk, D1,..., Dk]`, then the output is a
+  tensor of rank `k` with dimensions `[D1,..., Dk]` where:
+
+  `diagonal[i1,..., ik] = input[i1, ..., ik, i1,..., ik]`.
+
+  For example:
+
+  ```prettyprint
+  # 'input' is [[1, 0, 0, 0]
+                [0, 2, 0, 0]
+                [0, 0, 3, 0]
+                [0, 0, 0, 4]]
+
+  tf.diag_part(input) ==> [1, 2, 3, 4]
+  ```
+
+  Args:
+    input: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`.
+      Rank k tensor where k is 2, 4, or 6.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `input`. The extracted diagonal.
+  """
+diag_part(input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.diag_part(;Dict(:input=>input, :name=>name)...))
+export diag_part
+          
+
+"""
+Computes Psi, the derivative of Lgamma (the log of the absolute value of
+
+  `Gamma(x)`), element-wise.
+
+  Args:
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `x`.
+  """
+digamma_(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.digamma(;Dict(:x=>x, :name=>name)...))
+export digamma_
+          
+
+"""
 Returns x / y element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `uint8`, `int8`, `int16`, `int32`, `int64`, `complex64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `uint8`, `int8`, `int16`, `int32`, `int64`, `complex64`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -1650,7 +2879,7 @@ export edit_distance
 Returns the truth value of (x == y) element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `complex64`, `quint8`, `qint8`, `qint32`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `uint8`, `int8`, `int16`, `int32`, `int64`, `complex64`, `quint8`, `qint8`, `qint32`, `string`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -1662,32 +2891,28 @@ export equal
           
 
 """
-Computes Gauss error function of `x` element-wise.
+Computes the Gauss error function of `x` element-wise.
 
   Args:
-    x: A Tensor with type `float`, `double`, `int32`, `int64`,
-      or `qint32`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
-    A Tensor with the same type as `x` if `x.dtype != qint32` otherwise
-      the return type is `quint8`.
+    A `Tensor`. Has the same type as `x`.
   """
 erf_(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.erf(;Dict(:x=>x, :name=>name)...))
 export erf_
           
 
 """
-Computes complementary error function of `x` element-wise.
+Computes the complementary error function of `x` element-wise.
 
   Args:
-    x: A Tensor with type `float`, `double`, `int32`, `int64`,
-      or `qint32`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
-    A Tensor with the same type as `x` if `x.dtype != qint32` otherwise
-      the return type is `quint8`.
+    A `Tensor`. Has the same type as `x`.
   """
 erfc_(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.erfc(;Dict(:x=>x, :name=>name)...))
 export erfc_
@@ -1697,7 +2922,7 @@ export erfc_
 Computes exponential of x element-wise.  \\(y = e^x\\).
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -1758,6 +2983,20 @@ export expand_dims
           
 
 """
+Compute the 1-dimensional discrete Fourier Transform.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 vector.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`. The 1D Fourier Transform of `in`.
+  """
+fft_(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.fft(;Dict(:in_=>in_, :name=>name)...))
+export fft_
+          
+
+"""
 Compute the 2-dimensional discrete Fourier Transform.
 
   Args:
@@ -1769,6 +3008,20 @@ Compute the 2-dimensional discrete Fourier Transform.
   """
 fft2d(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.fft2d(;Dict(:in_=>in_, :name=>name)...))
 export fft2d
+          
+
+"""
+Compute the 3-dimensional discrete Fourier Transform.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 3-D tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`. The 3D Fourier Transform of `in`.
+  """
+fft3d(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.fft3d(;Dict(:in_=>in_, :name=>name)...))
+export fft3d
           
 
 """
@@ -1801,7 +3054,7 @@ export fill_
 Returns element-wise largest integer not greater than x.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -1842,6 +3095,88 @@ export floordiv
           
 
 """
+foldl on the list of tensors unpacked from `elems` on dimension 0.
+
+  This foldl operator repeatedly applies the callable `fn` to a sequence
+  of elements from first to last. The elements are made of the tensors
+  unpacked from `elems` on dimension 0. The callable fn takes two tensors as
+  arguments. The first argument is the accumulated value computed from the
+  preceding invocation of fn. If `initializer` is None, `elems` must contain
+  at least one element, and its first element is used as the initializer.
+
+  Suppose that `elems` is unpacked into `values`, a list of tensors. The shape
+  of the result tensor is fn(initializer, values[0]).shape`.
+
+  Args:
+    fn: The callable to be performed.
+    elems: A tensor to be unpacked on dimension 0.
+    initializer: (optional) The initial value for the accumulator.
+    parallel_iterations: (optional) The number of iterations allowed to run
+                         in parallel.
+    back_prop: (optional) True enables back propagation.
+    swap_memory: (optional) True enables GPU-CPU memory swapping.
+    name: (optional) Name prefix for the returned tensors.
+
+  Returns:
+    A tensor resulting from applying `fn` consecutively to the list of tensors
+    unpacked from `elems`, from first to last.
+
+  Raises:
+    TypeError: if `fn` is not callable.
+
+  Example:
+    ```python
+    elems = [1, 2, 3, 4, 5, 6]
+    sum = foldl(lambda a, x: a + x, elems)
+    # sum == 21
+    ```
+  """
+foldl_(fn::Any, elems::Union{AbstractTensor,Void}, initializer::Any=nothing, parallel_iterations::Any=10, back_prop::Bool=true, swap_memory::Bool=false, name::Union{AbstractString,Void}=nothing) = Tensor(tf.foldl(;Dict(:fn=>fn, :elems=>elems, :initializer=>initializer, :parallel_iterations=>parallel_iterations, :back_prop=>back_prop, :swap_memory=>swap_memory, :name=>name)...))
+export foldl_
+          
+
+"""
+foldr on the list of tensors unpacked from `elems` on dimension 0.
+
+  This foldr operator repeatedly applies the callable `fn` to a sequence
+  of elements from last to first. The elements are made of the tensors
+  unpacked from `elems`. The callable fn takes two tensors as arguments.
+  The first argument is the accumulated value computed from the preceding
+  invocation of fn. If `initializer` is None, `elems` must contain at least
+  one element, and its first element is used as the initializer.
+
+  Suppose that `elems` is unpacked into `values`, a list of tensors. The shape
+  of the result tensor is `fn(initializer, values[0]).shape`.
+
+  Args:
+    fn: The callable to be performed.
+    elems: A tensor that is unpacked into a sequence of tensors to apply `fn`.
+    initializer: (optional) The initial value for the accumulator.
+    parallel_iterations: (optional) The number of iterations allowed to run
+                         in parallel.
+    back_prop: (optional) True enables back propagation.
+    swap_memory: (optional) True enables GPU-CPU memory swapping.
+    name: (optional) Name prefix for the returned tensors.
+
+  Returns:
+    A tensor resulting from applying `fn` consecutively to the list of tensors
+    unpacked from `elems`, from last to first.
+
+  Raises:
+    TypeError: if `fn` is not callable.
+
+  Example:
+    ```python
+    elems = [1, 2, 3, 4, 5, 6]
+    sum = foldr(lambda a, x: a + x, elems)
+    # sum == 21
+    ```
+  """
+foldr_(fn::Any, elems::Union{AbstractTensor,Void}, initializer::Any=nothing, parallel_iterations::Any=10, back_prop::Bool=true, swap_memory::Bool=false, name::Union{AbstractString,Void}=nothing) = Tensor(tf.foldr(;Dict(:fn=>fn, :elems=>elems, :initializer=>initializer, :parallel_iterations=>parallel_iterations, :back_prop=>back_prop, :swap_memory=>swap_memory, :name=>name)...))
+export foldr_
+          
+
+"""
 Gather slices from `params` according to `indices`.
 
   `indices` must be an integer tensor of any dimension (usually 0-D or 1-D).
@@ -1866,13 +3201,44 @@ Gather slices from `params` according to `indices`.
   Args:
     params: A `Tensor`.
     indices: A `Tensor`. Must be one of the following types: `int32`, `int64`.
+    validate_indices: An optional `bool`. Defaults to `True`.
     name: A name for the operation (optional).
 
   Returns:
     A `Tensor`. Has the same type as `params`.
   """
-gather(params::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.gather(;Dict(:params=>params, :indices=>indices, :name=>name)...))
+gather(params::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, validate_indices::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.gather(;Dict(:params=>params, :indices=>indices, :validate_indices=>validate_indices, :name=>name)...))
 export gather
+          
+
+"""
+Gather values from `params` according to `indices`.
+
+  `indices` must be integer tensor, containing indices into `params`.
+  It must be shape `[d_0, ..., d_N, R]` where `R` is the rank of `params`.
+  The innermost dimension of `indices` (with length `R`) corresponds to the
+  indices of `params`.
+
+  Produces an output tensor with shape `[d_0, ..., d_{n-1}]` where:
+
+      output[i, j, k, ...] = params[indices[i, j, k, ..., :]]
+
+  e.g. for `indices` a matrix:
+
+      output[i] = params[indices[i, :]]
+
+  Args:
+    params: A `Tensor`. R-D.  The tensor from which to gather values.
+    indices: A `Tensor`. Must be one of the following types: `int32`, `int64`.
+      (N+1)-D.  Index tensor having shape `[d_0, ..., d_N, R]`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `params`.
+    N-D.  Values from `params` gathered from indices given by `indices`.
+  """
+gather_nd(params::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.gather_nd(;Dict(:params=>params, :indices=>indices, :name=>name)...))
+export gather_nd
           
 
 """
@@ -1885,7 +3251,10 @@ Wrapper for `Graph.get_collection()` using the default graph.
     key: The key for the collection. For example, the `GraphKeys` class
       contains many standard names for collections.
     scope: (Optional.) If supplied, the resulting list is filtered to include
-      only items whose name begins with this string.
+      only items whose `name` attribute matches using `re.match`. Items
+      without a `name` attribute are never returned if a scope is supplied and
+      the choice or `re.match` means that a `scope` without special tokens
+      filters by prefix.
 
   Returns:
     The list of values in the collection with the given `name`, or
@@ -1893,8 +3262,28 @@ Wrapper for `Graph.get_collection()` using the default graph.
     list contains the values in the order under which they were
     collected.
   """
-get_collection(key::Any, scope::Any=nothing) = AbstractString(tf.get_collection(;Dict(:key=>key, :scope=>scope)...))
+get_collection(key::Any, scope::Union{AbstractString,Void}=nothing) = AbstractString(tf.get_collection(;Dict(:key=>key, :scope=>scope)...))
 export get_collection
+          
+
+"""
+Wrapper for `Graph.get_collection_ref()` using the default graph.
+
+  See [`Graph.get_collection_ref()`](../../api_docs/python/framework.md#Graph.get_collection_ref)
+  for more details.
+
+  Args:
+    key: The key for the collection. For example, the `GraphKeys` class
+      contains many standard names for collections.
+
+  Returns:
+    The list of values in the collection with the given `name`, or an empty
+    list if no value has been added to that collection.  Note that this returns
+    the collection list itself, which can be modified in place to change the
+    collection.
+  """
+get_collection_ref(key::Any) = AbstractString(tf.get_collection_ref(;Dict(:key=>key)...))
+export get_collection_ref
           
 
 """
@@ -1957,6 +3346,64 @@ export get_seed
           
 
 """
+Return the handle of `data`.
+
+  This is EXPERIMENTAL and subject to change.
+
+  Keep `data` "in-place" in the runtime and create a handle that can be
+  used to retrieve `data` in a subsequent run().
+
+  Combined with `get_session_tensor`, we can keep a tensor produced in
+  one run call in place, and use it as the input in a future run call.
+  Below is a simple example:
+
+  ```python
+  c = tf.mul(a, b)
+  h = tf.get_session_handle(c)
+  h = sess.run(h)
+
+  p, a = tf.get_session_tensor(tf.float32)
+  b = tf.mul(a, 10)
+  c = sess.run(b, feed_dict={p: h.handle})
+  ```
+
+  Args:
+    data: A tensor to be stored in the session.
+    name: Optional name prefix for the return tensor.
+
+  Returns:
+    A scalar string tensor representing a unique handle for `data`.
+
+  Raises:
+    TypeError: if `data` is not a Tensor.
+  """
+get_session_handle(data::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.get_session_handle(;Dict(:data=>data, :name=>name)...))
+export get_session_handle
+          
+
+"""
+Get the tensor of type `dtype` by feeding a tensor handle.
+
+  This is EXPERIMENTAL and subject to change.
+
+  Get the value of the tensor from a tensor handle. The tensor
+  is produced in a previous run() and stored in the state of the
+  session.
+
+  Args:
+    dtype: The type of the output tensor.
+    name: Optional name prefix for the return tensor.
+
+  Returns:
+    A pair of tensors. The first is a placeholder for feeding a
+    tensor handle and the second is the tensor in the session state
+    keyed by the tensor handle.
+  """
+get_session_tensor(dtype::Union{Dtype,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.get_session_tensor(;Dict(:dtype=>dtype, :name=>name)...))
+export get_session_tensor
+          
+
+"""
 Gets an existing variable with these parameters or create a new one.
 
   This function prefixes the name with the current variable scope
@@ -1973,18 +3420,46 @@ Gets an existing variable with these parameters or create a new one.
   ```
 
   If initializer is `None` (the default), the default initializer passed in
-  the constructor is used. If that one is `None` too, a
-  `UniformUnitScalingInitializer` will be used.
+  the variable scope will be used. If that one is `None` too, a
+  `UniformUnitScalingInitializer` will be used. The initializer can also be
+  a Tensor, in which case the variable is initialized to this value and shape.
+
+  Similarly, if the regularizer is `None` (the default), the default regularizer
+  passed in the variable scope will be used (if that is `None` too,
+  then by default no regularization is performed).
+
+  If a partitioner is provided, first a sharded `Variable` is created
+  via `_get_partitioned_variable_list`, and the return value is a
+  `Tensor` composed of the shards concatenated along the partition axis.
+
+  Some useful partitioners are available.  See, e.g.,
+  `variable_axis_size_partitioner`.
 
   Args:
-    name: the name of the new or existing variable.
-    shape: shape of the new or existing variable.
-    dtype: type of the new or existing variable (defaults to `DT_FLOAT`).
-    initializer: initializer for the variable if one is created.
+    name: The name of the new or existing variable.
+    shape: Shape of the new or existing variable.
+    dtype: Type of the new or existing variable (defaults to `DT_FLOAT`).
+    initializer: Initializer for the variable if one is created.
+    regularizer: A (Tensor -> Tensor or None) function; the result of
+      applying it on a newly created variable will be added to the collection
+      GraphKeys.REGULARIZATION_LOSSES and can be used for regularization.
     trainable: If `True` also add the variable to the graph collection
       `GraphKeys.TRAINABLE_VARIABLES` (see tf.Variable).
     collections: List of graph collections keys to add the Variable to.
       Defaults to `[GraphKeys.VARIABLES]` (see tf.Variable).
+      If partitioning is enabled and used, the concatenated return value
+      is also added to collection `GraphKeys.CONCATENATED_VARIABLES`.
+    caching_device: Optional device string or function describing where the
+      Variable should be cached for reading.  Defaults to the Variable's
+      device.  If not `None`, caches on another device.  Typical use is to
+      cache on the device where the Ops using the Variable reside, to
+      deduplicate copying through `Switch` and other conditional statements.
+    partitioner: Optional callable that accepts a fully defined `TensorShape`
+      and `dtype` of the Variable to be created, and returns a list of
+      partitions for each axis (currently only one axis can be partitioned).
+    validate_shape: If False, allows the variable to be initialized with a
+        value of unknown shape. If True, the default, the shape of initial_value
+        must be known.
 
   Returns:
     The created or existing variable.
@@ -1994,7 +3469,7 @@ Gets an existing variable with these parameters or create a new one.
       or when violating reuse during variable creation. Reuse is set inside
       `variable_scope`.
   """
-get_variable(name::Union{AbstractString,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, dtype::Dtype=DT_FLOAT32, initializer::Any=nothing, trainable::Bool=true, collections::Any=nothing) = tf.get_variable(;Dict(:name=>name, :shape=>shape, :dtype=>dtype, :initializer=>initializer, :trainable=>trainable, :collections=>collections)...)
+get_variable(name::Union{AbstractString,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, dtype::Dtype=DT_FLOAT32, initializer::Any=nothing, regularizer::Union{AbstractTensor,Void}=nothing, trainable::Bool=true, collections::Any=nothing, caching_device::Any=nothing, partitioner::Union{AbstractTensor,Void}=nothing, validate_shape::Bool=true) = tf.get_variable(;Dict(:name=>name, :shape=>shape, :dtype=>dtype, :initializer=>initializer, :regularizer=>regularizer, :trainable=>trainable, :collections=>collections, :caching_device=>caching_device, :partitioner=>partitioner, :validate_shape=>validate_shape)...)
 export get_variable
           
 
@@ -2030,7 +3505,7 @@ export global_norm
           
 
 """
-Constructs symbolic partial derivatives of `ys` w.r.t. x in `xs`.
+Constructs symbolic partial derivatives of sum of `ys` w.r.t. x in `xs`.
 
   `ys` and `xs` are each a `Tensor` or a list of tensors.  `grad_ys`
   is a list of `Tensor`, holding the gradients received by the
@@ -2080,7 +3555,7 @@ export gradients
 Returns the truth value of (x > y) element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -2095,7 +3570,7 @@ export greater
 Returns the truth value of (x >= y) element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -2115,7 +3590,7 @@ Create an op that groups multiple operations.
   See also `tuple` and `with_dependencies`.
 
   Args:
-    *inputs: One or more tensors to group.
+    *inputs: Zero or more tensors to group.
     **kwargs: Optional parameters to pass when constructing the NodeDef.
     name: A name for this operation (optional).
 
@@ -2123,21 +3598,57 @@ Create an op that groups multiple operations.
     An Operation that executes all its inputs.
 
   Raises:
-    ValueError: If an unknown keyword argument is provided, or if there are
-                no inputs.
+    ValueError: If an unknown keyword argument is provided.
   """
 group() = tf.group(;Dict()...)
 export group
           
 
 """
+Return histogram of values.
+
+  Given the tensor `values`, this operation returns a rank 1 histogram counting
+  the number of entries in `values` that fell into every bin.  The bins are
+  equal width and determined by the arguments `value_range` and `nbins`.
+
+  Args:
+    values:  Numeric `Tensor`.
+    value_range:  Shape [2] `Tensor`.  new_values <= value_range[0] will be
+      mapped to hist[0], values >= value_range[1] will be mapped to hist[-1].
+      Must be same dtype as new_values.
+    nbins:  Scalar `int32 Tensor`.  Number of histogram bins.
+    dtype:  dtype for returned histogram.
+    name:  A name for this operation (defaults to 'histogram_fixed_width').
+
+  Returns:
+    A 1-D `Tensor` holding histogram of values.
+
+  Examples:
+
+  ```python
+  # Bins will be:  (-inf, 1), [1, 2), [2, 3), [3, 4), [4, inf)
+  nbins = 5
+  value_range = [0.0, 5.0]
+  new_values = [-1.0, 0.0, 1.5, 2.0, 5.0, 15]
+
+  with tf.default_session() as sess:
+    hist = tf.histogram_fixed_width(new_values, value_range, nbins=5)
+    variables.initialize_all_variables().run()
+    sess.run(hist) => [2, 1, 1, 0, 2]
+  ```
+  """
+histogram_fixed_width(values_::Union{AbstractTensor,Void}, value_range::Union{AbstractTensor,Void}, nbins::AbstractTensor=100, dtype::Dtype=DT_INT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.histogram_fixed_width(;Dict(:values=>values_, :value_range=>value_range, :nbins=>nbins, :dtype=>dtype, :name=>name)...))
+export histogram_fixed_width
+          
+
+"""
 Outputs a `Summary` protocol buffer with a histogram.
 
   The generated
-  [`Summary`](https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/core/framework/summary.proto)
+  [`Summary`](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
   has one summary value containing a histogram for `values`.
 
-  This op reports an `OutOfRange` error if any value is not finite.
+  This op reports an `InvalidArgument` error if any value is not finite.
 
   Args:
     tag: A `string` `Tensor`. 0-D.  Tag to use for the summary value.
@@ -2170,6 +3681,20 @@ export identity_
           
 
 """
+Compute the inverse 1-dimensional discrete Fourier Transform.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 vector.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`. The inverse 1D Fourier Transform of `in`.
+  """
+ifft_(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.ifft(;Dict(:in_=>in_, :name=>name)...))
+export ifft_
+          
+
+"""
 Compute the inverse 2-dimensional discrete Fourier Transform.
 
   Args:
@@ -2181,6 +3706,78 @@ Compute the inverse 2-dimensional discrete Fourier Transform.
   """
 ifft2d(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.ifft2d(;Dict(:in_=>in_, :name=>name)...))
 export ifft2d
+          
+
+"""
+Compute the inverse 3-dimensional discrete Fourier Transform.
+
+  Args:
+    in_: A `Tensor` of type `complex64`. A complex64 3-D tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `complex64`. The inverse 3D Fourier Transform of `in`.
+  """
+ifft3d(in_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.ifft3d(;Dict(:in_=>in_, :name=>name)...))
+export ifft3d
+          
+
+"""
+Compute the lower regularized incomplete Gamma function `Q(a, x)`.
+
+  The lower regularized incomplete Gamma function is defined as:
+
+  ```
+  P(a, x) = gamma(a, x) / Gamma(x) = 1 - Q(a, x)
+  ```
+  where
+  ```
+  gamma(a, x) = int_{0}^{x} t^{a-1} exp(-t) dt
+  ```
+  is the lower incomplete Gamma function.
+
+  Note, above `Q(a, x)` (`Igammac`) is the upper regularized complete
+  Gamma function.
+
+  Args:
+    a: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    x: A `Tensor`. Must have the same type as `a`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `a`.
+  """
+igamma(a::Union{AbstractTensor,Void}, x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.igamma(;Dict(:a=>a, :x=>x, :name=>name)...))
+export igamma
+          
+
+"""
+Compute the upper regularized incomplete Gamma function `Q(a, x)`.
+
+  The upper regularized incomplete Gamma function is defined as:
+
+  ```
+  Q(a, x) = Gamma(a, x) / Gamma(x) = 1 - P(a, x)
+  ```
+  where
+  ```
+  Gamma(a, x) = int_{x}^{\infty} t^{a-1} exp(-t) dt
+  ```
+  is the upper incomplete Gama function.
+
+  Note, above `P(a, x)` (`Igamma`) is the lower regularized complete
+  Gamma function.
+
+  Args:
+    a: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    x: A `Tensor`. Must have the same type as `a`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `a`.
+  """
+igammac(a::Union{AbstractTensor,Void}, x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.igammac(;Dict(:a=>a, :x=>x, :name=>name)...))
+export igammac
           
 
 """
@@ -2261,7 +3858,7 @@ export image_summary
 Imports the TensorFlow graph in `graph_def` into the Python `Graph`.
 
   This function provides a way to import a serialized TensorFlow
-  [`GraphDef`](https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/core/framework/graph.proto)
+  [`GraphDef`](https://www.tensorflow.org/code/tensorflow/core/framework/graph.proto)
   protocol buffer, and extract individual objects in the `GraphDef` as
   [`Tensor`](#Tensor) and [`Operation`](#Operation) objects. See
   [`Graph.as_graph_def()`](#Graph.as_graph_def) for a way to create a
@@ -2325,6 +3922,18 @@ export initialize_all_variables
           
 
 """
+Returns an Op that initializes all local variables.
+
+  This is just a shortcut for `initialize_variables(local_variables())`
+
+  Returns:
+    An Op that initializes all local variables in the graph.
+  """
+initialize_local_variables() = tf.initialize_local_variables(;Dict()...)
+export initialize_local_variables
+          
+
+"""
 Returns an Op that initializes a list of variables.
 
   After you launch the graph in a session, you can run the returned Op to
@@ -2354,7 +3963,7 @@ Computes the reciprocal of x element-wise.
   I.e., \\(y = 1 / x\\).
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -2398,7 +4007,7 @@ export invert_permutation
 Returns which elements of x are finite.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -2412,7 +4021,7 @@ export is_finite
 Returns which elements of x are Inf.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -2426,7 +4035,7 @@ export is_inf
 Returns which elements of x are NaN.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -2437,10 +4046,105 @@ export is_nan
           
 
 """
+Returns `True` if `x` is non-decreasing.
+
+  Elements of `x` are compared in row-major order.  The tensor `[x[0],...]`
+  is non-decreasing if for every adjacent pair we have `x[i] <= x[i+1]`.
+  If `x` has less than two elements, it is trivially non-decreasing.
+
+  See also:  `is_strictly_increasing`
+
+  Args:
+    x: Numeric `Tensor`.
+    name: A name for this operation (optional).  Defaults to "is_non_decreasing"
+
+  Returns:
+    Boolean `Tensor`, equal to `True` iff `x` is non-decreasing.
+
+  Raises:
+    TypeError: if `x` is not a numeric tensor.
+  """
+is_non_decreasing(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.is_non_decreasing(;Dict(:x=>x, :name=>name)...))
+export is_non_decreasing
+          
+
+"""
+"""
+is_numeric_tensor(tensor::Any) = tf.is_numeric_tensor(;Dict(:tensor=>tensor)...)
+export is_numeric_tensor
+          
+
+"""
+Returns `True` if `x` is strictly increasing.
+
+  Elements of `x` are compared in row-major order.  The tensor `[x[0],...]`
+  is strictly increasing if for every adjacent pair we have `x[i] < x[i+1]`.
+  If `x` has less than two elements, it is trivially strictly increasing.
+
+  See also:  `is_non_decreasing`
+
+  Args:
+    x: Numeric `Tensor`.
+    name: A name for this operation (optional).
+      Defaults to "is_strictly_increasing"
+
+  Returns:
+    Boolean `Tensor`, equal to `True` iff `x` is strictly increasing.
+
+  Raises:
+    TypeError: if `x` is not a numeric tensor.
+  """
+is_strictly_increasing(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.is_strictly_increasing(;Dict(:x=>x, :name=>name)...))
+export is_strictly_increasing
+          
+
+"""
+Returns an Op to check if a variable has been initialized.
+
+  Args:
+    variable: A `Variable`.
+
+  Returns:
+    An operation to check whether a variable has been initialized.
+  """
+is_variable_initialized(variable::Any) = tf.is_variable_initialized(;Dict(:variable=>variable)...)
+export is_variable_initialized
+          
+
+"""
+Computes `ln(|Beta(x)|)`, reducing along the last dimension.
+
+  Given one-dimensional `z = [z_0,...,z_{K-1}]`, we define
+
+  ```Beta(z) = \prod_j Gamma(z_j) / Gamma(\sum_j z_j)```
+
+  And for `n + 1` dimensional `x` with shape `[N1, ..., Nn, K]`, we define
+  `lbeta(x)[i1, ..., in] = Log(|Beta(x[i1, ..., in, :])|)`.  In other words,
+  the last dimension is treated as the `z` vector.
+
+  Note that if `z = [u, v]`, then
+  `Beta(z) = int_0^1 t^{u-1} (1 - t)^{v-1} dt`, which defines the traditional
+  bivariate beta function.
+
+  Args:
+    x: A rank `n + 1` `Tensor` with type `float`, or `double`.
+    name: A name for the operation (optional).
+
+  Returns:
+    The logarithm of `|Beta(x)|` reducing along the last dimension.
+
+  Raises:
+    ValueError:  If `x` is empty with rank one or less.
+  """
+lbeta_(x::Union{AbstractTensor,Void}, name::AbstractString="lbeta") = tf.lbeta(;Dict(:x=>x, :name=>name)...)
+export lbeta_
+          
+
+"""
 Returns the truth value of (x < y) element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -2455,7 +4159,7 @@ export less_
 Returns the truth value of (x <= y) element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -2467,16 +4171,14 @@ export less_equal
           
 
 """
-Computes `ln(|gamma(x)|)` element-wise.
+Computes the log of the absolute value of `Gamma(x)` element-wise.
 
   Args:
-    x: A Tensor with type `float`, `double`, `int32`, `int64`,
-      or `qint32`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
-    A Tensor with the same type as `x` if `x.dtype != qint32` otherwise
-      the return type is `quint8`.
+    A `Tensor`. Has the same type as `x`.
   """
 lgamma_(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.lgamma(;Dict(:x=>x, :name=>name)...))
 export lgamma_
@@ -2617,13 +4319,32 @@ export list_diff
           
 
 """
+Loads a TensorFlow plugin, containing file system implementation.
+
+  Pass `library_filename` to a platform-specific mechanism for dynamically
+  loading a library. The rules for determining the exact location of the
+  library are platform-specific and are not documented here.
+
+  Args:
+    library_filename: Path to the plugin.
+      Relative or absolute filesystem path to a dynamic library file.
+
+  Returns:
+    None.
+
+  Raises:
+    RuntimeError: when unable to load the library.
+  """
+load_file_system_library(library_filename::Any) = tf.load_file_system_library(;Dict(:library_filename=>library_filename)...)
+export load_file_system_library
+          
+
+"""
 Loads a TensorFlow plugin, containing custom ops and kernels.
 
   Pass "library_filename" to a platform-specific mechanism for dynamically
   loading a library. The rules for determining the exact location of the
   library are platform-specific and are not documented here.
-  Expects the symbols "RegisterOps", "RegisterKernels", and "GetOpList", to be
-  defined in the library.
 
   Args:
     library_filename: Path to the plugin.
@@ -2641,12 +4362,22 @@ export load_op_library
           
 
 """
+Returns all variables created with collection=[LOCAL_VARIABLES].
+
+  Returns:
+    A list of local Variable objects.
+  """
+local_variables() = tf.local_variables(;Dict()...)
+export local_variables
+          
+
+"""
 Computes natural logarithm of x element-wise.
 
   I.e., \\(y = \log_e x\\).
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -2800,6 +4531,45 @@ export make_template
           
 
 """
+map on the list of tensors unpacked from `elems` on dimension 0.
+
+  This map operator repeatedly applies the callable `fn` to a sequence of
+  elements from first to last. The elements are made of the tensors unpacked
+  from `elems`. `dtype` is the data type of the return value of `fn`. Users
+  must provide `dtype` if it is different from the data type of `elems`.
+
+  Suppose that `elems` is unpacked into `values`, a list of tensors. The shape
+  of the result tensor is `[len(values)] + fn(values[0]).shape`.
+
+  Args:
+    fn: The callable to be performed.
+    elems: A tensor to be unpacked to apply `fn`.
+    dtype: (optional) The output type of `fn`.
+    parallel_iterations: (optional) The number of iterations allowed to run
+                         in parallel.
+    back_prop: (optional) True enables back propagation.
+    swap_memory: (optional) True enables GPU-CPU memory swapping.
+    name: (optional) Name prefix for the returned tensors.
+
+  Returns:
+    A tensor that packs the results of applying `fn` to the list of tensors
+    unpacked from `elems`, from first to last.
+
+  Raises:
+    TypeError: if `fn` is not callable.
+
+  Example:
+    ```python
+    elems = [1, 2, 3, 4, 5, 6]
+    squares = map_fn(lambda x: x * x, elems)
+    # squares == [1, 4, 9, 16, 25, 36]
+    ```
+  """
+map_fn(fn::Any, elems::Union{AbstractTensor,Void}, dtype::Union{Dtype,Void}=nothing, parallel_iterations::Any=10, back_prop::Bool=true, swap_memory::Bool=false, name::Union{AbstractString,Void}=nothing) = Tensor(tf.map_fn(;Dict(:fn=>fn, :elems=>elems, :dtype=>dtype, :parallel_iterations=>parallel_iterations, :back_prop=>back_prop, :swap_memory=>swap_memory, :name=>name)...))
+export map_fn
+          
+
+"""
 Returns the set of files matching a pattern.
 
   Note that this routine only supports wildcard characters in the
@@ -2879,33 +4649,139 @@ export matrix_determinant
           
 
 """
-Calculates the inverse of a square invertible matrix.
+Calculates the inverse of a square invertible matrix or its adjoint (conjugate
 
-  The op uses the Cholesky decomposition if the matrix is symmetric positive
-  definite and LU decomposition with partial pivoting otherwise.
+  transpose).
+
+  The op uses LU decomposition with partial pivoting to compute the inverse.
 
   If the matrix is not invertible there is no guarantee what the op does. It
   may detect the condition and raise an exception or it may simply return a
   garbage result.
 
   Args:
-    input: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    input: A `Tensor`. Must be one of the following types: `float64`, `float32`.
       Shape is `[M, M]`.
+    adjoint: An optional `bool`. Defaults to `False`.
     name: A name for the operation (optional).
 
   Returns:
     A `Tensor`. Has the same type as `input`.
-    Shape is `[M, M]` containing the matrix inverse of the input.
+    Shape is `[M, M]`. If `adjoint` is `False` then `output` contains the
+    matrix inverse of `input`. If `adjoint` is `True` then `output` contains the
+    matrix inverse of the adjoint of `input`.
   """
-matrix_inverse(input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.matrix_inverse(;Dict(:input=>input, :name=>name)...))
+matrix_inverse(input::Union{AbstractTensor,Void}, adjoint::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.matrix_inverse(;Dict(:input=>input, :adjoint=>adjoint, :name=>name)...))
 export matrix_inverse
+          
+
+"""
+Solves a system of linear equations. Checks for invertibility.
+
+  Args:
+    matrix: A `Tensor`. Must be one of the following types: `float64`, `float32`.
+      Shape is `[M, M]`.
+    rhs: A `Tensor`. Must have the same type as `matrix`. Shape is `[M, K]`.
+    adjoint: An optional `bool`. Defaults to `False`.
+      Boolean indicating whether to solve with `matrix` or its adjoint.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `matrix`.
+    Shape is `[M, K]`. If `adjoint` is `False` then `output` that solves
+    `matrix` * `output` = `rhs`. If `adjoint` is `True` then `output` that solves
+    `adjoint(matrix)` * `output` = `rhs`.
+  """
+matrix_solve(matrix::Union{AbstractTensor,Void}, rhs::Union{AbstractTensor,Void}, adjoint::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.matrix_solve(;Dict(:matrix=>matrix, :rhs=>rhs, :adjoint=>adjoint, :name=>name)...))
+export matrix_solve
+          
+
+"""
+Solves a linear least-squares problem.
+
+  Below we will use the following notation
+  `matrix`=\\(A \in \Re^{m \times n}\\),
+  `rhs`=\\(B  \in \Re^{m \times k}\\),
+  `output`=\\(X  \in \Re^{n \times k}\\),
+  `l2_regularizer`=\\(\lambda\\).
+
+  If `fast` is `True`, then the solution is computed by solving the normal
+  equations using Cholesky decomposition. Specifically, if \\(m \ge n\\) then
+  \\(X = (A^T A + \lambda I)^{-1} A^T B\\), which solves the regularized
+  least-squares problem \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k}}
+  ||A Z - B||_F^2 + \lambda ||Z||_F^2\\). If \\(m \lt n\\) then `output` is
+  computed as \\(X = A^T (A A^T + \lambda I)^{-1} B\\),
+  which (for \\(\lambda = 0\\)) is the minimum-norm solution to the
+  under-determined linear system, i.e.
+  \\(X = \mathrm{argmin}_{Z \in \Re^{n \times k}} ||Z||_F^2 \\),
+  subject to \\(A Z = B\\).
+  Notice that the fast path is only numerically stable when \\(A\\) is
+  numerically full rank and has a condition number
+  \\(\mathrm{cond}(A) \lt \frac{1}{\sqrt{\epsilon_{mach}}}\\)
+  or \\(\lambda\\) is sufficiently large.
+
+  If `fast` is `False` then the solution is computed using the rank revealing
+  QR decomposition with column pivoting. This will always compute a
+  least-squares solution that minimizes the residual norm
+  \\(||A X - B||_F^2 \\), even when \\(A\\) is rank deficient or
+  ill-conditioned. Notice: The current version does not compute a minimum norm
+  solution. If `fast` is `False` then `l2_regularizer` is ignored.
+
+  Args:
+    matrix: 2-D `Tensor` of shape `[M, N]`.
+    rhs: 2-D `Tensor` of shape is `[M, K]`.
+    l2_regularizer: 0-D  `double` `Tensor`. Ignored if `fast=False`.
+    fast: bool. Defaults to `True`.
+    name: string, optional name of the operation.
+
+  Returns:
+    output: Matrix of shape `[N, K]` containing the matrix that solves
+      `matrix * output = rhs` in the least-squares sense.
+  """
+matrix_solve_ls(matrix::Union{AbstractTensor,Void}, rhs::Union{AbstractTensor,Void}, l2_regularizer::AbstractTensor=0.0, fast::Any=true, name::Union{AbstractString,Void}=nothing) = tf.matrix_solve_ls(;Dict(:matrix=>matrix, :rhs=>rhs, :l2_regularizer=>l2_regularizer, :fast=>fast, :name=>name)...)
+export matrix_solve_ls
+          
+
+"""
+Solves a system of linear equations with an upper or lower triangular matrix by
+
+  backsubstitution.
+
+  `matrix` is a matrix of shape `[M, M]`. If `lower` is `True` then the strictly
+  upper triangular part of `matrix` is assumed to be zero and not accessed.
+  If `lower` is False then the strictly lower triangular part of `matrix` is
+  assumed to be zero and not accessed.
+  `rhs` is a matrix of shape [M, K]`.
+
+  The output is a matrix of shape `[M, K]`. If `adjoint` is `False` the output
+  satisfies the matrix equation `matrix` * `output` = `rhs`.
+  If `adjoint` is `False` then `output` satisfies the matrix equation
+  `matrix` * `output` = `rhs`.
+  If `adjoint` is `True` then `output` satisfies the matrix equation
+  `adjoint(matrix)` * `output` = `rhs`.
+
+  Args:
+    matrix: A `Tensor`. Must be one of the following types: `float64`, `float32`.
+      Shape is `[M, M]`.
+    rhs: A `Tensor`. Must have the same type as `matrix`. Shape is `[M, K]`.
+    lower: An optional `bool`. Defaults to `True`.
+      Boolean indicating whether `matrix` is lower or upper triangular
+    adjoint: An optional `bool`. Defaults to `False`.
+      Boolean indicating whether to solve with `matrix` or its adjoint.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `matrix`. Shape is `[M, K]`.
+  """
+matrix_triangular_solve(matrix::Union{AbstractTensor,Void}, rhs::Union{AbstractTensor,Void}, lower::Union{Bool,Void}=nothing, adjoint::Union{Bool,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.matrix_triangular_solve(;Dict(:matrix=>matrix, :rhs=>rhs, :lower=>lower, :adjoint=>adjoint, :name=>name)...))
+export matrix_triangular_solve
           
 
 """
 Returns the max of x and y (i.e. x > y ? x : y) element-wise, broadcasts.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `int64`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -2936,7 +4812,7 @@ export merge_all_summaries
 Merges summaries.
 
   This op creates a
-  [`Summary`](https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/core/framework/summary.proto)
+  [`Summary`](https://www.tensorflow.org/code/tensorflow/core/framework/summary.proto)
   protocol buffer that contains the union of all the values in the input
   summaries.
 
@@ -2962,7 +4838,7 @@ export merge_summary
 Returns the min of x and y (i.e. x < y ? x : y) element-wise, broadcasts.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `int64`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -3007,7 +4883,7 @@ export moving_average_variables
 Returns x * y element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `uint8`, `int8`, `int16`, `int32`, `int64`, `complex64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `uint8`, `int8`, `int16`, `int32`, `int64`, `complex64`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -3042,7 +4918,7 @@ Computes numerical negative value element-wise.
   I.e., \\(y = -x\\).
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -3066,10 +4942,16 @@ export no_op
           
 
 """
+Use this function to prevent regularization of variables."""
+no_regularizer(_::Any) = tf.no_regularizer(;Dict(:_=>_)...)
+export no_regularizer
+          
+
+"""
 Returns the truth value of (x != y) element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `complex64`, `quint8`, `qint8`, `qint32`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `uint8`, `int8`, `int16`, `int32`, `int64`, `complex64`, `quint8`, `qint8`, `qint32`, `string`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -3078,6 +4960,101 @@ Returns the truth value of (x != y) element-wise.
   """
 not_equal(x::Union{AbstractTensor,Void}, y::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.not_equal(;Dict(:x=>x, :y=>y, :name=>name)...))
 export not_equal
+          
+
+"""
+Returns a one-hot tensor.
+
+  The locations represented by indices in `indices` take value `on_value`,
+  while all other locations take value `off_value`. By default, `on_value` is 1,
+  and `off_value` is 0. The type of the output tensor is specified by `dtype`, 
+  which defaults to `tf.float32`.
+
+  If the input `indices` is rank `N`, the output will have rank `N+1`. The
+  new axis is created at dimension `axis` (default: the new axis is appended
+  at the end).
+
+  If `indices` is a scalar the output shape will be a vector of length `depth`
+
+  If `indices` is a vector of length `features`, the output shape will be:
+  ```
+    features x depth if axis == -1
+    depth x features if axis == 0
+  ```
+
+  If `indices` is a matrix (batch) with shape `[batch, features]`, the output
+  shape will be:
+  ```
+    batch x features x depth if axis == -1
+    batch x depth x features if axis == 1
+    depth x batch x features if axis == 0
+  ```
+
+
+  Examples
+  =========
+
+  Suppose that
+
+  ```
+    indices = [0, 2, -1, 1]
+    depth = 3
+    on_value = 5.0
+    off_value = 0.0
+    axis = -1
+  ```
+
+  Then output is `[4 x 3]`:
+
+  ```
+    output =
+    [5.0 0.0 0.0]  // one_hot(0)
+    [0.0 0.0 5.0]  // one_hot(2)
+    [0.0 0.0 0.0]  // one_hot(-1)
+    [0.0 5.0 0.0]  // one_hot(1)
+  ```
+
+  Suppose that
+
+  ```
+    indices = [[0, 2], [1, -1]]
+    depth = 3
+    on_value = 1.0
+    off_value = 0.0
+    axis = -1
+  ```
+
+  Then output is `[2 x 2 x 3]`:
+
+  ```
+    output =
+    [
+      [1.0, 0.0, 0.0]  // one_hot(0)
+      [0.0, 0.0, 1.0]  // one_hot(2)
+    ][
+      [0.0, 1.0, 0.0]  // one_hot(1)
+      [0.0, 0.0, 0.0]  // one_hot(-1)
+    ]
+  ```
+
+  Args:
+    indices: A `Tensor` of indices.
+    depth: A scalar defining the depth of the one hot dimension.
+    on_value: A scalar defining the value to fill in output when `indices[j]
+      = i`. (default: 1)
+    off_value: A scalar defining the value to fill in output when `indices[j]
+      != i`. (default: 0)
+    axis: The axis to fill (default: -1, a new inner-most axis).
+    dtype: The data type of the output tensor.
+
+  Returns:
+    output: The one-hot tensor.
+
+  Raises:
+    TypeError: If dtype is `tf.string`
+  """
+one_hot(indices::Union{AbstractTensor,Void}, depth::Any, on_value::Any=1, off_value::Any=0, axis::Any=nothing, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.one_hot(;Dict(:indices=>indices, :depth=>depth, :on_value=>on_value, :off_value=>off_value, :axis=>axis, :dtype=>dtype, :name=>name)...))
+export one_hot
           
 
 """
@@ -3102,6 +5079,12 @@ Creates a tensor with all elements set to 1.
   """
 ones_(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.ones(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
 export ones_
+          
+
+"""
+An adaptor for ones() to match the Initializer spec."""
+ones_initializer(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32) = tf.ones_initializer(;Dict(:shape=>shape, :dtype=>dtype)...)
+export ones_initializer
           
 
 """
@@ -3135,7 +5118,7 @@ export ones_like
 Returns a context manager for use when defining a Python op.
 
   This context manager validates that the given `values` are from the
-  same graph, ensures that that graph is the default graph, and pushes a
+  same graph, ensures that graph is the default graph, and pushes a
   name scope.
 
   For example, to define a new Python op called `my_op`:
@@ -3188,76 +5171,87 @@ export pack
           
 
 """
-Pads a tensor with zeros.
+Pads a tensor.
 
-  This operation pads a `input` with zeros according to the `paddings` you
-  specify. `paddings` is an integer tensor with shape `[Dn, 2]`, where n is the
-  rank of `input`. For each dimension D of `input`, `paddings[D, 0]` indicates
-  how many zeros to add before the contents of `input` in that dimension, and
-  `paddings[D, 1]` indicates how many zeros to add after the contents of `input`
-  in that dimension.
+  This operation pads a `tensor` according to the `paddings` you specify.
+  `paddings` is an integer tensor with shape `[n, 2]`, where n is the rank of
+  `tensor`. For each dimension D of `input`, `paddings[D, 0]` indicates how
+  many values to add before the contents of `tensor` in that dimension, and
+  `paddings[D, 1]` indicates how many values to add after the contents of
+  `tensor` in that dimension. If `mode` is "REFLECT" then both `paddings[D, 0]`
+  and `paddings[D, 1]` must be no greater than `tensor.dim_size(D) - 1`. If
+  `mode` is "SYMMETRIC" then both `paddings[D, 0]` and `paddings[D, 1]` must be
+  no greater than `tensor.dim_size(D)`.
 
   The padded size of each dimension D of the output is:
 
-  `paddings(D, 0) + input.dim_size(D) + paddings(D, 1)`
+  `paddings[D, 0] + tensor.dim_size(D) + paddings[D, 1]`
 
   For example:
 
-  ```prettyprint
-  # 't' is [[1, 1], [2, 2]]
-  # 'paddings' is [[1, 1], [2, 2]]
-  # rank of 't' is 2
-  pad(t, paddings) ==> [[0, 0, 0, 0, 0, 0]
-                        [0, 0, 1, 1, 0, 0]
-                        [0, 0, 2, 2, 0, 0]
-                        [0, 0, 0, 0, 0, 0]]
+  ```python
+  # 't' is [[1, 2, 3], [4, 5, 6]].
+  # 'paddings' is [[1, 1,], [2, 2]].
+  # rank of 't' is 2.
+  pad(t, paddings, "CONSTANT") ==> [[0, 0, 0, 0, 0, 0, 0],
+                                    [0, 0, 1, 2, 3, 0, 0],
+                                    [0, 0, 4, 5, 6, 0, 0],
+                                    [0, 0, 0, 0, 0, 0, 0]]
+
+  pad(t, paddings, "REFLECT") ==> [[6, 5, 4, 5, 6, 5, 4],
+                                   [3, 2, 1, 2, 3, 2, 1],
+                                   [6, 5, 4, 5, 6, 5, 4],
+                                   [3, 2, 1, 2, 3, 2, 1]]
+
+  pad(t, paddings, "SYMMETRIC") ==> [[2, 1, 1, 2, 3, 3, 2],
+                                     [2, 1, 1, 2, 3, 3, 2],
+                                     [5, 4, 4, 5, 6, 6, 5],
+                                     [5, 4, 4, 5, 6, 6, 5]]
   ```
 
   Args:
-    input: A `Tensor`.
+    tensor: A `Tensor`.
     paddings: A `Tensor` of type `int32`.
+    mode: One of "CONSTANT", "REFLECT", or "SYMMETRIC".
     name: A name for the operation (optional).
 
   Returns:
-    A `Tensor`. Has the same type as `input`.
+    A `Tensor`. Has the same type as `tensor`.
+
+  Raises:
+    ValueError: When mode is not one of "CONSTANT", "REFLECT", or "SYMMETRIC".
   """
-pad(input::Union{AbstractTensor,Void}, paddings::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.pad(;Dict(:input=>input, :paddings=>paddings, :name=>name)...))
+pad(tensor::Union{AbstractTensor,Void}, paddings::Union{AbstractTensor,Void}, mode::Any="CONSTANT", name::Union{AbstractString,Void}=nothing) = Tensor(tf.pad(;Dict(:tensor=>tensor, :paddings=>paddings, :mode=>mode, :name=>name)...))
 export pad
           
 
 """
-Parses `Example` protos.
+Parses `Example` protos into a `dict` of tensors.
 
   Parses a number of serialized [`Example`]
-  (https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/core/example/example.proto)
+  (https://www.tensorflow.org/code/tensorflow/core/example/example.proto)
   protos given in `serialized`.
 
-  `names` may contain descriptive names for the corresponding serialized protos.
-  These may be useful for debugging purposes, but they have no effect on the
-  output. If not `None`, `names` must be the same length as `serialized`.
+  `example_names` may contain descriptive names for the corresponding serialized
+  protos. These may be useful for debugging purposes, but they have no effect on
+  the output. If not `None`, `example_names` must be the same length as `serialized`.
 
   This op parses serialized examples into a dictionary mapping keys to `Tensor`
-  and `SparseTensor` objects respectively, depending on whether the keys appear
-  in `sparse_keys` or `dense_keys`.
+  and `SparseTensor` objects. `features` is a dict from keys to `VarLenFeature`
+  and `FixedLenFeature` objects. Each `VarLenFeature` is mapped to a
+  `SparseTensor`, and each `FixedLenFeature` is mapped to a `Tensor`.
 
-  The key `dense_keys[j]` is mapped to a `Tensor` of type `dense_types[j]` and
-  of shape `(serialized.size(),) + dense_shapes[j]`.
+  Each `VarLenFeature` maps to a `SparseTensor` of the specified type
+  representing a ragged matrix. Its indices are `[batch, index]` where `batch`
+  is the batch entry the value is from in `serialized`, and `index` is the
+  value's index in the list of values associated with that feature and example.
 
-  `dense_defaults` provides defaults for values referenced using `dense_keys`.
-  If a key is not present in this dictionary, the corresponding dense `Feature`
-  is required in all elements of `serialized`.
+  Each `FixedLenFeature` `df` maps to a `Tensor` of the specified type (or
+  `tf.float32` if not specified) and shape `(serialized.size(),) + df.shape`.
 
-  `dense_shapes[j]` provides the shape of each `Feature` entry referenced by
-  `dense_keys[j]`. The number of elements in the `Feature` corresponding to
-  `dense_key[j]` must always have `np.prod(dense_shapes[j])` entries. The
-  returned `Tensor` for `dense_key[j]` has shape `[N] + dense_shape[j]`, where
-  `N` is the number of `Example`s in `serialized`.
-
-  The key `sparse_keys[j]` is mapped to a `SparseTensor` of type
-  `sparse_types[j]`. The `SparseTensor` represents a ragged matrix.
-  Its indices are `[batch, index]` where `batch` is the batch entry the value
-  is from, and `index` is the value's index in the list of values associated
-  with that feature and example.
+  `FixedLenFeature` entries with a `default_value` are optional. With no default
+  value, we will fail if that `Feature` is missing from any example in
+  `serialized`.
 
   Examples:
 
@@ -3302,9 +5296,12 @@ Parses `Example` protos.
   And arguments
 
   ```
-    names: ["input0", "input1"],
-    sparse_keys: ["kw", "dank", "gps"]
-    sparse_types: [DT_STRING, DT_INT64, DT_FLOAT]
+  example_names: ["input0", "input1"],
+  features: {
+      "kw": VarLenFeature(tf.string),
+      "dank": VarLenFeature(tf.int64),
+      "gps": VarLenFeature(tf.float),
+  }
   ```
 
   Then the output is a dictionary:
@@ -3344,14 +5341,11 @@ Parses `Example` protos.
   We can use arguments:
 
   ```
-  names: ["input0", "input1"],
-  dense_keys: np.array(["age", "gender"]),
-  dense_types: [tf.int64, tf.string],
-  dense_defaults: {
-    "age": -1  # "age" defaults to -1 if missing
-               # "gender" has no specified default so it's required
+  example_names: ["input0", "input1"],
+  features: {
+      "age": FixedLenFeature([], dtype=tf.int64, default_value=-1),
+      "gender": FixedLenFeature([], dtype=tf.string),
   }
-  dense_shapes: [(1,), (1,)],  # age, gender, label, weight
   ```
 
   And the expected output is:
@@ -3366,34 +5360,19 @@ Parses `Example` protos.
   Args:
     serialized: A vector (1-D Tensor) of strings, a batch of binary
       serialized `Example` protos.
-    names: A vector (1-D Tensor) of strings (optional), the names of
-      the serialized protos.
-    sparse_keys: A list of string keys in the examples' features.
-      The results for these keys will be returned as `SparseTensor` objects.
-    sparse_types: A list of `DTypes` of the same length as `sparse_keys`.
-      Only `tf.float32` (`FloatList`), `tf.int64` (`Int64List`),
-      and `tf.string` (`BytesList`) are supported.
-    dense_keys: A list of string keys in the examples' features.
-      The results for these keys will be returned as `Tensor`s
-    dense_types: A list of DTypes of the same length as `dense_keys`.
-      Only `tf.float32` (`FloatList`), `tf.int64` (`Int64List`),
-      and `tf.string` (`BytesList`) are supported.
-    dense_defaults: A dict mapping string keys to `Tensor`s.
-      The keys of the dict must match the dense_keys of the feature.
-    dense_shapes: A list of tuples with the same length as `dense_keys`.
-      The shape of the data for each dense feature referenced by `dense_keys`.
-      Required for any input tensors identified by `dense_keys` whose shapes are
-      anything other than `[]` or `[1]`.
+    features: A `dict` mapping feature keys to `FixedLenFeature` or
+      `VarLenFeature` values.
     name: A name for this operation (optional).
+    example_names: A vector (1-D Tensor) of strings (optional), the names of
+      the serialized protos in the batch.
 
   Returns:
-    A `dict` mapping keys to `Tensor`s and `SparseTensor`s.
+    A `dict` mapping feature keys to `Tensor` and `SparseTensor` values.
 
   Raises:
-    ValueError: If sparse and dense key sets intersect, or input lengths do not
-      match up.
+    ValueError: if any feature is invalid.
   """
-parse_example(serialized::Union{AbstractTensor,Void}, names_::Any=nothing, sparse_keys::Any=nothing, sparse_types::Any=nothing, dense_keys::Any=nothing, dense_types::Any=nothing, dense_defaults::Union{AbstractTensor,Void}=nothing, dense_shapes::Any=nothing, name::AbstractString="ParseExample") = Tensor(tf.parse_example(;Dict(:serialized=>serialized, :names=>names_, :sparse_keys=>sparse_keys, :sparse_types=>sparse_types, :dense_keys=>dense_keys, :dense_types=>dense_types, :dense_defaults=>dense_defaults, :dense_shapes=>dense_shapes, :name=>name)...))
+parse_example(serialized::Union{AbstractTensor,Void}, features::Any, name::Union{AbstractString,Void}=nothing, example_names::Union{AbstractTensor,Void}=nothing) = Tensor(tf.parse_example(;Dict(:serialized=>serialized, :features=>features, :name=>name, :example_names=>example_names)...))
 export parse_example
           
 
@@ -3411,28 +5390,22 @@ Parses a single `Example` proto.
   the first (`batch_size`) entry of the shape vector is removed (it is now a
   single element vector).
 
-  See also `parse_example`.
-
   Args:
     serialized: A scalar string Tensor, a single serialized Example.
-      See `parse_example` documentation for more details.
-    names: (Optional) A scalar string Tensor, the associated name.
-      See `parse_example` documentation for more details.
-    sparse_keys: See `parse_example` documentation for more details.
-    sparse_types: See `parse_example` documentation for more details.
-    dense_keys: See `parse_example` documentation for more details.
-    dense_types: See `parse_example` documentation for more details.
-    dense_defaults: See `parse_example` documentation for more details.
-    dense_shapes: See `parse_example` documentation for more details.
+      See `_parse_single_example_raw` documentation for more details.
+    features: A `dict` mapping feature keys to `FixedLenFeature` or
+      `VarLenFeature` values.
     name: A name for this operation (optional).
+    example_names: (Optional) A scalar string Tensor, the associated name.
+      See `_parse_single_example_raw` documentation for more details.
 
   Returns:
-    A dictionary mapping keys to Tensors and SparseTensors.
+    A `dict` mapping feature keys to `Tensor` and `SparseTensor` values.
 
   Raises:
-    ValueError: if "scalar" or "names" have known shapes, and are not scalars.
+    ValueError: if any feature is invalid.
   """
-parse_single_example(serialized::Union{AbstractTensor,Void}, names_::Union{AbstractTensor,Void}=nothing, sparse_keys::Any=nothing, sparse_types::Any=nothing, dense_keys::Any=nothing, dense_types::Any=nothing, dense_defaults::Any=nothing, dense_shapes::Any=nothing, name::AbstractString="ParseSingleExample") = Tensor(tf.parse_single_example(;Dict(:serialized=>serialized, :names=>names_, :sparse_keys=>sparse_keys, :sparse_types=>sparse_types, :dense_keys=>dense_keys, :dense_types=>dense_types, :dense_defaults=>dense_defaults, :dense_shapes=>dense_shapes, :name=>name)...))
+parse_single_example(serialized::Union{AbstractTensor,Void}, features::Any, name::Union{AbstractString,Void}=nothing, example_names::Union{AbstractTensor,Void}=nothing) = Tensor(tf.parse_single_example(;Dict(:serialized=>serialized, :features=>features, :name=>name, :example_names=>example_names)...))
 export parse_single_example
           
 
@@ -3440,102 +5413,60 @@ export parse_single_example
 Parses a single `SequenceExample` proto.
 
   Parses a single serialized [`SequenceExample`]
-  (https://tensorflow.googlesource.com/tensorflow/+/master/tensorflow/core/example/example.proto)
+  (https://www.tensorflow.org/code/tensorflow/core/example/example.proto)
   proto given in `serialized`.
 
   This op parses a serialize sequence example into a tuple of dictionaries
   mapping keys to `Tensor` and `SparseTensor` objects respectively.
   The first dictionary contains mappings for keys appearing in
-  `context_sparse_keys` or `context_dense_keys`, and the second dictionary
-  contains mappings for keys appearing in `feature_list_dense_keys`.
+  `context_features`, and the second dictionary contains mappings for keys
+  appearing in `sequence_features`.
 
-  The `context` keys are associated with a `SequenceExample` as a whole,
-  independent of time / frame.  In contrast, the `feature_list` keys provide
-  a way to access variable-length data within the `FeatureList` section of the
-  `SequenceExample` proto.  While the shapes of `context` values are fixed
-  with respect to frame, the frame dimension (the first dimension)
-  of `feature_list` values may vary from `SequenceExample` to `SequenceExample`
+  At least one of `context_features` and `sequence_features` must be provided
+  and non-empty.
+
+  The `context_features` keys are associated with a `SequenceExample` as a
+  whole, independent of time / frame.  In contrast, the `sequence_features` keys
+  provide a way to access variable-length data within the `FeatureList` section
+  of the `SequenceExample` proto.  While the shapes of `context_features` values
+  are fixed with respect to frame, the frame dimension (the first dimension)
+  of `sequence_features` values may vary between `SequenceExample` protos,
   and even between `feature_list` keys within the same `SequenceExample`.
 
-  The key `context_dense_keys[j]` is mapped to a `Tensor` of type
-  `context_dense_types[j]` and of shape `context_dense_shapes[j]`.
+  `context_features` contains `VarLenFeature` and `FixedLenFeature` objects.
+  Each `VarLenFeature` is mapped to a `SparseTensor`, and each `FixedLenFeature`
+  is mapped to a `Tensor`, of the specified type, shape, and default value.
 
-  `context_dense_defaults` provides defaults for values referenced using
-  `context_dense_keys`.  If a key is not present in this dictionary, the
-  corresponding context_dense `Feature` is required in `serialized`.
+  `sequence_features` contains `VarLenFeature` and `FixedLenSequenceFeature`
+  objects. Each `VarLenFeature` is mapped to a `SparseTensor`, and each
+  `FixedLenSequenceFeature` is mapped to a `Tensor`, each of the specified type.
+  The shape will be `(T,) + df.shape` for `FixedLenSequenceFeature` `df`, where
+  `T` is the length of the associated `FeatureList` in the `SequenceExample`.
 
-  `context_dense_shapes[j]` provides the shape of each context `Feature` entry
-  referenced by `context_dense_keys[j]`. The number of elements in the
-  `Feature` corresponding to `context_dense_key[j]` must always have
-  `np.prod(context_dense_shapes[j])` entries. The returned `Tensor` for
-  `context_dense_key[j]` has shape `context_dense_shape[j]`.
+  Each `SparseTensor` corresponding to `sequence_features` represents a ragged
+  vector.  Its indices are `[time, index]`, where `time` is the `FeatureList`
+  entry and `index` is the value's index in the list of values associated with
+  that time.
 
-  The key `context_sparse_keys[j]` is mapped to a `SparseTensor` of type
-  `context_sparse_types[j]`. This `SparseTensor` represents a ragged vector.
-  Its indices are `[index]`, where `index` is the value's index in the list of
-  values associated with that feature and example.
+  `FixedLenFeature` entries with a `default_value` and `FixedLenSequenceFeature`
+  entries with `allow_missing=True` are optional; otherwise, we will fail if
+  that `Feature` or `FeatureList` is missing from any example in `serialized`.
 
-  The key `feature_list_dense_keys[j]` is mapped to a `Tensor` of type
-  `feature_list_dense_types[j]` and of shape
-  `(T,) + feature_list_dense_shapes[j]`, where `T` is the length of the
-  associated `FeatureList` in the `SequenceExample`.
-
-  Note: every key declared in `feature_list_dense_keys` **must** be
-  provided in the `SequenceExample`'s `FeatureLists`, even if just empty.
-  Exceptions are allowed by adding the given key to the map
-  `feature_list_dense_defaults` with value None.  Any key with value None
-  map will be  treated as empty (zero length) if not found in the
-  `FeatureList` map.
-
-  The key `feature_list_sparse_keys[j]` is mapped to a `SparseTensor` of type
-  `feature_list_sparse_types[j]`. This `SparseTensor` represents a ragged
-  vector.  Its indices are `[time, index]`, where `time` is the FeatureList
-  entry `index` is the value's index in the list of values associated with that
-  time.
-
-  `debug_name` may contain a descriptive name for the corresponding serialized
+  `example_name` may contain a descriptive name for the corresponding serialized
   proto. This may be useful for debugging purposes, but it has no effect on the
-  output. If not `None`, `debug_name` must be a scalar.
+  output. If not `None`, `example_name` must be a scalar.
 
   Args:
     serialized: A scalar (0-D Tensor) of type string, a single binary
       serialized `SequenceExample` proto.
-    context_sparse_keys: A list of string keys in the `SequenceExample`'s
-      features.  The results for these keys will be returned as
-      `SparseTensor` objects.
-    context_sparse_types: A list of `DTypes`, the same length as `sparse_keys`.
-      Only `tf.float32` (`FloatList`), `tf.int64` (`Int64List`),
-      and `tf.string` (`BytesList`) are supported.
-    context_dense_keys: A list of string keys in the examples' features.
-      The results for these keys will be returned as `Tensor`s
-    context_dense_types: A list of DTypes, same length as `context_dense_keys`.
-      Only `tf.float32` (`FloatList`), `tf.int64` (`Int64List`),
-      and `tf.string` (`BytesList`) are supported.
-    context_dense_defaults: A dict mapping string keys to `Tensor`s.
-      The keys of the dict must match the context_dense_keys of the feature.
-    context_dense_shapes: A list of tuples, same length as `context_dense_keys`.
-      The shape of the data for each context_dense feature referenced by
-      `context_dense_keys`.  Required for any input tensors identified by
-      `context_dense_keys` whose shapes are anything other than `[]` or `[1]`.
-    feature_list_sparse_keys: A list of string keys in the `SequenceExample`'s
-      feature_lists.  The results for these keys will be returned as
-      `SparseTensor` objects.
-    feature_list_sparse_types: A list of `DTypes`, same length as `sparse_keys`.
-      Only `tf.float32` (`FloatList`), `tf.int64` (`Int64List`),
-      and `tf.string` (`BytesList`) are supported.
-    feature_list_dense_keys: A list of string keys in the `SequenceExample`'s
-      features_lists. The results for these keys will be returned as `Tensor`s.
-    feature_list_dense_types: A list of `DTypes`, same length as
-      `feature_list_dense_keys`.  Only `tf.float32` (`FloatList`),
-      `tf.int64` (`Int64List`), and `tf.string` (`BytesList`) are supported.
-    feature_list_dense_shapes: A list of tuples, same length as
-      `feature_list_dense_keys`.  The shape of the data for each
-      `FeatureList` feature referenced by `feature_list_dense_keys`.
-    feature_list_dense_defaults: A dict mapping key strings to values.
-      The only currently allowed value is `None`.  Any key appearing
-      in this dict with value `None` is allowed  to be missing from the
-      `SequenceExample`.  If missing, the key is treated as zero-length.
-    debug_name: A scalar (0-D Tensor) of strings (optional), the name of
+    context_features: A `dict` mapping feature keys to `FixedLenFeature` or
+      `VarLenFeature` values. These features are associated with a
+      `SequenceExample` as a whole.
+    sequence_features: A `dict` mapping feature keys to
+      `FixedLenSequenceFeature` or `VarLenFeature` values. These features are
+      associated with data within the `FeatureList` section of the
+      `SequenceExample` proto.
+    example_name: A scalar (0-D Tensor) of strings (optional), the name of
       the serialized proto.
     name: A name for this operation (optional).
 
@@ -3545,12 +5476,9 @@ Parses a single `SequenceExample` proto.
     The second dict contains the feature_list key/values.
 
   Raises:
-    ValueError: If context_sparse and context_dense key sets intersect,
-      if input lengths do not match up, or if a value in
-      feature_list_dense_defaults is not None.
-    TypeError: if feature_list_dense_defaults is not either None or a dict.
+    ValueError: if any feature is invalid.
   """
-parse_single_sequence_example(serialized::Union{AbstractTensor,Void}, context_sparse_keys::Any=nothing, context_sparse_types::Any=nothing, context_dense_keys::Any=nothing, context_dense_types::Any=nothing, context_dense_defaults::Union{AbstractTensor,Void}=nothing, context_dense_shapes::Any=nothing, feature_list_sparse_keys::Any=nothing, feature_list_sparse_types::Any=nothing, feature_list_dense_keys::Any=nothing, feature_list_dense_types::Any=nothing, feature_list_dense_shapes::Any=nothing, feature_list_dense_defaults::Any=nothing, debug_name::Union{AbstractTensor,Void}=nothing, name::AbstractString="ParseSingleSequenceExample") = Tensor(tf.parse_single_sequence_example(;Dict(:serialized=>serialized, :context_sparse_keys=>context_sparse_keys, :context_sparse_types=>context_sparse_types, :context_dense_keys=>context_dense_keys, :context_dense_types=>context_dense_types, :context_dense_defaults=>context_dense_defaults, :context_dense_shapes=>context_dense_shapes, :feature_list_sparse_keys=>feature_list_sparse_keys, :feature_list_sparse_types=>feature_list_sparse_types, :feature_list_dense_keys=>feature_list_dense_keys, :feature_list_dense_types=>feature_list_dense_types, :feature_list_dense_shapes=>feature_list_dense_shapes, :feature_list_dense_defaults=>feature_list_dense_defaults, :debug_name=>debug_name, :name=>name)...))
+parse_single_sequence_example(serialized::Union{AbstractTensor,Void}, context_features::Any=nothing, sequence_features::Any=nothing, example_name::Union{AbstractTensor,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.parse_single_sequence_example(;Dict(:serialized=>serialized, :context_features=>context_features, :sequence_features=>sequence_features, :example_name=>example_name, :name=>name)...))
 export parse_single_sequence_example
           
 
@@ -3589,13 +5517,30 @@ export placeholder
           
 
 """
+A placeholder op that passes though `input` when its output is not fed.
+
+  Args:
+    input: A `Tensor`. The default value to produce when `output` is not fed.
+    shape: A `tf.TensorShape` or list of `ints`.
+      The (possibly partial) shape of the tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `input`.
+    A placeholder tensor that defaults to `input` if it is not fed.
+  """
+placeholder_with_default(input::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.placeholder_with_default(;Dict(:input=>input, :shape=>shape, :name=>name)...))
+export placeholder_with_default
+          
+
+"""
 Computes the power of one value to another.
 
   Given a tensor `x` and a tensor `y`, this operation computes \\(x^y\\) for
   corresponding elements in `x` and `y`. For example:
 
   ```
-  # tensor 'x' is [[2, 2]], [3, 3]]
+  # tensor 'x' is [[2, 2], [3, 3]]
   # tensor 'y' is [[8, 16], [2, 3]]
   tf.pow(x, y) ==> [[256, 65536], [9, 27]]
   ```
@@ -3638,6 +5583,31 @@ Wraps a python function and uses it as a tensorflow op.
   """
 py_func(func::Any, inp::Union{AbstractTensor,Void}, Tout::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.py_func(;Dict(:func=>func, :inp=>inp, :Tout=>Tout, :name=>name)...))
 export py_func
+          
+
+"""
+Randomly crops a tensor to a given size.
+
+  Slices a shape `size` portion out of `value` at a uniformly chosen offset.
+  Requires `value.shape >= size`.
+
+  If a dimension should not be cropped, pass the full size of that dimension.
+  For example, RGB images can be cropped with
+  `size = [crop_height, crop_width, 3]`.
+
+  Args:
+    value: Input tensor to crop.
+    size: 1-D tensor with size the rank of `value`.
+    seed: Python integer. Used to create a random seed. See
+      [`set_random_seed`](../../api_docs/python/constant_op.md#set_random_seed)
+      for behavior.
+    name: A name for this operation (optional).
+
+  Returns:
+    A cropped tensor of the same rank as `value` and shape `size`.
+  """
+random_crop(value::Union{AbstractTensor,Void}, size_::Union{AbstractTensor,Void}, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_crop(;Dict(:value=>value, :size=>size_, :seed=>seed, :name=>name)...))
+export random_crop
           
 
 """
@@ -3905,7 +5875,7 @@ Computes the "logical and" of elements across dimensions of a tensor.
 
   Args:
     input_tensor: The boolean tensor to reduce.
-    reduction_indices: The dimensions to reduce. If `None` (the defaut),
+    reduction_indices: The dimensions to reduce. If `None` (the default),
       reduces all dimensions.
     keep_dims: If true, retains reduced dimensions with length 1.
     name: A name for the operation (optional).
@@ -3940,7 +5910,7 @@ Computes the "logical or" of elements across dimensions of a tensor.
 
   Args:
     input_tensor: The boolean tensor to reduce.
-    reduction_indices: The dimensions to reduce. If `None` (the defaut),
+    reduction_indices: The dimensions to reduce. If `None` (the default),
       reduces all dimensions.
     keep_dims: If true, retains reduced dimensions with length 1.
     name: A name for the operation (optional).
@@ -3950,6 +5920,55 @@ Computes the "logical or" of elements across dimensions of a tensor.
   """
 reduce_any(input_tensor::Union{AbstractTensor,Void}, reduction_indices::Any=nothing, keep_dims::Bool=false, name::Union{AbstractString,Void}=nothing) = Tensor(tf.reduce_any(;Dict(:input_tensor=>input_tensor, :reduction_indices=>reduction_indices, :keep_dims=>keep_dims, :name=>name)...))
 export reduce_any
+          
+
+"""
+Joins a string Tensor across the given dimensions.
+
+  Computes the string join across dimensions in the given string Tensor of shape
+  `[d_0, d_1, ..., d_n-1]`.  Returns a new Tensor created by joining the input
+  strings with the given separator (default: empty string).  Negative indices are
+  counted backwards from the end, with `-1` being equivalent to `n - 1`.  Passing
+  an empty `reduction_indices` joins all strings in linear index order and outputs
+  a scalar string.
+
+
+  For example:
+  ```
+  # tensor `a` is [["a", "b"], ["c", "d"]]
+  tf.reduce_join(a, 0) ==> ["ac", "bd"]
+  tf.reduce_join(a, 1) ==> ["ab", "cd"]
+  tf.reduce_join(a, -2) = tf.reduce_join(a, 0) ==> ["ac", "bd"]
+  tf.reduce_join(a, -1) = tf.reduce_join(a, 1) ==> ["ab", "cd"]
+  tf.reduce_join(a, 0, keep_dims=True) ==> [["ac", "bd"]]
+  tf.reduce_join(a, 1, keep_dims=True) ==> [["ab"], ["cd"]]
+  tf.reduce_join(a, 0, separator=".") ==> ["a.c", "b.d"]
+  tf.reduce_join(a, [0, 1]) ==> ["acbd"]
+  tf.reduce_join(a, [1, 0]) ==> ["abcd"]
+  tf.reduce_join(a, []) ==> ["abcd"]
+  ```
+
+  Args:
+    inputs: A `Tensor` of type `string`.
+      The input to be joined.  All reduced indices must have non-zero size.
+    reduction_indices: A `Tensor` of type `int32`.
+      The dimensions to reduce over.  Dimensions are reduced in the
+      order specified.  If `reduction_indices` has higher rank than `1`, it is
+      flattened.  Omitting `reduction_indices` is equivalent to passing
+      `[n-1, n-2, ..., 0]`.  Negative indices from `-n` to `-1` are supported.
+    keep_dims: An optional `bool`. Defaults to `False`.
+      If `True`, retain reduced dimensions with length `1`.
+    separator: An optional `string`. Defaults to `""`.
+      The separator to use when joining.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor` of type `string`.
+    Has shape equal to that of the input with reduced dimensions removed or
+    set to `1` depending on `keep_dims`.
+  """
+reduce_join(inputs::Union{AbstractTensor,Void}, reduction_indices::Union{AbstractTensor,Void}, keep_dims::Union{Bool,Void}=nothing, separator::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.reduce_join(;Dict(:inputs=>inputs, :reduction_indices=>reduction_indices, :keep_dims=>keep_dims, :separator=>separator, :name=>name)...))
+export reduce_join
           
 
 """
@@ -3965,7 +5984,7 @@ Computes the maximum of elements across dimensions of a tensor.
 
   Args:
     input_tensor: The tensor to reduce. Should have numeric type.
-    reduction_indices: The dimensions to reduce. If `None` (the defaut),
+    reduction_indices: The dimensions to reduce. If `None` (the default),
       reduces all dimensions.
     keep_dims: If true, retains reduced dimensions with length 1.
     name: A name for the operation (optional).
@@ -4000,7 +6019,7 @@ Computes the mean of elements across dimensions of a tensor.
 
   Args:
     input_tensor: The tensor to reduce. Should have numeric type.
-    reduction_indices: The dimensions to reduce. If `None` (the defaut),
+    reduction_indices: The dimensions to reduce. If `None` (the default),
       reduces all dimensions.
     keep_dims: If true, retains reduced dimensions with length 1.
     name: A name for the operation (optional).
@@ -4025,7 +6044,7 @@ Computes the minimum of elements across dimensions of a tensor.
 
   Args:
     input_tensor: The tensor to reduce. Should have numeric type.
-    reduction_indices: The dimensions to reduce. If `None` (the defaut),
+    reduction_indices: The dimensions to reduce. If `None` (the default),
       reduces all dimensions.
     keep_dims: If true, retains reduced dimensions with length 1.
     name: A name for the operation (optional).
@@ -4050,7 +6069,7 @@ Computes the product of elements across dimensions of a tensor.
 
   Args:
     input_tensor: The tensor to reduce. Should have numeric type.
-    reduction_indices: The dimensions to reduce. If `None` (the defaut),
+    reduction_indices: The dimensions to reduce. If `None` (the default),
       reduces all dimensions.
     keep_dims: If true, retains reduced dimensions with length 1.
     name: A name for the operation (optional).
@@ -4087,7 +6106,7 @@ Computes the sum of elements across dimensions of a tensor.
 
   Args:
     input_tensor: The tensor to reduce. Should have numeric type.
-    reduction_indices: The dimensions to reduce. If `None` (the defaut),
+    reduction_indices: The dimensions to reduce. If `None` (the default),
       reduces all dimensions.
     keep_dims: If true, retains reduced dimensions with length 1.
     name: A name for the operation (optional).
@@ -4331,7 +6350,7 @@ Reverses variable length slices.
   Args:
     input: A `Tensor`. The input to reverse.
     seq_lengths: A `Tensor` of type `int64`.
-      1-D with length `input.dims(0)` and
+      1-D with length `input.dims(batch_dim)` and
       `max(seq_lengths) < input.dims(seq_dim)`
     seq_dim: An `int`. The dimension which is partially reversed.
     batch_dim: An optional `int`. Defaults to `0`.
@@ -4373,7 +6392,7 @@ Computes reciprocal of square root of x element-wise.
   I.e., \\(y = 1 / \sqrt{x}\\).
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -4381,6 +6400,46 @@ Computes reciprocal of square root of x element-wise.
   """
 rsqrt(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.rsqrt(;Dict(:x=>x, :name=>name)...))
 export rsqrt
+          
+
+"""
+Performs a safe saturating cast of `value` to `dtype`.
+
+  This function casts the input to `dtype` without applying any scaling.  If
+  there is a danger that values would over or underflow in the cast, this op
+  applies the appropriate clamping before the cast.
+
+  Args:
+    value: A `Tensor`.
+    dtype: The desired output `DType`.
+    name: A name for the operation (optional).
+
+  Returns:
+    `value` safely cast to `dtype`.
+  """
+saturate_cast(value::Union{AbstractTensor,Void}, dtype::Union{Dtype,Void}, name::Union{AbstractString,Void}=nothing) = Dtype(tf.saturate_cast(;Dict(:value=>value, :dtype=>dtype, :name=>name)...))
+export saturate_cast
+          
+
+"""
+Multiplies a scalar times a `Tensor` or `IndexedSlices` object.
+
+  Intended for use in gradient code which might deal with `IndexedSlices`
+  objects, which are easy to multiply by a scalar but more expensive to
+  multiply with arbitrary tensors.
+
+  Args:
+    scalar: A 0-D scalar `Tensor`. Must have known shape.
+    x: A `Tensor` or `IndexedSlices` to be scaled.
+
+  Returns:
+    `scalar * x` of the same type (`Tensor` or `IndexedSlices`) as `x`.
+
+  Raises:
+    ValueError: if scalar is not a 0-D `scalar`.
+  """
+scalar_mul(scalar::Union{AbstractTensor,Void}, x::Union{AbstractTensor,Void}) = Tensor(tf.scalar_mul(;Dict(:scalar=>scalar, :x=>x)...))
+export scalar_mul
           
 
 """
@@ -4402,6 +6461,47 @@ Outputs a `Summary` protocol buffer with scalar values.
   """
 scalar_summary(tags::Union{AbstractTensor,Void}, values_::Union{AbstractTensor,Void}, collections::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.scalar_summary(;Dict(:tags=>tags, :values=>values_, :collections=>collections, :name=>name)...))
 export scalar_summary
+          
+
+"""
+scan on the list of tensors unpacked from `elems` on dimension 0.
+
+  This scan operator repeatedly applies the callable `fn` to a sequence
+  of elements from first to last. The elements are made of the tensors
+  unpacked from `elems` on dimension 0. The callable fn takes two tensors as
+  arguments. The first argument is the accumulated value computed from the
+  preceding invocation of fn. If `initializer` is None, `elems` must contain
+  at least one element, and its first element is used as the initializer.
+
+  Suppose that `elems` is unpacked into `values`, a list of tensors. The shape
+  of the result tensor is `[len(values)] + fn(initializer, values[0]).shape`.
+
+  Args:
+    fn: The callable to be performed.
+    elems: A tensor to be unpacked on dimension 0.
+    initializer: (optional) The initial value for the accumulator.
+    parallel_iterations: (optional) The number of iterations allowed to run
+                         in parallel.
+    back_prop: (optional) True enables back propagation.
+    swap_memory: (optional) True enables GPU-CPU memory swapping.
+    name: (optional) Name prefix for the returned tensors.
+
+  Returns:
+    A tensor that packs the results of applying `fn` to the list of tensors
+    unpacked from `elems`, from first to last.
+
+  Raises:
+    TypeError: if `fn` is not callable.
+
+  Example:
+    ```python
+    elems = [1, 2, 3, 4, 5, 6]
+    sum = scan(lambda a, x: a + x, elems)
+    # sum == [1, 3, 6, 10, 15, 21]
+    ```
+  """
+scan(fn::Any, elems::Union{AbstractTensor,Void}, initializer::Any=nothing, parallel_iterations::Any=10, back_prop::Bool=true, swap_memory::Bool=false, name::Union{AbstractString,Void}=nothing) = Tensor(tf.scan(;Dict(:fn=>fn, :elems=>elems, :initializer=>initializer, :parallel_iterations=>parallel_iterations, :back_prop=>back_prop, :swap_memory=>swap_memory, :name=>name)...))
+export scan
           
 
 """
@@ -4431,7 +6531,7 @@ Adds sparse updates to a variable reference.
   </div>
 
   Args:
-    ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
       Should be from a `Variable` node.
     indices: A `Tensor`. Must be one of the following types: `int32`, `int64`.
       A tensor of indices into the first dimension of `ref`.
@@ -4475,7 +6575,7 @@ Subtracts sparse updates to a variable reference.
   </div>
 
   Args:
-    ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `int16`, `int8`, `complex64`, `qint8`, `quint8`, `qint32`.
+    ref: A mutable `Tensor`. Must be one of the following types: `float32`, `float64`, `int64`, `int32`, `uint8`, `uint16`, `int16`, `int8`, `complex64`, `complex128`, `qint8`, `quint8`, `qint32`, `half`.
       Should be from a `Variable` node.
     indices: A `Tensor`. Must be one of the following types: `int32`, `int64`.
       A tensor of indices into the first dimension of `ref`.
@@ -4511,8 +6611,9 @@ Applies sparse updates to a variable reference.
   This operation outputs `ref` after the update is done.
   This makes it easier to chain operations that need to use the reset value.
 
-  If `indices` contains duplicate entries, lexicographically later entries
-  override earlier entries.
+  If values in `ref` is to be updated more than once, because there are
+  duplicate entires in `indices`, the order at which the updates happen
+  for each value is undefined.
 
   Requires `updates.shape = indices.shape + ref.shape[1:]`.
 
@@ -4554,7 +6655,7 @@ Computes the maximum along segments of a tensor.
   </div>
 
   Args:
-    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`.
+    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     segment_ids: A `Tensor`. Must be one of the following types: `int32`, `int64`.
       A 1-D tensor whose rank is equal to the rank of `data`'s
       first dimension.  Values should be sorted and can be repeated.
@@ -4586,7 +6687,7 @@ Computes the mean along segments of a tensor.
   </div>
 
   Args:
-    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`.
+    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     segment_ids: A `Tensor`. Must be one of the following types: `int32`, `int64`.
       A 1-D tensor whose rank is equal to the rank of `data`'s
       first dimension.  Values should be sorted and can be repeated.
@@ -4617,7 +6718,7 @@ Computes the minimum along segments of a tensor.
   </div>
 
   Args:
-    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`.
+    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     segment_ids: A `Tensor`. Must be one of the following types: `int32`, `int64`.
       A 1-D tensor whose rank is equal to the rank of `data`'s
       first dimension.  Values should be sorted and can be repeated.
@@ -4648,7 +6749,7 @@ Computes the product along segments of a tensor.
   </div>
 
   Args:
-    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`.
+    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     segment_ids: A `Tensor`. Must be one of the following types: `int32`, `int64`.
       A 1-D tensor whose rank is equal to the rank of `data`'s
       first dimension.  Values should be sorted and can be repeated.
@@ -4678,7 +6779,7 @@ Computes the sum along segments of a tensor.
   </div>
 
   Args:
-    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`.
+    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     segment_ids: A `Tensor`. Must be one of the following types: `int32`, `int64`.
       A 1-D tensor whose rank is equal to the rank of `data`'s
       first dimension.  Values should be sorted and can be repeated.
@@ -4696,28 +6797,49 @@ export segment_sum
 """
 Selects elements from `t` or `e`, depending on `condition`.
 
-  The `condition`, `t`, and `e` tensors must all have the same shape,
-  and the output will also have that shape. The `condition` tensor acts
-  as an element-wise mask that chooses, based on the value at each
-  element, whether the corresponding element in the output should be
-  taken from `t` (if true) or `e` (if false). For example:
+  The `t`, and `e` tensors must all have the same shape,
+  and the output will also have that shape.  The `condition` tensor
+  must be a scalar if `t` and `e` are scalars.  If `t` and `e` are vectors
+  or higher rank, then `condition` must be either a vector with size
+  matching the first dimension of `t`, or must have the same shape as `t`.
+
+  The `condition` tensor acts as a mask that chooses, based on the value at each
+  element, whether the corresponding element / row in the output should be
+  taken from `t` (if true) or `e` (if false).
+
+  If `condition` is a vector and `t` and `e` are higher rank matrices, then
+  it chooses which row (outer dimension) to copy from `t` and `e`.
+  If `condition` has the same shape as `t` and `e`, then it chooses which
+  element to copy from `t` and `e`.
 
   For example:
 
   ```prettyprint
-  # 'condition' tensor is [[True, False]
-  #                        [True, False]]
-  # 't' is [[1, 1],
-  #         [1, 1]]
-  # 'e' is [[2, 2],
-  #         [2, 2]]
+  # 'condition' tensor is [[True,  False]
+  #                        [False, True]]
+  # 't' is [[1, 2],
+  #         [3, 4]]
+  # 'e' is [[5, 6],
+  #         [7, 8]]
+  select(condition, t, e) ==> [[1, 6],
+                               [7, 4]]
+
+
+  # 'condition' tensor is [True, False]
+  # 't' is [[1, 2],
+  #         [3, 4]]
+  # 'e' is [[5, 6],
+  #         [7, 8]]
   select(condition, t, e) ==> [[1, 2],
-                               [1, 2]]
+                               [7, 8]]
+
   ```
 
   Args:
     condition: A `Tensor` of type `bool`.
-    t:  A `Tensor` with the same shape as `condition`.
+    t:  A `Tensor` which may have the same shape as `condition`.
+      If `condition` is rank 1, `t` may have higher rank,
+      but its first dimension must match the size of `condition`.
     e:  A `Tensor` with the same type and shape as `t`.
     name: A name for the operation (optional).
 
@@ -4917,6 +7039,22 @@ export shape
           
 
 """
+Returns shape of tensors.
+
+  This operation returns N 1-D integer tensors representing shape of `input[i]s`.
+
+  Args:
+    input: A list of at least 1 `Tensor` objects of the same type.
+    name: A name for the operation (optional).
+
+  Returns:
+    A list with the same number of `Tensor` objects as `input` of `Tensor` objects of type `int32`.
+  """
+shape_n(input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.shape_n(;Dict(:input=>input, :name=>name)...))
+export shape_n
+          
+
+"""
 Computes sigmoid of `x` element-wise.
 
   Specifically, `y = 1 / (1 + exp(-x))`.
@@ -4937,10 +7075,12 @@ export sigmoid
 """
 Returns an element-wise indication of the sign of a number.
 
-  y = sign(x) = -1 if x < 0; 0 if x == 0; 1 if x > 0.
+  `y = sign(x) = -1` if `x < 0`; 0 if `x == 0`; 1 if `x > 0`.
+
+  For complex numbers, `y = sign(x) = x / |x|` if `x != 0`, otherwise `y = 0`.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `int64`, `complex64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -4954,7 +7094,7 @@ export sign_
 Computes sin of x element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -5033,6 +7173,189 @@ Extracts a slice from a tensor.
   """
 slice_(input_::Union{AbstractTensor,Void}, begin_::Union{AbstractTensor,Void}, size_::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.slice(;Dict(:input_=>input_, :begin=>begin_, :size=>size_, :name=>name)...))
 export slice_
+          
+
+"""
+SpaceToBatch for 4-D tensors of type T.
+
+  Zero-pads and then rearranges (permutes) blocks of spatial data into batch.
+  More specifically, this op outputs a copy of the input tensor where values from
+  the `height` and `width` dimensions are moved to the `batch` dimension. After
+  the zero-padding, both `height` and `width` of the input must be divisible by the
+  block size.
+
+  Args:
+    input: A `Tensor`. 4-D with shape `[batch, height, width, depth]`.
+    paddings: A `Tensor` of type `int32`.
+      2-D tensor of non-negative integers with shape `[2, 2]`. It specifies
+        the padding of the input with zeros across the spatial dimensions as follows:
+
+            paddings = [[pad_top, pad_bottom], [pad_left, pad_right]]
+
+        The effective spatial dimensions of the zero-padded input tensor will be:
+
+            height_pad = pad_top + height + pad_bottom
+            width_pad = pad_left + width + pad_right
+
+      The attr `block_size` must be greater than one. It indicates the block size.
+
+        * Non-overlapping blocks of size `block_size x block size` in the height and
+          width dimensions are rearranged into the batch dimension at each location.
+        * The batch of the output tensor is `batch * block_size * block_size`.
+        * Both height_pad and width_pad must be divisible by block_size.
+
+      The shape of the output will be:
+
+          [batch*block_size*block_size, height_pad/block_size, width_pad/block_size,
+           depth]
+    block_size: An `int`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `input`.
+  """
+space_to_batch(input::Union{AbstractTensor,Void}, paddings::Union{AbstractTensor,Void}, block_size::Union{Int64,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.space_to_batch(;Dict(:input=>input, :paddings=>paddings, :block_size=>block_size, :name=>name)...))
+export space_to_batch
+          
+
+"""
+SpaceToDepth for tensors of type T.
+
+  Rearranges blocks of spatial data, into depth. More specifically,
+  this op outputs a copy of the input tensor where values from the `height`
+  and `width` dimensions are moved to the `depth` dimension.
+  The attr `block_size` indicates the input block size and how the data is moved.
+
+    * Non-overlapping blocks of size `block_size x block size` are rearranged
+      into depth at each location.
+    * The depth of the output tensor is `input_depth * block_size * block_size`.
+    * The input tensor's height and width must be divisible by block_size.
+
+  That is, assuming the input is in the shape:
+  `[batch, height, width, depth]`,
+  the shape of the output will be:
+  `[batch, height/block_size, width/block_size, depth*block_size*block_size]`
+
+  This operation requires that the input tensor be of rank 4, and that
+  `block_size` be >=1 and a divisor of both the input `height` and `width`.
+
+  This operation is useful for resizing the activations between convolutions
+  (but keeping all data), e.g. instead of pooling. It is also useful for training
+  purely convolutional models.
+
+  For example, given this input of shape `[1, 2, 2, 1]`, and block_size of 2:
+
+  ```prettyprint
+  x = [[[[1], [2]],
+        [[3], [4]]]]
+  ```
+
+  This operation will output a tensor of shape `[1, 1, 1, 4]`:
+
+  ```prettyprint
+  [[[[1, 2, 3, 4]]]]
+  ```
+
+  Here, the input has a batch of 1 and each batch element has shape `[2, 2, 1]`,
+  the corresponding output will have a single element (i.e. width and height are
+  both 1) and will have a depth of 4 channels (1 * block_size * block_size).
+  The output element shape is `[1, 1, 4]`.
+
+  For an input tensor with larger depth, here of shape `[1, 2, 2, 3]`, e.g.
+
+  ```prettyprint
+  x = [[[[1, 2, 3], [4, 5, 6]],
+        [[7, 8, 9], [10, 11, 12]]]]
+  ```
+
+  This operation, for block_size of 2, will return the following tensor of shape
+  `[1, 1, 1, 12]`
+
+  ```prettyprint
+  [[[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]]]]
+  ```
+
+  Similarly, for the following input of shape `[1 4 4 1]`, and a block size of 2:
+
+  ```prettyprint
+  x = [[ [1],   [2],  [5],  [6]],
+       [ [3],   [4],  [7],  [8]],
+       [ [9],  [10], [13],  [14]],
+       [ [11], [12], [15],  [16]]]
+  ```
+
+  the operator will return the following tensor of shape `[1 2 2 4]`:
+
+  ```prettyprint
+  x = [[[[1, 2, 3, 4],
+         [5, 6, 7, 8]],
+        [[9, 10, 11, 12],
+         [13, 14, 15, 16]]]]
+  ```
+
+  Args:
+    input: A `Tensor`.
+    block_size: An `int`. The size of the spatial block.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `input`.
+  """
+space_to_depth(input::Union{AbstractTensor,Void}, block_size::Union{Int64,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.space_to_depth(;Dict(:input=>input, :block_size=>block_size, :name=>name)...))
+export space_to_depth
+          
+
+"""
+Adds two tensors, at least one of each is a `SparseTensor`.
+
+  If one `SparseTensor` and one `Tensor` are passed in, returns a `Tensor`.  If
+  both arguments are `SparseTensor`s, this returns a `SparseTensor`.  The order
+  of arguments does not matter.  Use vanilla `tf.add()` for adding two dense
+  `Tensor`s.
+
+  The indices of any input `SparseTensor` are assumed ordered in standard
+  lexicographic order.  If this is not the case, before this step run
+  `SparseReorder` to restore index ordering.
+
+  If both arguments are sparse, we perform "clipping" as follows.  By default,
+  if two values sum to zero at some index, the output `SparseTensor` would still
+  include that particular location in its index, storing a zero in the
+  corresponding value slot.  To override this, callers can specify `thresh`,
+  indicating that if the sum has a magnitude strictly smaller than `thresh`, its
+  corresponding value and index would then not be included.  In particular,
+  `thresh == 0.0` (default) means everything is kept and actual thresholding
+  happens only for a positive value.
+
+  For example, suppose the logical sum of two sparse operands is (densified):
+
+      [       2]
+      [.1     0]
+      [ 6   -.2]
+
+  Then,
+
+      - thresh == 0 (the default): all 5 index/value pairs will be returned.
+      - thresh == 0.11: only .1 and 0  will vanish, and the remaining three
+          index/value pairs will be returned.
+      - thresh == 0.21: .1, 0, and -.2 will vanish.
+
+  Args:
+    a: The first operand; `SparseTensor` or `Tensor`.
+    b: The second operand; `SparseTensor` or `Tensor`.  At least one operand
+      must be sparse.
+    thresh: A 0-D `Tensor`.  The magnitude threshold that determines if an
+    output value/index pair takes space.  Its dtype should match that of the
+    values if they are real; if the latter are complex64/complex128, then the
+    dtype should be float32/float64, correspondingly.
+
+  Returns:
+    A `SparseTensor` or a `Tensor`, representing the sum.
+
+  Raises:
+    TypeError: If both `a` and `b` are `Tensor`s.  Use `tf.add()` instead.
+  """
+sparse_add(a::Union{AbstractTensor,Void}, b::Union{AbstractTensor,Void}, thresh::AbstractTensor=0) = Tensor(tf.sparse_add(;Dict(:a=>a, :b=>b, :thresh=>thresh)...))
+export sparse_add
           
 
 """
@@ -5211,6 +7534,77 @@ export _sparse_mat_mul
           
 
 """
+Combines a batch of feature ids and values into a single `SparseTensor`.
+
+  The most common use case for this function occurs when feature ids and
+  their corresponding values are stored in `Example` protos on disk.
+  `parse_example` will return a batch of ids and a batch of values, and this
+  function joins them into a single logical `SparseTensor` for use in
+  functions such as `sparse_tensor_dense_matmul`, `sparse_to_dense`, etc.
+
+  The `SparseTensor` returned by this function has the following properties:
+
+    - `indices` is equivalent to `sp_ids.indices` with the last
+      dimension discarded and replaced with `sp_ids.values`.
+    - `values` is simply `sp_values.values`.
+    - If `sp_ids.shape = [D0, D1, ..., Dn, K]`, then
+      `output.shape = [D0, D1, ..., Dn, vocab_size]`.
+
+  For example, consider the following feature vectors:
+
+    vector1 = [-3, 0, 0, 0, 0, 0]
+    vector2 = [ 0, 1, 0, 4, 1, 0]
+    vector3 = [ 5, 0, 0, 9, 0, 0]
+
+  These might be stored sparsely in the following Example protos by storing
+  only the feature ids (column number if the vectors are treated as a matrix)
+  of the non-zero elements and the corresponding values:
+
+    examples = [Example(features={
+                    "ids": Feature(int64_list=Int64List(value=[0])),
+                    "values": Feature(float_list=FloatList(value=[-3]))}),
+                Example(features={
+                    "ids": Feature(int64_list=Int64List(value=[1, 4, 3])),
+                    "values": Feature(float_list=FloatList(value=[1, 1, 4]))}),
+                Example(features={
+                    "ids": Feature(int64_list=Int64List(value=[0, 3])),
+                    "values": Feature(float_list=FloatList(value=[5, 9]))})]
+
+  The result of calling parse_example on these examples will produce a
+  dictionary with entries for "ids" and "values". Passing those two objects
+  to this function will produce a `SparseTensor` that sparsely represents
+  all three instances. Namely, the `indices` property will contain
+  the coordinates of the non-zero entries in the feature matrix (the first
+  dimension is the row number in the matrix, i.e., the index within the batch,
+  and the second dimension is the column number, i.e., the feature id);
+  `values` will contain the actual values. `shape` will be the shape of the
+  original matrix, i.e., (3, 7). For our example above, the output will be
+  equal to:
+
+    SparseTensor(indices=[[0, 0], [1, 1], [1, 3], [1, 4], [2, 0], [2, 3]],
+                 values=[-3, 1, 4, 1, 5, 9],
+                 shape=[3, 7])
+
+  Args:
+    sp_ids: A `SparseTensor` with `values` property of type `int32`
+      or `int64`.
+    sp_values: A`SparseTensor` of any type.
+    vocab_size: A scalar `int64` Tensor (or Python int) containing the new size
+      of the last dimension, `all(0 <= sp_ids.values < vocab_size)`.
+    name: A name prefix for the returned tensors (optional)
+
+  Returns:
+    A `SparseTensor` compactly representing a batch of feature ids and values,
+    useful for passing to functions that expect such a `SparseTensor`.
+
+  Raises:
+    TypeError: If `sp_ids` or `sp_values` are not a `SparseTensor`.
+  """
+sparse_merge(sp_ids::Union{AbstractTensor,Void}, sp_values::Union{AbstractTensor,Void}, vocab_size::Union{Int64,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.sparse_merge(;Dict(:sp_ids=>sp_ids, :sp_values=>sp_values, :vocab_size=>vocab_size, :name=>name)...))
+export sparse_merge
+          
+
+"""
 Reorders a `SparseTensor` into the canonical, row-major ordering.
 
   Note that by convention, all sparse ops preserve the canonical ordering
@@ -5332,6 +7726,56 @@ export sparse_segment_mean_grad
           
 
 """
+Computes the sum along sparse segments of a tensor divided by the sqrt of N.
+
+  N is the size of the segment being reduced.
+
+  Read [the section on
+  Segmentation](../../api_docs/python/math_ops.md#segmentation) for an explanation
+  of segments.
+
+  Args:
+    data: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+    indices: A `Tensor` of type `int32`.
+      A 1-D tensor. Has same rank as `segment_ids`.
+    segment_ids: A `Tensor` of type `int32`.
+      A 1-D tensor. Values should be sorted and can be repeated.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `data`.
+    Has same shape as data, except for dimension 0 which
+    has size `k`, the number of segments.
+  """
+sparse_segment_sqrt_n(data::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, segment_ids::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.sparse_segment_sqrt_n(;Dict(:data=>data, :indices=>indices, :segment_ids=>segment_ids, :name=>name)...))
+export sparse_segment_sqrt_n
+          
+
+"""
+Computes gradients for SparseSegmentSqrtN.
+
+  Returns tensor "output" with same shape as grad, except for dimension 0 whose
+  value is output_dim0.
+
+  Args:
+    grad: A `Tensor`. Must be one of the following types: `float32`, `float64`.
+      gradient propagated to the SparseSegmentSqrtN op.
+    indices: A `Tensor` of type `int32`.
+      indices passed to the corresponding SparseSegmentSqrtN op.
+    segment_ids: A `Tensor` of type `int32`.
+      segment_ids passed to the corresponding SparseSegmentSqrtN op.
+    output_dim0: A `Tensor` of type `int32`.
+      dimension 0 of "data" passed to SparseSegmentSqrtN op.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `grad`.
+  """
+sparse_segment_sqrt_n_grad(grad::Union{AbstractTensor,Void}, indices::Union{AbstractTensor,Void}, segment_ids::Union{AbstractTensor,Void}, output_dim0::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.sparse_segment_sqrt_n_grad(;Dict(:grad=>grad, :indices=>indices, :segment_ids=>segment_ids, :output_dim0=>output_dim0, :name=>name)...))
+export sparse_segment_sqrt_n_grad
+          
+
+"""
 Computes the sum along sparse segments of a tensor.
 
   Read [the section on
@@ -5365,7 +7809,7 @@ Computes the sum along sparse segments of a tensor.
   ```
 
   Args:
-    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`.
+    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     indices: A `Tensor` of type `int32`.
       A 1-D tensor. Has same rank as `segment_ids`.
     segment_ids: A `Tensor` of type `int32`.
@@ -5417,6 +7861,169 @@ Split a `SparseTensor` into `num_split` tensors along `split_dim`.
   """
 sparse_split(split_dim::Union{AbstractTensor,Void}, num_split::Union{Int64,Void}, sp_input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.sparse_split(;Dict(:split_dim=>split_dim, :num_split=>num_split, :sp_input=>sp_input, :name=>name)...))
 export sparse_split
+          
+
+"""
+Multiply SparseTensor (of rank 2) "A" by dense matrix "B".
+
+  No validity checking is performed on the indices of A.  However, the following
+  input format is recommended for optimal behavior:
+
+  if adjoint_a == false:
+    A should be sorted in lexicographically increasing order.  Use
+    sparse_reorder if you're not sure.
+  if adjoint_a == true:
+    A should be sorted in order of increasing dimension 1 (i.e., "column major"
+    order instead of "row major" order).
+
+  Deciding when to use sparse_tensor_dense_matmul vs. matmul(sp_a=True):
+
+  There are a number of questions to ask in the decision process, including:
+
+  * Will the SparseTensor A fit in memory if densified?
+  * Is the column count of the product large (>> 1)?
+  * Is the density of A larger than approximately 15%?
+
+  If the answer to several of these questions is yes, consider
+  converting the SparseTensor to a dense one and using tf.matmul with sp_a=True.
+
+  This operation tends to perform well when A is more sparse, if the column size
+  of the product is small (e.g. matrix-vector multiplication), if sp_a.shape
+  takes on large values.
+
+  Below is a rough speed comparison between sparse_tensor_dense_matmul,
+  labelled 'sparse', and matmul(sp_a=True), labelled 'dense'.  For purposes of
+  the comparison, the time spent converting from a SparseTensor to a dense
+  Tensor is not included, so it is overly conservative with respect to
+  the time ratio.
+
+  Benchmark system:
+  CPU: Intel Ivybridge with HyperThreading (6 cores) dL1:32KB dL2:256KB dL3:12MB
+  GPU: NVidia Tesla k40c
+
+  Compiled with:
+  -c opt --config=cuda --copt=-mavx
+
+  ```tensorflow/python/sparse_tensor_dense_matmul_op_test --benchmarks
+  A sparse [m, k] with % nonzero values between 1% and 80%
+  B dense [k, n]
+
+  % nnz    n       gpu     m       k       dt(dense)       dt(sparse)      dt(sparse)/dt(dense)
+  0.01     1       True    100     100     0.000221166     0.00010154      0.459112
+  0.01     1       True    100     1000    0.00033858      0.000109275     0.322745
+  0.01     1       True    1000    100     0.000310557     9.85661e-05     0.317385
+  0.01     1       True    1000    1000    0.0008721       0.000100875     0.115669
+  0.01     1       False   100     100     0.000208085     0.000107603     0.51711
+  0.01     1       False   100     1000    0.000327112     9.51118e-05     0.290762
+  0.01     1       False   1000    100     0.000308222     0.00010345      0.335635
+  0.01     1       False   1000    1000    0.000865721     0.000101397     0.117124
+  0.01     10      True    100     100     0.000218522     0.000105537     0.482958
+  0.01     10      True    100     1000    0.000340882     0.000111641     0.327506
+  0.01     10      True    1000    100     0.000315472     0.000117376     0.372064
+  0.01     10      True    1000    1000    0.000905493     0.000123263     0.136128
+  0.01     10      False   100     100     0.000221529     9.82571e-05     0.44354
+  0.01     10      False   100     1000    0.000330552     0.000112615     0.340687
+  0.01     10      False   1000    100     0.000341277     0.000114097     0.334324
+  0.01     10      False   1000    1000    0.000819944     0.000120982     0.147549
+  0.01     25      True    100     100     0.000207806     0.000105977     0.509981
+  0.01     25      True    100     1000    0.000322879     0.00012921      0.400181
+  0.01     25      True    1000    100     0.00038262      0.000141583     0.370035
+  0.01     25      True    1000    1000    0.000865438     0.000202083     0.233504
+  0.01     25      False   100     100     0.000209401     0.000104696     0.499979
+  0.01     25      False   100     1000    0.000321161     0.000130737     0.407076
+  0.01     25      False   1000    100     0.000377012     0.000136801     0.362856
+  0.01     25      False   1000    1000    0.000861125     0.00020272      0.235413
+  0.2      1       True    100     100     0.000206952     9.69219e-05     0.46833
+  0.2      1       True    100     1000    0.000348674     0.000147475     0.422959
+  0.2      1       True    1000    100     0.000336908     0.00010122      0.300439
+  0.2      1       True    1000    1000    0.001022        0.000203274     0.198898
+  0.2      1       False   100     100     0.000207532     9.5412e-05      0.459746
+  0.2      1       False   100     1000    0.000356127     0.000146824     0.41228
+  0.2      1       False   1000    100     0.000322664     0.000100918     0.312764
+  0.2      1       False   1000    1000    0.000998987     0.000203442     0.203648
+  0.2      10      True    100     100     0.000211692     0.000109903     0.519165
+  0.2      10      True    100     1000    0.000372819     0.000164321     0.440753
+  0.2      10      True    1000    100     0.000338651     0.000144806     0.427596
+  0.2      10      True    1000    1000    0.00108312      0.000758876     0.70064
+  0.2      10      False   100     100     0.000215727     0.000110502     0.512231
+  0.2      10      False   100     1000    0.000375419     0.0001613       0.429653
+  0.2      10      False   1000    100     0.000336999     0.000145628     0.432132
+  0.2      10      False   1000    1000    0.00110502      0.000762043     0.689618
+  0.2      25      True    100     100     0.000218705     0.000129913     0.594009
+  0.2      25      True    100     1000    0.000394794     0.00029428      0.745402
+  0.2      25      True    1000    100     0.000404483     0.0002693       0.665788
+  0.2      25      True    1000    1000    0.0012002       0.00194494      1.62052
+  0.2      25      False   100     100     0.000221494     0.0001306       0.589632
+  0.2      25      False   100     1000    0.000396436     0.000297204     0.74969
+  0.2      25      False   1000    100     0.000409346     0.000270068     0.659754
+  0.2      25      False   1000    1000    0.00121051      0.00193737      1.60046
+  0.5      1       True    100     100     0.000214981     9.82111e-05     0.456836
+  0.5      1       True    100     1000    0.000415328     0.000223073     0.537101
+  0.5      1       True    1000    100     0.000358324     0.00011269      0.314492
+  0.5      1       True    1000    1000    0.00137612      0.000437401     0.317851
+  0.5      1       False   100     100     0.000224196     0.000101423     0.452386
+  0.5      1       False   100     1000    0.000400987     0.000223286     0.556841
+  0.5      1       False   1000    100     0.000368825     0.00011224      0.304318
+  0.5      1       False   1000    1000    0.00136036      0.000429369     0.31563
+  0.5      10      True    100     100     0.000222125     0.000112308     0.505608
+  0.5      10      True    100     1000    0.000461088     0.00032357      0.701753
+  0.5      10      True    1000    100     0.000394624     0.000225497     0.571422
+  0.5      10      True    1000    1000    0.00158027      0.00190898      1.20801
+  0.5      10      False   100     100     0.000232083     0.000114978     0.495418
+  0.5      10      False   100     1000    0.000454574     0.000324632     0.714146
+  0.5      10      False   1000    100     0.000379097     0.000227768     0.600817
+  0.5      10      False   1000    1000    0.00160292      0.00190168      1.18638
+  0.5      25      True    100     100     0.00023429      0.000151703     0.647501
+  0.5      25      True    100     1000    0.000497462     0.000598873     1.20386
+  0.5      25      True    1000    100     0.000460778     0.000557038     1.20891
+  0.5      25      True    1000    1000    0.00170036      0.00467336      2.74845
+  0.5      25      False   100     100     0.000228981     0.000155334     0.678371
+  0.5      25      False   100     1000    0.000496139     0.000620789     1.25124
+  0.5      25      False   1000    100     0.00045473      0.000551528     1.21287
+  0.5      25      False   1000    1000    0.00171793      0.00467152      2.71927
+  0.8      1       True    100     100     0.000222037     0.000105301     0.47425
+  0.8      1       True    100     1000    0.000410804     0.000329327     0.801664
+  0.8      1       True    1000    100     0.000349735     0.000131225     0.375212
+  0.8      1       True    1000    1000    0.00139219      0.000677065     0.48633
+  0.8      1       False   100     100     0.000214079     0.000107486     0.502085
+  0.8      1       False   100     1000    0.000413746     0.000323244     0.781261
+  0.8      1       False   1000    100     0.000348983     0.000131983     0.378193
+  0.8      1       False   1000    1000    0.00136296      0.000685325     0.50282
+  0.8      10      True    100     100     0.000229159     0.00011825      0.516017
+  0.8      10      True    100     1000    0.000498845     0.000532618     1.0677
+  0.8      10      True    1000    100     0.000383126     0.00029935      0.781336
+  0.8      10      True    1000    1000    0.00162866      0.00307312      1.88689
+  0.8      10      False   100     100     0.000230783     0.000124958     0.541452
+  0.8      10      False   100     1000    0.000493393     0.000550654     1.11606
+  0.8      10      False   1000    100     0.000377167     0.000298581     0.791642
+  0.8      10      False   1000    1000    0.00165795      0.00305103      1.84024
+  0.8      25      True    100     100     0.000233496     0.000175241     0.75051
+  0.8      25      True    100     1000    0.00055654      0.00102658      1.84458
+  0.8      25      True    1000    100     0.000463814     0.000783267     1.68875
+  0.8      25      True    1000    1000    0.00186905      0.00755344      4.04132
+  0.8      25      False   100     100     0.000240243     0.000175047     0.728625
+  0.8      25      False   100     1000    0.000578102     0.00104499      1.80763
+  0.8      25      False   1000    100     0.000485113     0.000776849     1.60138
+  0.8      25      False   1000    1000    0.00211448      0.00752736      3.55992
+  ```
+
+  Args:
+    sp_a: SparseTensor A, of rank 2.
+    b: A dense Matrix with the same dtype as sp_a.
+    adjoint_a: Use the adjoint of A in the matrix multiply.  If A is complex,
+      this is transpose(conj(A)).  Otherwise it's transpose(A).
+    adjoint_b: Use the adjoint of B in the matrix multiply.  If B is complex,
+      this is transpose(conj(B)).  Otherwise it's transpose(B).
+    name: A name prefix for the returned tensors (optional)
+
+  Returns:
+    A dense matrix (pseudo-code in dense np.matrix notation):
+      A = A.H if adjoint_a else A
+      B = B.H if adjoint_b else B
+      return A*B
+  """
+sparse_tensor_dense_matmul(sp_a::Union{AbstractTensor,Void}, b::Union{Dtype,Void}, adjoint_a::Any=false, adjoint_b::Any=false, name::Union{AbstractString,Void}=nothing) = tf.sparse_tensor_dense_matmul(;Dict(:sp_a=>sp_a, :b=>b, :adjoint_a=>adjoint_a, :adjoint_b=>adjoint_b, :name=>name)...)
+export sparse_tensor_dense_matmul
           
 
 """
@@ -5508,8 +8115,8 @@ export sparse_to_dense
 """
 Converts a `SparseTensor` of ids into a dense bool indicator tensor.
 
-  The last dimension of `sp_input` is discarded and replaced with the values of
-  `sp_input`.  If `sp_input.shape = [D0, D1, ..., Dn, K]`, then
+  The last dimension of `sp_input.indices` is discarded and replaced with
+  the values of `sp_input`.  If `sp_input.shape = [D0, D1, ..., Dn, K]`, then
   `output.shape = [D0, D1, ..., Dn, vocab_size]`, where
 
       output[d_0, d_1, ..., d_n, sp_input[d_0, d_1, ..., d_n, k]] = True
@@ -5539,9 +8146,10 @@ Converts a `SparseTensor` of ids into a dense bool indicator tensor.
   The input `SparseTensor` must be in row-major order.
 
   Args:
-    sp_input: A `SparseTensor` of type `int32` or `int64`.
-    vocab_size: The new size of the last dimension, with
-      `all(0 <= sp_input.values < vocab_size)`.
+    sp_input: A `SparseTensor` with `values` property of type `int32` or
+      `int64`.
+    vocab_size: A scalar int64 Tensor (or Python int) containing the new size
+      of the last dimension, `all(0 <= sp_input.values < vocab_size)`.
     name: A name prefix for the returned tensors (optional)
 
   Returns:
@@ -5589,7 +8197,7 @@ Computes square root of x element-wise.
   I.e., \\(y = \sqrt{x} = x^{1/2}\\).
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -5605,7 +8213,7 @@ Computes square of x element-wise.
   I.e., \\(y = x * x = x^2\\).
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     name: A name for the operation (optional).
 
   Returns:
@@ -5613,6 +8221,21 @@ Computes square of x element-wise.
   """
 square(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.square(;Dict(:x=>x, :name=>name)...))
 export square
+          
+
+"""
+Returns (x - y)(x - y) element-wise.
+
+  Args:
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
+    y: A `Tensor`. Must have the same type as `x`.
+    name: A name for the operation (optional).
+
+  Returns:
+    A `Tensor`. Has the same type as `x`.
+  """
+squared_difference(x::Union{AbstractTensor,Void}, y::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.squared_difference(;Dict(:x=>x, :y=>y, :name=>name)...))
+export squared_difference
           
 
 """
@@ -5732,7 +8355,7 @@ export string_to_number
 Returns x - y element-wise.
 
   Args:
-    x: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `complex64`, `int64`.
+    x: A `Tensor`. Must be one of the following types: `half`, `float32`, `float64`, `int32`, `complex64`, `int64`.
     y: A `Tensor`. Must have the same type as `x`.
     name: A name for the operation (optional).
 
@@ -5867,6 +8490,35 @@ export to_int64
           
 
 """
+ Compute the trace of a tensor `x`.
+
+  `trace(x)` returns the sum of along the diagonal.
+
+  For example:
+
+  ```python
+  # 'x' is [[1, 1],
+  #         [1, 1]]
+  tf.trace(x) ==> 2
+
+  # 'x' is [[1,2,3],
+  #         [4,5,6],
+  #         [7,8,9]]
+  tf.trace(x) ==> 15
+  ```
+
+  Args:
+    x: 2-D tensor.
+    name: A name for the operation (optional).
+
+  Returns:
+    The trace of input tensor.
+  """
+trace_(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.trace(;Dict(:x=>x, :name=>name)...))
+export trace_
+          
+
+"""
 Returns all variables created with `trainable=True`.
 
   When passed `trainable=True`, the `Variable()` constructor automatically
@@ -5909,7 +8561,7 @@ Transposes `a`. Permutes the dimensions according to `perm`.
   #           [[7  8  9]
   #            [10 11 12]]]
   # Take the transpose of the matrices in dimension-0
-  tf.transpose(b, perm=[0, 2, 1]) ==> [[[1  4]
+  tf.transpose(x, perm=[0, 2, 1]) ==> [[[1  4]
                                         [2  5]
                                         [3  6]]
 
@@ -6064,9 +8716,16 @@ Returns an initializer that generates tensors without scaling variance.
   A similar calculation for convolutional networks gives an analogous result
   with `dim` equal to the product of the first 3 dimensions.  When
   nonlinearities are present, we need to multiply this by a constant `factor`.
-  See <https://arxiv.org/pdf/1412.6558v3.pdf> for deeper motivation, experiments
+  See [Sussillo et al., 2014](https://arxiv.org/abs/1412.6558)
+  ([pdf](http://arxiv.org/pdf/1412.6558.pdf)) for deeper motivation, experiments
   and the calculation of constants. In section 2.3 there, the constants were
   numerically computed: for a linear layer it's 1.0, relu: ~1.43, tanh: ~1.15.
+
+  If the shape tuple `full_shape` is provided, the scale will be calculated from
+  this predefined shape.  This is useful when a `Variable` is being partitioned
+  across several shards, and each shard has a smaller shape than the whole.
+  Since the shards are usually concatenated when used, the scale should be
+  based on the shape of the whole.
 
   Args:
     factor: Float.  A multiplicative factor by which the values will be scaled.
@@ -6074,6 +8733,9 @@ Returns an initializer that generates tensors without scaling variance.
       [`set_random_seed`](../../api_docs/python/constant_op.md#set_random_seed)
       for behavior.
     dtype: The data type. Only floating point types are supported.
+    full_shape: Tuple or list of integers.  The shape used for calculating
+      scale normalization (instead of the shape passed at creation time).
+      Useful when creating sharded variables via partitioning.
 
   Returns:
     An initializer that generates tensors with unit variance.
@@ -6081,7 +8743,7 @@ Returns an initializer that generates tensors without scaling variance.
   Raises:
     ValueError: if `dtype` is not a floating point type.
   """
-uniform_unit_scaling_initializer(factor_::Any=1.0, seed::Union{Int64,Void}=nothing, dtype::Dtype=DT_FLOAT32) = Tensor(tf.uniform_unit_scaling_initializer(;Dict(:factor=>factor_, :seed=>seed, :dtype=>dtype)...))
+uniform_unit_scaling_initializer(factor_::Any=1.0, seed::Union{Int64,Void}=nothing, dtype::Dtype=DT_FLOAT32, full_shape::Any=nothing) = Tensor(tf.uniform_unit_scaling_initializer(;Dict(:factor=>factor_, :seed=>seed, :dtype=>dtype, :full_shape=>full_shape)...))
 export uniform_unit_scaling_initializer
           
 
@@ -6115,6 +8777,41 @@ Finds unique elements in a 1-D tensor.
   """
 unique_(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.unique(;Dict(:x=>x, :name=>name)...))
 export unique_
+          
+
+"""
+Finds unique elements in a 1-D tensor.
+
+  This operation returns a tensor `y` containing all of the unique elements of `x`
+  sorted in the same order that they occur in `x`. This operation also returns a
+  tensor `idx` the same size as `x` that contains the index of each value of `x`
+  in the unique output `y`. Finally, it returns a third tensor `count` that
+  contains the count of each element of `y` in `x`. In other words:
+
+  `y[idx[i]] = x[i] for i in [0, 1,...,rank(x) - 1]`
+
+  For example:
+
+  ```prettyprint
+  # tensor 'x' is [1, 1, 2, 4, 4, 4, 7, 8, 8]
+  y, idx, count = unique_with_counts(x)
+  y ==> [1, 2, 4, 7, 8]
+  idx ==> [0, 0, 1, 2, 2, 2, 3, 4, 4]
+  count ==> [2, 1, 3, 1, 2]
+  ```
+
+  Args:
+    x: A `Tensor`. 1-D.
+    name: A name for the operation (optional).
+
+  Returns:
+    A tuple of `Tensor` objects (y, idx, count).
+    y: A `Tensor`. Has the same type as `x`. 1-D.
+    idx: A `Tensor` of type `int32`. 1-D.
+    count: A `Tensor` of type `int32`. 1-D.
+  """
+unique_with_counts(x::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.unique_with_counts(;Dict(:x=>x, :name=>name)...))
+export unique_with_counts
           
 
 """
@@ -6169,7 +8866,7 @@ Computes the sum along segments of a tensor.
   </div>
 
   Args:
-    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`.
+    data: A `Tensor`. Must be one of the following types: `float32`, `float64`, `int32`, `int64`, `uint8`, `int16`, `int8`, `uint16`, `half`.
     segment_ids: A `Tensor`. Must be one of the following types: `int32`, `int64`.
       A 1-D tensor whose rank is equal to the rank of `data`'s
       first dimension.
@@ -6186,16 +8883,45 @@ export unsorted_segment_sum
           
 
 """
+Get a partitioner for VariableScope to keep shards below `max_shard_bytes`.
+
+  This partitioner will shard a Variable along one axis, attempting to keep
+  the maximum shard size below `max_shard_bytes`.  In practice, this is not
+  always possible when sharding along only one axis.  When this happens,
+  this axis is sharded as much as possible (i.e., every dimension becomes
+  a separate shard).
+
+  One reasonable value for `max_shard_bytes` is `(64 << 20) - 1`, or almost
+  `64MB`, to keep below the protobuf byte limit.
+
+  Args:
+    max_shard_bytes: The maximum size any given shard is allowed to be.
+    axis: The axis to partition along.  Default: outermost axis.
+    bytes_per_string_element: If the `Variable` is of type string, this provides
+      an estimate of how large each scalar in the `Variable` is.
+
+  Returns:
+    A partition function usable as the `partitioner` argument to
+    `variable_scope`, `get_variable`, and `get_partitioned_variable_list`.
+
+  Raises:
+    ValueError: If any of the byte counts are non-positive.
+  """
+variable_axis_size_partitioner(max_shard_bytes::Any, axis::Any=0, bytes_per_string_element::Dtype=16) = tf.variable_axis_size_partitioner(;Dict(:max_shard_bytes=>max_shard_bytes, :axis=>axis, :bytes_per_string_element=>bytes_per_string_element)...)
+export variable_axis_size_partitioner
+          
+
+"""
 Returns a context manager for defining an op that creates variables.
 
   This context manager validates that the given `values` are from the
-  same graph, ensures that that graph is the default graph, and pushes a
+  same graph, ensures that graph is the default graph, and pushes a
   name scope and a variable scope.
 
-  If `name` is not None, it is used as is in the variable scope. If `name`
-  is None, then `default_name` is used.  In that case, if the same name has been
-  previously used in the same scope, it will made unique be appending `_N` to
-  it.
+  If `name_or_scope` is not None, it is used as is in the variable scope. If
+  `scope` is None, then `default_name` is used.  In that case, if the same name
+  has been previously used in the same scope, it will made unique be appending
+  `_N` to it.
 
   This is intended to be used when defining generic ops and so reuse is always
   inherited.
@@ -6203,8 +8929,8 @@ Returns a context manager for defining an op that creates variables.
   For example, to define a new Python op called `my_op_with_vars`:
 
   ```python
-  def my_op_with_vars(a, b, name=None):
-    with tf.variable_op_scope([a, b], name, "MyOp") as scope:
+  def my_op_with_vars(a, b, scope=None):
+    with tf.variable_op_scope([a, b], scope, "MyOp") as scope:
       a = tf.convert_to_tensor(a, name="a")
       b = tf.convert_to_tensor(b, name="b")
       c = tf.get_variable('c')
@@ -6214,11 +8940,18 @@ Returns a context manager for defining an op that creates variables.
 
   Args:
     values: The list of `Tensor` arguments that are passed to the op function.
-    name: The name argument that is passed to the op function, this name is not
-      uniquified in the variable scope.
-    default_name: The default name to use if the `name` argument is `None`, this
-      name will be uniquified.
-    initializer: A default initializer to pass to variable scope.
+    name_or_scope: The name argument that is passed to the op function,
+      this name_or_scope is not uniquified in the variable scope.
+    default_name: The default name to use if the `name_or_scope` argument is
+      `None`, this name will be uniquified. If name_or_scope is provided it
+      won't be used and therefore it is not required and can be None.
+    initializer: The default initializer to pass to variable scope.
+    regularizer: The default regularizer for variables within this scope.
+    caching_device: The default caching device for variables within this scope.
+    partitioner: The default partitioner for variables within this scope.
+    reuse: `True` or `None`; if `True`, we go into reuse mode for this scope as
+      well as all sub-scopes; if `None`, we just inherit the parent scope reuse.
+
 
   Returns:
     A context manager for use in defining a Python op.
@@ -6296,6 +9029,9 @@ Returns a context for variable scope.
     reuse: `True` or `None`; if `True`, we go into reuse mode for this scope as
       well as all sub-scopes; if `None`, we just inherit the parent scope reuse.
     initializer: default initializer for variables within this scope.
+    regularizer: default regularizer for variables within this scope.
+    caching_device: default caching device for variables within this scope.
+    partitioner: default partitioner for variables within this scope.
 
   Returns:
     A scope that can be to captured and reused.
@@ -6368,6 +9104,63 @@ Returns locations of true values in a boolean tensor.
   """
 where(input::Union{AbstractTensor,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.where(;Dict(:input=>input, :name=>name)...))
 export where
+          
+
+"""
+Repeat `body` while the condition `cond` is true.
+
+  `cond` is a callable taking a list of tensors and returning a boolean scalar
+  tensor. `body` is a callable taking a list of tensors and returning a list of
+  tensors of the same length and with the same types as the input. `loop_vars`
+  is a list of tensors that is passed to both `cond` and `body`.
+
+  In addition to regular Tensors or IndexedSlices, the body may accept and
+  return TensorArray objects.  The flows of the TensorArray objects will
+  be appropriately forwarded between loops and during gradient calculations.
+
+  While `cond` evaluates to true, `body` is executed.
+
+  `while_loop` implements non-strict semantics, enabling multiple iterations
+  to run in parallel. The maximum number of parallel iterations can be
+  controlled by `parallel_iterations`, which gives users some control over
+  memory consumption and execution order. For correct programs, `while_loop`
+  should return the same result for any parallel_iterations > 0.
+
+  For training, TensorFlow remembers the tensors that are produced in the
+  forward inference but needed in back propagation. These tensors can be a
+  main source of memory consumption and often cause OOM problems when training
+  on GPUs.  When the flag swap_memory is true, we swap out these tensors from
+  GPU to CPU.  This for example allows us to train RNN models with very long
+  sequences and large batches.
+
+  Args:
+    cond: The termination condition of the loop.
+    body: A callable that represents the loop body.
+    loop_vars: The list of variable input tensors.
+    parallel_iterations: The number of iterations allowed to run in parallel.
+    back_prop: Whether backprop is enabled for this while loop.
+    swap_memory: Whether GPU-CPU memory swap is enabled for this loop.
+    name: Optional name prefix for the returned tensors.
+
+  Returns:
+    The output tensors for the loop variables after the loop.
+
+  Raises:
+    TypeError: if `cond` or `body` is not callable.
+    ValueError: if `loop_var` is empty.
+
+  Example:
+
+    ```python
+    i = tf.constant(0)
+    c = lambda i: tf.less(i, 10)
+    b = lambda i: tf.add(i, 1)
+    r = tf.while_loop(c, b, [i])
+    ```
+
+  """
+while_loop(cond_::Any, body::Any, loop_vars::Union{AbstractTensor,Void}, parallel_iterations::Any=10, back_prop::Bool=true, swap_memory::Bool=false, name::Union{AbstractString,Void}=nothing) = Tensor(tf.while_loop(;Dict(:cond=>cond_, :body=>body, :loop_vars=>loop_vars, :parallel_iterations=>parallel_iterations, :back_prop=>back_prop, :swap_memory=>swap_memory, :name=>name)...))
+export while_loop
           
 
 """

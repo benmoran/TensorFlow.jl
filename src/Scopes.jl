@@ -12,6 +12,10 @@ function var_scope(f::Function, name::AbstractString, reuse::Bool=false, initial
   try
     vs[:__enter__]()
     return f(vs)
+  catch e
+    bt = catch_backtrace()
+    showerror(STDOUT, e, bt)
+    rethrow(e)
   finally
     exc_type, exc_value, traceback = nothing, nothing, nothing
     vs[:__exit__](exc_type, exc_value, traceback)

@@ -3,7 +3,7 @@
 module TfRnnCell
 using PyCall
 @pyimport tensorflow as tf
-@pyimport tensorflow.models.rnn.rnn_cell as tf_rnn_cell
+@pyimport tensorflow.python.ops.rnn_cell as tf_rnn_cell
 import TensorFlow.CoreTypes: *
 using TensorFlow.CoreTypes
 

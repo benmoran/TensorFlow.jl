@@ -4,7 +4,7 @@ module RNN
 using PyCall
 export LSTMCell
 
-@pyimport tensorflow.models.rnn.rnn_cell as rnn_cell
+@pyimport tensorflow.python.ops.rnn_cell as rnn_cell
 
 immutable LSTMCell
   x::PyObject

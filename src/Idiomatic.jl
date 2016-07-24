@@ -5,15 +5,18 @@ using ..API.Tf
 using ..API.TfNn
 import ..API.Tf: constant
 
-import Base: (*), (+), (-), (.*), (.+), (==), size, log, exp, mean, squeeze, linspace, randn, length, reshape, isequal, sum, mean, zeros, getindex
+import Base: (*), (+), (-), (.*), (.+), (/), (==), size, log, exp, mean, squeeze, linspace, randn, length, reshape, isequal, sum, mean, zeros, getindex, split
 
-export constant, dtype
+export constant, dtype, cast
 export relu, batch_matmul
 
 zeroindexed(d::DimsType) = map(x->x-1, d)
 dtype(t::AbstractTensor) = Dtype(t.x[:dtype])
 
 # Functions that accept arrays as well
+constant{N<:Number}(n::N, dt::Dtype) = constant(Tensor(n), dt)
+constant(a::Array, dt::Dtype) = constant(Tensor(a), dt)
+
 constant(a::Array) = constant(Tensor(a))
 constant{N<:Number}(n::N) = constant(Tensor(n))
 
@@ -21,12 +24,18 @@ constant{N<:Number}(n::N) = constant(Tensor(n))
 (.*){N<:Number}(n::N, t::AbstractTensor) = Tf.mul(n,t)
 (.*){N<:Number}(t::AbstractTensor, n::N) = Tf.mul(t,n)
 (.*)(t::AbstractTensor, s::AbstractTensor) = Tf.mul(t,s)
-(*){N<:Number}(n::N, t::AbstractTensor) = Tf.mul(n,t)
-(*){N<:Number}(t::AbstractTensor, n::N) = Tf.mul(t,n)
+(*){N<:Number}(n::N, t::AbstractTensor) = Tf.mul(constant(n, dtype(t)) ,t)
+(*){N<:Number}(t::AbstractTensor, n::N) = Tf.mul(t, constant(n, dtype(t)))
+(/){N<:Number}(n::N, t::AbstractTensor) = Tf.div_(constant(n, dtype(t)) ,t)
+(/){N<:Number}(t::AbstractTensor, n::N) = Tf.div_(t, constant(n, dtype(t)))
 (*)(t::AbstractTensor, s::AbstractTensor) = Tf.matmul(t,s)
+(+){N<:Number}(n::N, t::AbstractTensor) = Tf.add(constant(n, dtype(t)), t)
+(+){N<:Number}(t::AbstractTensor, n::N) = Tf.add(t, constant(n, dtype(t)))
 (+)(t::AbstractTensor, s::AbstractTensor) = Tf.add(t,s)
 (.+)(t::AbstractTensor, s::AbstractTensor) = Tf.add(t,s)
 (-)(t::AbstractTensor, s::AbstractTensor) = Tf.sub_(t,s)
+(-){N<:Number}(t::AbstractTensor, n::N) = Tf.sub_(t, constant(n, dtype(t)))
+(-){N<:Number}(n::N, t::AbstractTensor) = Tf.sub_(constant(n, dtype(t)), t)
 (==)(t::AbstractTensor, s::AbstractTensor) = Tf.equal(t,s)
 
 # We need to use Placeholders as dictionary keys in a FeedDict. So let's
@@ -49,10 +58,12 @@ mean(t::AbstractTensor, region) = Tf.reduce_mean(t, zeroindexed(region), keep_di
 mean(t::AbstractTensor) = Tf.reduce_mean(t)
 squeeze(t::AbstractTensor, dims) = Tf.squeeze(t, zeroindexed(dims))
 cast(t::AbstractTensor, dt::Dtype) = Tf.cast(t, dt)
+cast{R<:Range}(r::R, dt::Dtype) = constant(collect(r), dt)
 
 
-size(t::AbstractTensor) = Tf.shape(t) # not tf.size_
-size(t::AbstractTensor, dim::Int) = Tf.shape(t)[dim]
+#size(t::AbstractTensor) = Tf.shape(t) # N.B. not tf.size_
+size(t::AbstractTensor) = t.x[:get_shape]()
+size(t::AbstractTensor, dim::Int) = t.x[:get_shape]()[dim]
 
 length(t::AbstractTensor) = Tensor(Tf.size_(t))
 
@@ -68,4 +79,7 @@ zeros{T<:AbstractTensor}(::Type{T}, dims::NegDimsType, dtype=DT_FLOAT32) = Tf.ze
 zeros{T<:AbstractTensor}(::Type{T}, dims::Vector{Int}, dtype=DT_FLOAT32) = zeros(T, NegDimsType(dims), dtype)
 
 getindex(t::AbstractTensor, ix::Int) = Tensor(t.x[ix-1])
+
+split(split_dim::Int, num_split::Int, value::Tensor, name::AbstractString) = Tf.split_(constant(split_dim-1), num_split, value, name)
+split(split_dim::Int, num_split::Int, value::Tensor) = split(split_dim, num_split, value, "split")
 end

@@ -1,4 +1,4 @@
-"Generated automatically by TensorFlowBuilder, from TensorFlow Python version 0.8.0"
+"Generated automatically by TensorFlowBuilder, from TensorFlow Python version 0.9.0"
 #"TensorFlow, the TensorFlow logo and any related marks are trademarks of Google Inc.""
 module TfTrain
 using PyCall
@@ -69,6 +69,10 @@ Construct a new Adam optimizer.
     general. For example, when training an Inception network on ImageNet a
     current good choice is 1.0 or 0.1.
 
+    Note that in dense implement of this algorithm, m_t, v_t and variable will 
+    update even if g is zero, but in sparse implement, m_t, v_t and variable 
+    will not update in iterations g is zero.
+
     Args:
       learning_rate: A Tensor or a floating point value.  The learning rate.
       beta1: A float value or a constant float tensor.
@@ -106,8 +110,18 @@ export ClusterSpec
           
 
 """
-Create a new Coordinator."""
-Coordinator() = tf_train.Coordinator(;Dict()...)
+Create a new Coordinator.
+
+    Args:
+      clean_stop_exception_types: Optional tuple of Exception types that should
+        cause a clean stop of the coordinator. If an exception of one of these
+        types is reported to `request_stop(ex)` the coordinator will behave as
+        if `request_stop(None)` was called.  Defaults to
+        `(tf.errors.OutOfRangeError,)` which is used by input queues to signal
+        the end of input. When feeding training data from a Python iterator it
+        is common to add `StopIteration` to this list.
+    """
+Coordinator(clean_stop_exception_types::Any=nothing) = tf_train.Coordinator(;Dict(:clean_stop_exception_types=>clean_stop_exception_types)...)
 export Coordinator
           
 
@@ -120,7 +134,7 @@ export Example
 """
 Creates a new ExponentialMovingAverage object.
 
-    The `Apply()` method has to be called to create shadow variables and add
+    The `apply()` method has to be called to create shadow variables and add
     ops to maintain moving averages.
 
     The optional `num_updates` parameter allows one to tweak the decay rate
@@ -135,7 +149,7 @@ Creates a new ExponentialMovingAverage object.
       decay: Float.  The decay to use.
       num_updates: Optional count of number of updates applied to variables.
       name: String. Optional prefix name to use for the name of ops added in
-        `Apply()`.
+        `apply()`.
     """
 ExponentialMovingAverage(decay::Any, num_updates::Union{Int64,Void}=nothing, name::AbstractString="ExponentialMovingAverage") = tf_train.ExponentialMovingAverage(;Dict(:decay=>decay, :num_updates=>num_updates, :name=>name)...)
 export ExponentialMovingAverage
@@ -210,12 +224,6 @@ export GradientDescentOptimizer
 
 """
 """
-InferenceExample() = tf_train.InferenceExample(;Dict()...)
-export InferenceExample
-          
-
-"""
-"""
 Int64List() = tf_train.Int64List(;Dict()...)
 export Int64List
           
@@ -229,11 +237,12 @@ Create a LooperThread.
         if it should be called back to back.
       target: Optional callable object that will be executed in the thread.
       args: Optional arguments to pass to `target` when calling it.
+      kwargs: Optional keyword arguments to pass to `target` when calling it.
 
     Raises:
       ValueError: If one of the arguments is invalid.
     """
-LooperThread(coord::Any, timer_interval_secs::Any, target::Any=nothing, args::Any=nothing) = tf_train.LooperThread(;Dict(:coord=>coord, :timer_interval_secs=>timer_interval_secs, :target=>target, :args=>args)...)
+LooperThread(coord::Any, timer_interval_secs::Any, target::Any=nothing, args::Any=nothing, kwargs::Any=nothing) = tf_train.LooperThread(;Dict(:coord=>coord, :timer_interval_secs=>timer_interval_secs, :target=>target, :args=>args, :kwargs=>kwargs)...)
 export LooperThread
           
 
@@ -283,6 +292,10 @@ export QueueRunner
 
 """
 Construct a new RMSProp optimizer.
+
+    Note that in dense implement of this algorithm, m_t and v_t will 
+    update even if g is zero, but in sparse implement, m_t and v_t 
+    will not update in iterations g is zero.
 
     Args:
       learning_rate: A Tensor or a floating point value.  The learning rate.
@@ -396,10 +409,16 @@ Creates a new server with the given definition.
       protocol: (Optional.) Specifies the protocol to be used by the server.
         Acceptable values include `"grpc"`. Defaults to the value in
         `server_or_cluster_def`, if specified. Otherwise defaults to `"grpc"`.
+      config: (Options.) A `tf.ConfigProto` that specifies default
+        configuration options for all sessions that run on this server.
       start: (Optional.) Boolean, indicating whether to start the server
         after creating it. Defaults to `True`.
+
+    Raises:
+      tf.errors.OpError: Or one of its subclasses if an error occurs while
+        creating the TensorFlow server.
     """
-Server(server_or_cluster_def::Any, job_name::Any=nothing, task_index::Any=nothing, protocol::Any=nothing, start_::Any=true) = tf_train.Server(;Dict(:server_or_cluster_def=>server_or_cluster_def, :job_name=>job_name, :task_index=>task_index, :protocol=>protocol, :start=>start_)...)
+Server(server_or_cluster_def::Any, job_name::Any=nothing, task_index::Any=nothing, protocol::Any=nothing, config::Any=nothing, start_::Any=true) = tf_train.Server(;Dict(:server_or_cluster_def=>server_or_cluster_def, :job_name=>job_name, :task_index=>task_index, :protocol=>protocol, :config=>config, :start=>start_)...)
 export Server
           
 
@@ -409,9 +428,12 @@ Creates a SessionManager.
     The `local_init_op` is an `Operation` that is run always after a new session
     was created. If `None`, this step is skipped.
 
-    The `ready_op` is an `Operation`. The model is considered ready
-    if that operation succeeds.  If `None`, the model is not checked
-    for readiness.
+    The `ready_op` is an `Operation` used to check if the model is ready.  The
+    model is considered ready if that operation returns an empty string tensor.
+    If the operation returns non empty string tensor, the elements are
+    concatenated and used to indicate to the user why the model is not ready.
+
+    If `ready_op` is `None`, the model is not checked for readiness.
 
     `recovery_wait_secs` is the number of seconds between checks that
     the model is ready.  It is used by processes to wait for a model to
@@ -479,12 +501,11 @@ Create a `Supervisor`.
         default `Graph`.  The supervisor may add operations to the graph before
         creating a session, but the graph should not be modified by the caller
         after passing it to the supervisor.
-      ready_op: `Operation` to check if the model is initialized.  This
-        operation is run by supervisors in `prepare_or_wait_for_session()` to
-        check if the model is ready to use. The model is considered ready if
-        that operation succeeds.  Defaults to the operation returned from
-        `tf.assert_variables_initialized()`  If `None`, the model is not checked
-        for readiness.
+      ready_op: 1-D string `Tensor`.  This tensor is evaluated by supervisors in
+        `prepare_or_wait_for_session()` to check if the model is ready to use.
+        The model is considered ready if it returns an empty array.  Defaults to
+        the tensor returned from `tf.report_uninitialized_variables()`  If
+        `None`, the model is not checked for readiness.
       is_chief: If True, create a chief supervisor in charge of initializing
         and restoring the model.  If False, create a supervisor that relies
         on a chief supervisor for inits and restore.
@@ -562,21 +583,25 @@ export add_queue_runner
           
 
 """
-Creates batches of tensors in `tensor_list`.
+Creates batches of tensors in `tensors`.
+
+  The argument `tensors` can be a list or a dictionary of tensors.
+  The value returned by the function will be of the same type
+  as `tensors`.
 
   This function is implemented using a queue. A `QueueRunner` for the
   queue is added to the current `Graph`'s `QUEUE_RUNNER` collection.
 
-  If `enqueue_many` is `False`, `tensor_list` is assumed to represent a
-  single example.  An input tensor with shape `[x, y, z]` will be output
-  as a tensor with shape `[batch_size, x, y, z]`.
+  If `enqueue_many` is `False`, `tensors` is assumed to represent a single
+  example.  An input tensor with shape `[x, y, z]` will be output as a tensor
+  with shape `[batch_size, x, y, z]`.
 
-  If `enqueue_many` is `True`, `tensor_list` is assumed to represent a
-  batch of examples, where the first dimension is indexed by example,
-  and all members of `tensor_list` should have the same size in the
-  first dimension.  If an input tensor has shape `[*, x, y, z]`, the
-  output will have shape `[batch_size, x, y, z]`.  The `capacity` argument
-  controls the how long the prefetching is allowed to grow the queues.
+  If `enqueue_many` is `True`, `tensors` is assumed to represent a batch of
+  examples, where the first dimension is indexed by example, and all members of
+  `tensor_list` should have the same size in the first dimension.  If an input
+  tensor has shape `[*, x, y, z]`, the output will have shape `[batch_size, x,
+  y, z]`.  The `capacity` argument controls the how long the prefetching is
+  allowed to grow the queues.
 
   The returned operation is a dequeue operation and will throw
   `tf.errors.OutOfRangeError` if the input queue is exhausted. If this
@@ -586,7 +611,7 @@ Creates batches of tensors in `tensor_list`.
 
   *N.B.:* If `dynamic_pad` is `False`, you must ensure that either
   (i) the `shapes` argument is passed, or (ii) all of the tensors in
-  `tensor_list` must have fully-defined shapes. `ValueError` will be
+  `tensors` must have fully-defined shapes. `ValueError` will be
   raised if neither of these conditions holds.
 
   If `dynamic_pad` is `True`, it is sufficient that the *rank* of the
@@ -597,8 +622,15 @@ Creates batches of tensors in `tensor_list`.
   For numbers, this padding takes value 0.  For strings, this padding is
   the empty string.  See `PaddingFIFOQueue` for more info.
 
+  If `allow_smaller_final_batch` is `True`, a smaller batch value than
+  `batch_size` is returned when the queue is closed and there are not enough
+  elements to fill the batch, otherwise the pending elements are discarded.
+  In addition, all output tensors' static shapes, as accessed via the
+  `get_shape` method will have a first `Dimension` value of `None`, and
+  operations that depend on fixed batch_size would fail.
+
   Args:
-    tensor_list: The list of tensors to enqueue.
+    tensors: The list or dictionary of tensors to enqueue.
     batch_size: The new batch size pulled from the queue.
     num_threads: The number of threads enqueuing `tensor_list`.
     capacity: An integer. The maximum number of elements in the queue.
@@ -608,41 +640,47 @@ Creates batches of tensors in `tensor_list`.
     dynamic_pad: Boolean.  Allow variable dimensions in input shapes.
       The given dimensions are padded upon dequeue so that tensors within a
       batch have the same shapes.
-    shared_name: (optional). If set, this queue will be shared under the given
+    allow_smaller_final_batch: (Optional) Boolean. If `True`, allow the final
+    batch to be smaller if there are insufficient items left in the queue.
+    shared_name: (Optional). If set, this queue will be shared under the given
       name across multiple sessions.
     name: (Optional) A name for the operations.
 
   Returns:
-    A list of tensors with the same number and types as `tensor_list`.
+    A list or dictionary of tensors with the same types as `tensors`.
 
   Raises:
     ValueError: If the `shapes` are not specified, and cannot be
-      inferred from the elements of `tensor_list`.
+      inferred from the elements of `tensors`.
   """
-batch(tensor_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, num_threads::Int64=1, capacity::Int64=32, enqueue_many::AbstractTensor=false, shapes::Any=nothing, dynamic_pad::Bool=false, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.batch(;Dict(:tensor_list=>tensor_list, :batch_size=>batch_size, :num_threads=>num_threads, :capacity=>capacity, :enqueue_many=>enqueue_many, :shapes=>shapes, :dynamic_pad=>dynamic_pad, :shared_name=>shared_name, :name=>name)...))
+batch(tensors::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, num_threads::Int64=1, capacity::Int64=32, enqueue_many::AbstractTensor=false, shapes::Any=nothing, dynamic_pad::Bool=false, allow_smaller_final_batch::Any=false, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.batch(;Dict(:tensors=>tensors, :batch_size=>batch_size, :num_threads=>num_threads, :capacity=>capacity, :enqueue_many=>enqueue_many, :shapes=>shapes, :dynamic_pad=>dynamic_pad, :allow_smaller_final_batch=>allow_smaller_final_batch, :shared_name=>shared_name, :name=>name)...))
 export batch
           
 
 """
 Runs a list of tensors to fill a queue to create batches of examples.
 
+  The `tensors_list` argument is a list of tuples of tensors, or a list of
+  dictionaries of tensors.  Each element in the list is treated similarily
+  to the `tensors` argument of `tf.train.batch()`.
+
   Enqueues a different list of tensors in different threads.
   Implemented using a queue -- a `QueueRunner` for the queue
   is added to the current `Graph`'s `QUEUE_RUNNER` collection.
 
-  `len(tensor_list_list)` threads will be started,
+  `len(tensors_list)` threads will be started,
   with thread `i` enqueuing the tensors from
-  `tensor_list_list[i]`. `tensor_list_list[i1][j]` must match
-  `tensor_list_list[i2][j]` in type and shape, except in the first
+  `tensors_list[i]`. `tensors_list[i1][j]` must match
+  `tensors_list[i2][j]` in type and shape, except in the first
   dimension if `enqueue_many` is true.
 
-  If `enqueue_many` is `False`, each `tensor_list_list[i]` is assumed
+  If `enqueue_many` is `False`, each `tensors_list[i]` is assumed
   to represent a single example. An input tensor `x` will be output as a
   tensor with shape `[batch_size] + x.shape`.
 
-  If `enqueue_many` is `True`, `tensor_list_list[i]` is assumed to
+  If `enqueue_many` is `True`, `tensors_list[i]` is assumed to
   represent a batch of examples, where the first dimension is indexed
-  by example, and all members of `tensor_list_list[i]` should have the
+  by example, and all members of `tensors_list[i]` should have the
   same size in the first dimension.  The slices of any input tensor
   `x` are treated as examples, and the output tensors will have shape
   `[batch_size] + x.shape[1:]`.
@@ -658,7 +696,7 @@ Runs a list of tensors to fill a queue to create batches of examples.
 
   *N.B.:* If `dynamic_pad` is `False`, you must ensure that either
   (i) the `shapes` argument is passed, or (ii) all of the tensors in
-  `tensor_list` must have fully-defined shapes. `ValueError` will be
+  `tensors_list` must have fully-defined shapes. `ValueError` will be
   raised if neither of these conditions holds.
 
   If `dynamic_pad` is `True`, it is sufficient that the *rank* of the
@@ -669,8 +707,15 @@ Runs a list of tensors to fill a queue to create batches of examples.
   For numbers, this padding takes value 0.  For strings, this padding is
   the empty string.  See `PaddingFIFOQueue` for more info.
 
+  If `allow_smaller_final_batch` is `True`, a smaller batch value than
+  `batch_size` is returned when the queue is closed and there are not enough
+  elements to fill the batch, otherwise the pending elements are discarded.
+  In addition, all output tensors' static shapes, as accessed via the
+  `get_shape` method will have a first `Dimension` value of `None`, and
+  operations that depend on fixed batch_size would fail.
+
   Args:
-    tensor_list_list: A list of tuples of tensors to enqueue.
+    tensors_list: A list of tuples or dictionaries of tensors to enqueue.
     batch_size: An integer. The new batch size pulled from the queue.
     capacity: An integer. The maximum number of elements in the queue.
     enqueue_many: Whether each tensor in `tensor_list_list` is a single
@@ -680,20 +725,28 @@ Runs a list of tensors to fill a queue to create batches of examples.
     dynamic_pad: Boolean.  Allow variable dimensions in input shapes.
       The given dimensions are padded upon dequeue so that tensors within a
       batch have the same shapes.
+    allow_smaller_final_batch: (Optional) Boolean. If `True`, allow the final
+    batch to be smaller if there are insufficient items left in the queue.
     shared_name: (Optional) If set, this queue will be shared under the given
       name across multiple sessions.
     name: (Optional) A name for the operations.
 
   Returns:
-    A list of tensors with the same number and types as
-    `tensor_list_list[i]`.
+    A list or dictionary of tensors with the same number and types as
+    `tensors_list[i]`.
 
   Raises:
     ValueError: If the `shapes` are not specified, and cannot be
       inferred from the elements of `tensor_list_list`.
   """
-batch_join(tensor_list_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Int64=32, enqueue_many::AbstractTensor=false, shapes::Any=nothing, dynamic_pad::Bool=false, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.batch_join(;Dict(:tensor_list_list=>tensor_list_list, :batch_size=>batch_size, :capacity=>capacity, :enqueue_many=>enqueue_many, :shapes=>shapes, :dynamic_pad=>dynamic_pad, :shared_name=>shared_name, :name=>name)...))
+batch_join(tensors_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Int64=32, enqueue_many::AbstractTensor=false, shapes::Any=nothing, dynamic_pad::Bool=false, allow_smaller_final_batch::Any=false, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.batch_join(;Dict(:tensors_list=>tensors_list, :batch_size=>batch_size, :capacity=>capacity, :enqueue_many=>enqueue_many, :shapes=>shapes, :dynamic_pad=>dynamic_pad, :allow_smaller_final_batch=>allow_smaller_final_batch, :shared_name=>shared_name, :name=>name)...))
 export batch_join
+          
+
+"""
+"""
+do_quantize_training_on_graphdef(input_graph::Any, num_bits::Union{Int64,Void}) = tf_train.do_quantize_training_on_graphdef(;Dict(:input_graph=>input_graph, :num_bits=>num_bits)...)
+export do_quantize_training_on_graphdef
           
 
 """
@@ -712,7 +765,7 @@ Applies exponential decay to the learning rate.
                           decay_rate ^ (global_step / decay_steps)
   ```
 
-  If the argument `staircase` is `True`, then `global_step /decay_steps` is an
+  If the argument `staircase` is `True`, then `global_step / decay_steps` is an
   integer division and the decayed learning rate follows a staircase function.
 
   Example: decay every 100000 steps with a base of 0.96:
@@ -739,8 +792,9 @@ Applies exponential decay to the learning rate.
       Must be positive.  See the decay computation above.
     decay_rate: A scalar `float32` or `float64` `Tensor` or a
       Python number.  The decay rate.
-    staircase: Boolean.  It `True` decay the learning rate at discrete intervals.
-    name: String.  Optional name of the operation.  Defaults to 'ExponentialDecay'
+    staircase: Boolean.  It `True` decay the learning rate at discrete intervals
+    name: String.  Optional name of the operation.  Defaults to 
+      'ExponentialDecay'
 
   Returns:
     A scalar `Tensor` of the same type as `learning_rate`.  The decayed
@@ -808,6 +862,9 @@ Returns CheckpointState proto from the "checkpoint" file.
   Returns:
     A CheckpointState if the state was available, None
     otherwise.
+
+  Raises:
+    ValueError: if the checkpoint read doesn't have model_checkpoint_path set.
   """
 get_checkpoint_state(checkpoint_dir::Any, latest_filename::Any=nothing) = tf_train.get_checkpoint_state(;Dict(:checkpoint_dir=>checkpoint_dir, :latest_filename=>latest_filename)...)
 export get_checkpoint_state
@@ -1069,18 +1126,18 @@ Creates batches by randomly shuffling tensors.
 
   This function adds the following to the current `Graph`:
 
-  * A shuffling queue into which tensors from `tensor_list` are enqueued.
+  * A shuffling queue into which tensors from `tensors` are enqueued.
   * A `dequeue_many` operation to create batches from the queue.
   * A `QueueRunner` to `QUEUE_RUNNER` collection, to enqueue the tensors
-    from `tensor_list`.
+    from `tensors`.
 
-  If `enqueue_many` is `False`, `tensor_list` is assumed to represent a
+  If `enqueue_many` is `False`, `tensors` is assumed to represent a
   single example.  An input tensor with shape `[x, y, z]` will be output
   as a tensor with shape `[batch_size, x, y, z]`.
 
-  If `enqueue_many` is `True`, `tensor_list` is assumed to represent a
+  If `enqueue_many` is `True`, `tensors` is assumed to represent a
   batch of examples, where the first dimension is indexed by example,
-  and all members of `tensor_list` should have the same size in the
+  and all members of `tensors` should have the same size in the
   first dimension.  If an input tensor has shape `[*, x, y, z]`, the
   output will have shape `[batch_size, x, y, z]`.
 
@@ -1106,12 +1163,12 @@ Creates batches by randomly shuffling tensors.
   ```
 
   *N.B.:* You must ensure that either (i) the `shapes` argument is
-  passed, or (ii) all of the tensors in `tensor_list` must have
+  passed, or (ii) all of the tensors in `tensors` must have
   fully-defined shapes. `ValueError` will be raised if neither of
   these conditions holds.
 
   Args:
-    tensor_list: The list of tensors to enqueue.
+    tensors: The list or dictionary of tensors to enqueue.
     batch_size: The new batch size pulled from the queue.
     capacity: An integer. The maximum number of elements in the queue.
     min_after_dequeue: Minimum number elements in the queue after a
@@ -1126,39 +1183,43 @@ Creates batches by randomly shuffling tensors.
     name: (Optional) A name for the operations.
 
   Returns:
-    A list of tensors with the same number and types as `tensor_list`.
+    A list or dictionary of tensors with the types as `tensors`.
 
   Raises:
     ValueError: If the `shapes` are not specified, and cannot be
-      inferred from the elements of `tensor_list`.
+      inferred from the elements of `tensors`.
   """
-shuffle_batch(tensor_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Union{Int64,Void}, min_after_dequeue::Any, num_threads::Int64=1, seed::Union{Int64,Void}=nothing, enqueue_many::AbstractTensor=false, shapes::Any=nothing, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.shuffle_batch(;Dict(:tensor_list=>tensor_list, :batch_size=>batch_size, :capacity=>capacity, :min_after_dequeue=>min_after_dequeue, :num_threads=>num_threads, :seed=>seed, :enqueue_many=>enqueue_many, :shapes=>shapes, :shared_name=>shared_name, :name=>name)...))
+shuffle_batch(tensors::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Union{Int64,Void}, min_after_dequeue::Any, num_threads::Int64=1, seed::Union{Int64,Void}=nothing, enqueue_many::AbstractTensor=false, shapes::Any=nothing, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.shuffle_batch(;Dict(:tensors=>tensors, :batch_size=>batch_size, :capacity=>capacity, :min_after_dequeue=>min_after_dequeue, :num_threads=>num_threads, :seed=>seed, :enqueue_many=>enqueue_many, :shapes=>shapes, :shared_name=>shared_name, :name=>name)...))
 export shuffle_batch
           
 
 """
 Create batches by randomly shuffling tensors.
 
+  The `tensors_list` argument is a list of tuples of tensors, or a list of
+  dictionaries of tensors.  Each element in the list is treated similarily
+  to the `tensors` argument of `tf.train.shuffle_batch()`.
+
   This version enqueues a different list of tensors in different threads.
   It adds the following to the current `Graph`:
 
-  * A shuffling queue into which tensors from `tensor_list_list` are enqueued.
+  * A shuffling queue into which tensors from `tensors_list` are enqueued.
   * A `dequeue_many` operation to create batches from the queue.
   * A `QueueRunner` to `QUEUE_RUNNER` collection, to enqueue the tensors
-    from `tensor_list_list`.
+    from `tensors_list`.
 
-  `len(tensor_list_list)` threads will be started, with thread `i` enqueuing
-  the tensors from `tensor_list_list[i]`. `tensor_list_list[i1][j]` must match
-  `tensor_list_list[i2][j]` in type and shape, except in the first dimension if
+  `len(tensors_list)` threads will be started, with thread `i` enqueuing
+  the tensors from `tensors_list[i]`. `tensors_list[i1][j]` must match
+  `tensors_list[i2][j]` in type and shape, except in the first dimension if
   `enqueue_many` is true.
 
-  If `enqueue_many` is `False`, each `tensor_list_list[i]` is assumed
-  to represent a single example.  An input tensor with shape `[x, y,
-  z]` will be output as a tensor with shape `[batch_size, x, y, z]`.
+  If `enqueue_many` is `False`, each `tensors_list[i]` is assumed
+  to represent a single example.  An input tensor with shape `[x, y, z]`
+  will be output as a tensor with shape `[batch_size, x, y, z]`.
 
-  If `enqueue_many` is `True`, `tensor_list_list[i]` is assumed to
+  If `enqueue_many` is `True`, `tensors_list[i]` is assumed to
   represent a batch of examples, where the first dimension is indexed
-  by example, and all members of `tensor_list_list[i]` should have the
+  by example, and all members of `tensors_list[i]` should have the
   same size in the first dimension.  If an input tensor has shape `[*, x,
   y, z]`, the output will have shape `[batch_size, x, y, z]`.
 
@@ -1172,7 +1233,7 @@ Create batches by randomly shuffling tensors.
   you are responsible for catching this yourself.
 
   Args:
-    tensor_list_list: A list of tuples of tensors to enqueue.
+    tensors_list: A list of tuples or dictionaries of tensors to enqueue.
     batch_size: An integer. The new batch size pulled from the queue.
     capacity: An integer. The maximum number of elements in the queue.
     min_after_dequeue: Minimum number elements in the queue after a
@@ -1181,19 +1242,20 @@ Create batches by randomly shuffling tensors.
     enqueue_many: Whether each tensor in `tensor_list_list` is a single
       example.
     shapes: (Optional) The shapes for each example.  Defaults to the
-      inferred shapes for `tensor_list_list[i]`.
+      inferred shapes for `tensors_list[i]`.
     shared_name: (optional). If set, this queue will be shared under the given
       name across multiple sessions.
     name: (Optional) A name for the operations.
 
   Returns:
-    A list of tensors with the same number and types as `tensor_list_list[i]`.
+    A list or dictionary of tensors with the same number and types as
+    `tensors_list[i]`.
 
   Raises:
     ValueError: If the `shapes` are not specified, and cannot be
-      inferred from the elements of `tensor_list_list`.
+      inferred from the elements of `tensors_list`.
   """
-shuffle_batch_join(tensor_list_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Union{Int64,Void}, min_after_dequeue::Any, seed::Union{Int64,Void}=nothing, enqueue_many::AbstractTensor=false, shapes::Any=nothing, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.shuffle_batch_join(;Dict(:tensor_list_list=>tensor_list_list, :batch_size=>batch_size, :capacity=>capacity, :min_after_dequeue=>min_after_dequeue, :seed=>seed, :enqueue_many=>enqueue_many, :shapes=>shapes, :shared_name=>shared_name, :name=>name)...))
+shuffle_batch_join(tensors_list::Union{AbstractTensor,Void}, batch_size::Union{Int64,Void}, capacity::Union{Int64,Void}, min_after_dequeue::Any, seed::Union{Int64,Void}=nothing, enqueue_many::AbstractTensor=false, shapes::Any=nothing, shared_name::Any=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf_train.shuffle_batch_join(;Dict(:tensors_list=>tensors_list, :batch_size=>batch_size, :capacity=>capacity, :min_after_dequeue=>min_after_dequeue, :seed=>seed, :enqueue_many=>enqueue_many, :shapes=>shapes, :shared_name=>shared_name, :name=>name)...))
 export shuffle_batch_join
           
 
@@ -1350,7 +1412,7 @@ export update_checkpoint_state
           
 
 """
-Writes a graph proto on disk.
+Writes a graph proto to a file.
 
   The graph is written as a binary proto unless `as_text` is `True`.
 
@@ -1362,7 +1424,8 @@ Writes a graph proto on disk.
 
   Args:
     graph_def: A `GraphDef` protocol buffer.
-    logdir: Directory where to write the graph.
+    logdir: Directory where to write the graph. This can refer to remote
+      filesystems, such as Google Cloud Storage (GCS).
     name: Filename for the graph.
     as_text: If `True`, writes the graph as an ASCII proto.
   """

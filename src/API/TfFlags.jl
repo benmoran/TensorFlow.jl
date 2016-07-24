@@ -1,4 +1,4 @@
-"Generated automatically by TensorFlowBuilder, from TensorFlow Python version 0.8.0"
+"Generated automatically by TensorFlowBuilder, from TensorFlow Python version 0.9.0"
 #"TensorFlow, the TensorFlow logo and any related marks are trademarks of Google Inc.""
 module TfFlags
 using PyCall

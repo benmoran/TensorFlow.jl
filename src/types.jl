@@ -58,6 +58,7 @@ end
 NegDimsType(a::Tuple{Vararg{Int}}) = NegDimsType(collect(a))
 PyCall.PyObject(o::NegDimsType) = PyCall.PyObject(o.arr)
 
+## PyVectorType ##
 
 "A wrapper type for things that TensorFlow insists must be Python
   lists, like conv2d's strides argument."
@@ -67,3 +68,5 @@ end
 PyVectorType(a::Vector) = PyVectorType(PyVector(a))
 PyVectorType(a::Tuple) = PyVectorType(collect(a))
 PyCall.PyObject(o::PyVectorType) = PyCall.PyObject(o.pyvec)
+
+@pywrapper TensorShape Any

@@ -62,8 +62,8 @@ cast{R<:Range}(r::R, dt::Dtype) = constant(collect(r), dt)
 
 
 #size(t::AbstractTensor) = Tf.shape(t) # N.B. not tf.size_
-size(t::AbstractTensor) = t.x[:get_shape]()
-size(t::AbstractTensor, dim::Int) = t.x[:get_shape]()[dim]
+size(t::AbstractTensor) = tuple(t.x[:get_shape]()[:as_list]())
+size(t::AbstractTensor, dim::Int) = size(t)[dim]
 
 length(t::AbstractTensor) = Tensor(Tf.size_(t))
 

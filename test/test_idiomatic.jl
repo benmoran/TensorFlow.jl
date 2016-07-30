@@ -13,7 +13,7 @@ println(Tensor)
 @test isa(I * I, Tensor)
 @test isa(I + I, Tensor)
 @test isa(I - I, Tensor)
-@test isa(size(I), Tensor)
+@test isa(size(I), Tuple)
 
 @test isa(relu(I), Tensor)
 

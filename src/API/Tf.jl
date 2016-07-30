@@ -437,20 +437,6 @@ export TensorArray
           
 
 """
-Creates a new TensorShape with the given dimensions.
-
-    Args:
-      dims: A list of Dimensions, or None if the shape is unspecified.
-        DEPRECATED: A single integer is treated as a singleton list.
-
-    Raises:
-      TypeError: If dims cannot be converted to a list of dimensions.
-    """
-TensorShape(dims::Any) = tf.TensorShape(;Dict(:dims=>dims)...)
-export TensorShape
-          
-
-"""
 Create a TextLineReader.
 
     Args:
@@ -607,7 +593,7 @@ Returns the element-wise sum of a list of tensors.
     ValueError: If `inputs` don't all have same shape and dtype or the shape
     cannot be inferred.
   """
-accumulate_n(inputs::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, tensor_dtype::Union{Dtype,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.accumulate_n(;Dict(:inputs=>inputs, :shape=>shape, :tensor_dtype=>tensor_dtype, :name=>name)...))
+accumulate_n(inputs::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,TensorShape,Void}=nothing, tensor_dtype::Union{Dtype,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.accumulate_n(;Dict(:inputs=>inputs, :shape=>shape, :tensor_dtype=>tensor_dtype, :name=>name)...))
 export accumulate_n
           
 
@@ -2619,7 +2605,7 @@ Creates a constant tensor.
   Returns:
     A Constant Tensor.
   """
-constant(value::Union{AbstractTensor,Void}, dtype::Union{Dtype,Void}=nothing, shape::Union{AbstractTensor,DimsType,Void}=nothing, name::AbstractString="Const") = Tensor(tf.constant(;Dict(:value=>value, :dtype=>dtype, :shape=>shape, :name=>name)...))
+constant(value::Union{AbstractTensor,Void}, dtype::Union{Dtype,Void}=nothing, shape::Union{AbstractTensor,DimsType,TensorShape,Void}=nothing, name::AbstractString="Const") = Tensor(tf.constant(;Dict(:value=>value, :dtype=>dtype, :shape=>shape, :name=>name)...))
 export constant
           
 
@@ -2825,7 +2811,7 @@ Create a list of partitioned variables according to the given `slicing`.
   Raises:
     ValueError: If any of the arguments is malformed.
   """
-create_partitioned_variables(shape::Union{AbstractTensor,DimsType,Void}, slicing::Any, initializer::Union{AbstractTensor,Void}, dtype::Dtype=DT_FLOAT32, trainable::Bool=true, collections::Any=nothing, name::Union{AbstractString,Void}=nothing, reuse::Union{Bool,Void}=nothing) = tf.create_partitioned_variables(;Dict(:shape=>shape, :slicing=>slicing, :initializer=>initializer, :dtype=>dtype, :trainable=>trainable, :collections=>collections, :name=>name, :reuse=>reuse)...)
+create_partitioned_variables(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, slicing::Any, initializer::Union{AbstractTensor,Void}, dtype::Dtype=DT_FLOAT32, trainable::Bool=true, collections::Any=nothing, name::Union{AbstractString,Void}=nothing, reuse::Union{Bool,Void}=nothing) = tf.create_partitioned_variables(;Dict(:shape=>shape, :slicing=>slicing, :initializer=>initializer, :dtype=>dtype, :trainable=>trainable, :collections=>collections, :name=>name, :reuse=>reuse)...)
 export create_partitioned_variables
           
 
@@ -4031,7 +4017,7 @@ Gets an existing variable with these parameters or create a new one.
       or when violating reuse during variable creation. Reuse is set inside
       `variable_scope`.
   """
-get_variable(name::Union{AbstractString,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, dtype::Dtype=DT_FLOAT32, initializer::Any=nothing, regularizer::Union{AbstractTensor,Void}=nothing, trainable::Bool=true, collections::Any=nothing, caching_device::Any=nothing, partitioner::Union{AbstractTensor,Void}=nothing, validate_shape::Bool=true) = tf.get_variable(;Dict(:name=>name, :shape=>shape, :dtype=>dtype, :initializer=>initializer, :regularizer=>regularizer, :trainable=>trainable, :collections=>collections, :caching_device=>caching_device, :partitioner=>partitioner, :validate_shape=>validate_shape)...)
+get_variable(name::Union{AbstractString,Void}, shape::Union{AbstractTensor,DimsType,TensorShape,Void}=nothing, dtype::Dtype=DT_FLOAT32, initializer::Any=nothing, regularizer::Union{AbstractTensor,Void}=nothing, trainable::Bool=true, collections::Any=nothing, caching_device::Any=nothing, partitioner::Union{AbstractTensor,Void}=nothing, validate_shape::Bool=true) = tf.get_variable(;Dict(:name=>name, :shape=>shape, :dtype=>dtype, :initializer=>initializer, :regularizer=>regularizer, :trainable=>trainable, :collections=>collections, :caching_device=>caching_device, :partitioner=>partitioner, :validate_shape=>validate_shape)...)
 export get_variable
           
 
@@ -5831,13 +5817,13 @@ Creates a tensor with all elements set to 1.
   Returns:
     A `Tensor` with all elements set to 1.
   """
-ones_(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.ones(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
+ones_(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.ones(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
 export ones_
           
 
 """
 An adaptor for ones() to match the Initializer spec."""
-ones_initializer(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32) = tf.ones_initializer(;Dict(:shape=>shape, :dtype=>dtype)...)
+ones_initializer(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, dtype::Dtype=DT_FLOAT32) = tf.ones_initializer(;Dict(:shape=>shape, :dtype=>dtype)...)
 export ones_initializer
           
 
@@ -6289,7 +6275,7 @@ Inserts a placeholder for a tensor that will be always fed.
     A `Tensor` that may be used as a handle for feeding a value, but not
     evaluated directly.
   """
-placeholder(dtype::Union{Dtype,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Placeholder(tf.placeholder(;Dict(:dtype=>dtype, :shape=>shape, :name=>name)...))
+placeholder(dtype::Union{Dtype,Void}, shape::Union{AbstractTensor,DimsType,TensorShape,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Placeholder(tf.placeholder(;Dict(:dtype=>dtype, :shape=>shape, :name=>name)...))
 export placeholder
           
 
@@ -6306,7 +6292,7 @@ A placeholder op that passes though `input` when its output is not fed.
     A `Tensor`. Has the same type as `input`.
     A placeholder tensor that defaults to `input` if it is not fed.
   """
-placeholder_with_default(input::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.placeholder_with_default(;Dict(:input=>input, :shape=>shape, :name=>name)...))
+placeholder_with_default(input::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,TensorShape,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.placeholder_with_default(;Dict(:input=>input, :shape=>shape, :name=>name)...))
 export placeholder_with_default
           
 
@@ -6454,7 +6440,7 @@ Draws `shape` samples from each of the given Gamma distribution(s).
     samples: a `Tensor` of shape `tf.concat(shape, tf.shape(alpha + beta))` with
       values of type `dtype`.
   """
-random_gamma(shape::Union{AbstractTensor,DimsType,Void}, alpha::Union{AbstractTensor,Void}, beta_::Union{AbstractTensor,Void}=nothing, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_gamma(;Dict(:shape=>shape, :alpha=>alpha, :beta=>beta_, :dtype=>dtype, :seed=>seed, :name=>name)...))
+random_gamma(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, alpha::Union{AbstractTensor,Void}, beta_::Union{AbstractTensor,Void}=nothing, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_gamma(;Dict(:shape=>shape, :alpha=>alpha, :beta=>beta_, :dtype=>dtype, :seed=>seed, :name=>name)...))
 export random_gamma
           
 
@@ -6477,7 +6463,7 @@ Outputs random values from a normal distribution.
   Returns:
     A tensor of the specified shape filled with random normal values.
   """
-random_normal(shape::Union{AbstractTensor,DimsType,Void}, mean_::AbstractTensor=0.0, stddev::AbstractTensor=1.0, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_normal(;Dict(:shape=>shape, :mean=>mean_, :stddev=>stddev, :dtype=>dtype, :seed=>seed, :name=>name)...))
+random_normal(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, mean_::AbstractTensor=0.0, stddev::AbstractTensor=1.0, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_normal(;Dict(:shape=>shape, :mean=>mean_, :stddev=>stddev, :dtype=>dtype, :seed=>seed, :name=>name)...))
 export random_normal
           
 
@@ -6568,7 +6554,7 @@ Outputs random values from a uniform distribution.
   Raises:
     ValueError: If `dtype` is integral and `maxval` is not specified.
   """
-random_uniform(shape::Union{AbstractTensor,DimsType,Void}, minval::AbstractTensor=0, maxval::Union{AbstractTensor,Void}=nothing, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_uniform(;Dict(:shape=>shape, :minval=>minval, :maxval=>maxval, :dtype=>dtype, :seed=>seed, :name=>name)...))
+random_uniform(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, minval::AbstractTensor=0, maxval::Union{AbstractTensor,Void}=nothing, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.random_uniform(;Dict(:shape=>shape, :minval=>minval, :maxval=>maxval, :dtype=>dtype, :seed=>seed, :name=>name)...))
 export random_uniform
           
 
@@ -7110,7 +7096,7 @@ Reshapes a tensor.
   Returns:
     A `Tensor`. Has the same type as `tensor`.
   """
-reshape_(tensor::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.reshape(;Dict(:tensor=>tensor, :shape=>shape, :name=>name)...))
+reshape_(tensor::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,TensorShape,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.reshape(;Dict(:tensor=>tensor, :shape=>shape, :name=>name)...))
 export reshape_
           
 
@@ -8731,7 +8717,7 @@ Inserts a placeholder for a sparse tensor that will be always fed.
     A `SparseTensor` that may be used as a handle for feeding a value, but not
     evaluated directly.
   """
-sparse_placeholder(dtype::Union{Dtype,Void}, shape::Union{AbstractTensor,DimsType,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.sparse_placeholder(;Dict(:dtype=>dtype, :shape=>shape, :name=>name)...))
+sparse_placeholder(dtype::Union{Dtype,Void}, shape::Union{AbstractTensor,DimsType,TensorShape,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.sparse_placeholder(;Dict(:dtype=>dtype, :shape=>shape, :name=>name)...))
 export sparse_placeholder
           
 
@@ -8919,7 +8905,7 @@ Reshapes a `SparseTensor` to represent values in a new dense shape.
   Raises:
     TypeError: If `sp_input` is not a `SparseTensor`.
   """
-sparse_reshape(sp_input::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.sparse_reshape(;Dict(:sp_input=>sp_input, :shape=>shape, :name=>name)...))
+sparse_reshape(sp_input::Union{AbstractTensor,Void}, shape::Union{AbstractTensor,DimsType,TensorShape,Void}, name::Union{AbstractString,Void}=nothing) = Tensor(tf.sparse_reshape(;Dict(:sp_input=>sp_input, :shape=>shape, :name=>name)...))
 export sparse_reshape
           
 
@@ -10067,7 +10053,7 @@ Outputs random values from a truncated normal distribution.
   Returns:
     A tensor of the specified shape filled with random truncated normal values.
   """
-truncated_normal(shape::Union{AbstractTensor,DimsType,Void}, mean_::AbstractTensor=0.0, stddev::AbstractTensor=1.0, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.truncated_normal(;Dict(:shape=>shape, :mean=>mean_, :stddev=>stddev, :dtype=>dtype, :seed=>seed, :name=>name)...))
+truncated_normal(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, mean_::AbstractTensor=0.0, stddev::AbstractTensor=1.0, dtype::Dtype=DT_FLOAT32, seed::Union{Int64,Void}=nothing, name::Union{AbstractString,Void}=nothing) = Tensor(tf.truncated_normal(;Dict(:shape=>shape, :mean=>mean_, :stddev=>stddev, :dtype=>dtype, :seed=>seed, :name=>name)...))
 export truncated_normal
           
 
@@ -10641,13 +10627,13 @@ Creates a tensor with all elements set to zero.
   Returns:
     A `Tensor` with all elements set to zero.
   """
-zeros_(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.zeros(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
+zeros_(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, dtype::Dtype=DT_FLOAT32, name::Union{AbstractString,Void}=nothing) = Tensor(tf.zeros(;Dict(:shape=>shape, :dtype=>dtype, :name=>name)...))
 export zeros_
           
 
 """
 An adaptor for zeros() to match the Initializer spec."""
-zeros_initializer(shape::Union{AbstractTensor,DimsType,Void}, dtype::Dtype=DT_FLOAT32) = tf.zeros_initializer(;Dict(:shape=>shape, :dtype=>dtype)...)
+zeros_initializer(shape::Union{AbstractTensor,DimsType,TensorShape,Void}, dtype::Dtype=DT_FLOAT32) = tf.zeros_initializer(;Dict(:shape=>shape, :dtype=>dtype)...)
 export zeros_initializer
           
 
